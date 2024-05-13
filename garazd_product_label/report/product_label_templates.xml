@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <template id="label_57x35">
+        <table class="table" style="margin: 0; padding: 0;">
+            <tr height="144px" style="border:0;margin:0;padding:0;">
+                <td class="col-xs-4 text-center" style="border:0;margin:0;padding:0;">
+                    <div style="overflow:hidden; height:65px !important; width: 215px !important; padding: 5px 5px 0; line-height: 1.3;">
+                        <span t-field="label.product_id.name"/>
+                         <span t-if="label.product_id.product_template_attribute_value_ids"
+                               t-esc="u', '.join(map(lambda x: x.attribute_line_id.attribute_id.name + u': ' + x.name, label.product_id.product_template_attribute_value_ids))"
+                               class="badge"
+                         />
+                    </div>
+                    <div style="width: 100%; padding: 0; margin: 0; font-size: 21px; font-weight: bold;">
+                        <span t-if="label.product_id.currency_id.position == 'before'" t-field="label.product_id.currency_id.symbol"/>
+                        <span t-field="label.product_id.lst_price"/>
+                        <span t-if="label.product_id.currency_id.position == 'after'" t-field="label.product_id.currency_id.symbol"/>
+                    </div>
+                    <div t-if="label.product_id.default_code" style="width: 100%; padding: 0; margin: 0; font-size: 12px;">
+                        <span t-field="label.product_id.default_code"/>
+                    </div>
+                    <div t-if="label.product_id.barcode" class="text-center align-middle" style="width: 100%; height: 13px; padding: 0 8px;">
+                        <t t-if="label.wizard_id.humanreadable" t-set="show_code" t-value="1"/>
+                        <t t-else="" t-set="show_code" t-value="0" />
+                        <img alt="Barcode" t-if="len(label.product_id.barcode) == 13"
+                             t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s&amp;humanreadable=%s' % ('EAN13', label.product_id.barcode, 600, 100, show_code)"
+                             style="overflow: hidden; width: 100%; height: 1.4rem;"
+                        />
+                        <img alt="Barcode" t-elif="len(label.product_id.barcode) == 8"
+                             t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s&amp;humanreadable=%s' % ('EAN8', label.product_id.barcode, 600, 100, show_code)"
+                             style="overflow: hidden; width: 100%; height: 1.4rem;"/>
+                        <img alt="Barcode" t-else=""
+                             t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s&amp;humanreadable=%s' % ('Code128', label.product_id.barcode, 600, 100, show_code)"
+                             style="overflow: hidden; width: 100%; height: 1.4rem;"
+                        />
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </template>
+
+    <template id="report_product_label_57x35_template">
+        <t t-call="web.html_container">
+            <t t-call="web.basic_layout">
+                <t t-set="count" t-value="0" />
+                <div class="page">
+                    <div class="oe_structure"/>
+                    <t t-foreach="docs" t-as="label">
+                        <t t-set="qty" t-value="1" />
+                        <t t-if="label.qty">
+                            <t t-set="qty" t-value="label.qty" />
+                        </t>
+                        <t t-foreach="list(range(qty))" t-as="index_qty">
+                            <div t-if="count % 21 == 0" style="page-break-after:always;"/>
+                            <div t-if="count % 3 == 0" style="clear:both;"/>
+                            <div t-att-style="'width: 233px; float: left; height: 145px; margin: 0 4px 4px; border: {};'.format('%dpx solid #777;' % label.wizard_id.border_width if label.wizard_id.border_width else '0')">
+                                <t t-call="garazd_product_label.label_57x35"/>
+                            </div>
+                            <t t-set="count" t-value="count+1" />
+                        </t>
+                    </t>
+                </div>
+            </t>
+        </t>
+    </template>
+
+    <template id="report_product_label_50x38_template">
+        <t t-call="web.html_container">
+            <t t-call="web.basic_layout">
+                <t t-foreach="docs" t-as="label">
+                    <t t-set="qty" t-value="1"/>
+                    <t t-if="label.qty" t-set="qty" t-value="label.qty" />
+                    <t t-foreach="list(range(qty))" t-as="index_qty">
+                        <div class="page" style="page-break-after: always;">
+                            <div style="height: 136px !important; width: 165px !important;">
+                                <table class="table" t-att-style="'height: 100%; border: {};'.format('%dpx solid #777;' % label.wizard_id.border_width if label.wizard_id.border_width else '0')">
+                                    <tr style="border: 0;">
+                                        <td class="text-center" style="padding: 0; margin: 0; border: 0;">
+                                            <div style="overflow: hidden; height: 64px !important; font-size: 13px; line-height: 1.2; margin-bottom: 2px;">
+                                                <span t-field="label.product_id.name" />
+                                                <span t-if="label.product_id.product_template_attribute_value_ids"
+                                                      t-esc="u', '.join(map(lambda x: x.attribute_line_id.attribute_id.name + u': ' + x.name, label.product_id.product_template_attribute_value_ids))"
+                                                      class="badge"/>
+                                            </div>
+                                            <div style="width: 100%; overflow: hidden; height: 26px !important;">
+                                                <div style="float: right; width: 60%; font-size: 20px; font-weight: bold; line-height: 1.0; text-align: right; margin-bottom: 0px;">
+                                                    <span t-if="label.product_id.currency_id.position == 'before'" t-field="label.product_id.currency_id.symbol"/>
+                                                    <span t-field="label.product_id.lst_price"/>
+                                                    <span t-if="label.product_id.currency_id.position == 'after'" t-field="label.product_id.currency_id.symbol"/>
+                                                </div>
+                                                <div style="float: left; width: 40%; font-size: 10px; font-weight: 900; line-height: 1.0; text-align: left; margin-bottom: 0px; padding-top: 6px;">
+                                                    <span t-if="label.product_id.default_code"><span t-field="label.product_id.default_code"/> </span>
+                                                </div>
+                                            </div>
+                                            <div t-if="label.product_id.barcode" class="text-center align-middle" style="margin: 2px; height: 32px; clear: both;">
+                                                <t t-if="label.wizard_id.humanreadable" t-set="show_code" t-value="1"/>
+                                                <t t-else="" t-set="show_code" t-value="0" />
+                                                <img alt="Barcode" t-if="len(label.product_id.barcode) == 13"
+                                                     t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s&amp;humanreadable=%s' % ('EAN13', label.product_id.barcode, 600, 100, show_code)"
+                                                     style="overflow: hidden; width: 100%; height: 2rem;"/>
+                                                <img alt="Barcode" t-elif="len(label.product_id.barcode) == 8"
+                                                     t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s&amp;humanreadable=%s' % ('EAN8', label.product_id.barcode, 600, 100, show_code)"
+                                                     style="overflow: hidden; width: 100%; height: 2rem;"/>
+                                                <img alt="Barcode" t-else=""
+                                                     t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s&amp;humanreadable=%s' % ('Code128', label.product_id.barcode, 600, 100, show_code)"
+                                                     style="overflow: hidden; width: 100%; height: 2rem;"/>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <template id="report_product_label_from_template">
+        <t t-call="web.basic_layout"/>
+    </template>
+
+</odoo>
