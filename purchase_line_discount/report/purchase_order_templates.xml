@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_purchase_order_document" inherit_id="purchase.report_purchaseorder_document">
+
+        <th name="th_amount" position="before">
+            <th name="th_amount" class="text-right"><strong>Disc. (%)</strong></th>
+        </th>
+
+        <xpath expr="//td[span[@t-field='line.price_subtotal']]" position="before">
+            <td class="text-right"> <span t-field="line.discount"/> </td>
+        </xpath>
+
+        <xpath expr="//span[@t-field='line.price_unit']" position="replace">
+            <span t-field="line.unit_price_before_discount"/>
+        </xpath>
+
+        <t t-call="account.document_tax_totals" position="replace">
+            <t t-call="purchase_line_discount.purchase_document_tax_totals"/>
+        </t>
+
+    </template>
+
+    <template id="purchase_document_tax_totals">
+        <tr>
+            <td><strong>Discount Amount</strong></td>
+            <td class="text-right">
+                <span t-field="o.discount_amount" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+            </td>
+        </tr>
+        <t t-foreach="tax_totals['subtotals']" t-as="subtotal">
+                <tr class="border-black o_subtotal">
+                    <td><strong t-esc="subtotal['name']"/></td>
+
+                    <td class="text-right">
+                        <span
+                            t-att-class="oe_subtotal_footer_separator"
+                            t-esc="subtotal['formatted_amount']"
+                        />
+                    </td>
+                </tr>
+
+                <t t-set="subtotal_to_show" t-value="subtotal['name']"/>
+                <t t-call="account.tax_groups_totals"/>
+            </t>
+        <tr class="border-black o_total">
+                <td><strong>Total</strong></td>
+                <td class="text-right">
+                    <span t-esc="tax_totals['formatted_amount_total']"/>
+                </td>
+            </tr>
+    </template>
+
+</odoo>

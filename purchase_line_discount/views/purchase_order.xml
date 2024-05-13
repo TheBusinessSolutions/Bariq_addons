@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="purchase_order_line_form2" model="ir.ui.view">
+        <field name="name">purchase_discount.order.line.form2</field>
+        <field name="model">purchase.order.line</field>
+        <field name="inherit_id" ref="purchase.purchase_order_line_form2"/>
+        <field name="arch" type="xml">
+            <field name="price_unit" position="after">
+                <field name="unit_price_before_discount"/>
+                <field name="discount"/>
+            </field>
+            <field name="price_unit" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </field>
+        </field>
+    </record>
+
+    <record id="purchase_order_line_tree" model="ir.ui.view">
+        <field name="name">purchase_discount.order.line.tree</field>
+        <field name="model">purchase.order.line</field>
+        <field name="inherit_id" ref="purchase.purchase_order_line_tree"/>
+        <field name="arch" type="xml">
+            <field name="price_unit" position="after">
+                <field name="unit_price_before_discount" required="1"/>
+                <field name="discount" />
+            </field>
+            <field name="price_unit" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </field>
+        </field>
+    </record>
+
+    <record id="purchase_order_form" model="ir.ui.view">
+        <field name="name">purchase_discount.purchase.order.form</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form"/>
+        <field name="arch" type="xml">
+            <form position="attributes">
+                <attribute name="js_class">purchase_discount_form</attribute>
+            </form>
+            <xpath expr="//field[@name='order_line']/tree/field[@name='price_unit']" position="after">
+                <field name="unit_price_before_discount" attrs="{'readonly': [('invoice_lines', '!=', [])]}"/>
+                <field name="discount" widget="purchase_product_discount" attrs="{'readonly': [('invoice_lines', '!=', [])]}"/>
+            </xpath>
+            <xpath expr="//field[@name='order_line']/form//field[@name='price_unit']" position="after">
+                <field name="unit_price_before_discount" attrs="{'readonly': [('invoice_lines', '!=', [])]}"/>
+                <field name="discount" widget="purchase_product_discount" attrs="{'readonly': [('invoice_lines', '!=', [])]}"/>
+            </xpath>
+            <xpath expr="//field[@name='order_line']/tree/field[@name='price_unit']" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </xpath>
+            <xpath expr="//field[@name='order_line']/form//field[@name='price_unit']" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </xpath>
+            <field name="tax_totals_json" position="after">
+                <field name="discount" class="oe_subtotal_footer_separator" invisible="1"/>
+            </field>
+            <field name="tax_totals_json" position="before">
+                <field name="discount_amount" attrs="{'invisible': [('discount_amount', '=', 0)]}"/>
+            </field>
+        </field>
+    </record>
+
+
+
+
+
+
+<!--    <template id="report_purchase_order_document" inherit_id="purchase.report_purchaseorder_document">-->
+<!--        <xpath expr="//table[1]/thead/tr//th[last()]" position="before">-->
+<!--            <th class="text-right">-->
+<!--                <strong>Disc. (%)</strong>-->
+<!--            </th>-->
+<!--        </xpath>-->
+<!--        <xpath expr="//td[span[@t-field='line.price_subtotal']]" position="before">-->
+<!--            <td class="text-right">-->
+<!--                <span t-field="line.discount"/>-->
+<!--            </td>-->
+<!--        </xpath>-->
+<!--        <xpath expr="//span[@t-field='line.price_unit']" position="replace">-->
+<!--            <span t-field="line.unit_price_before_discount"/>-->
+<!--        </xpath>-->
+<!--        <xpath expr="//div[@id='total']//div//table//tr" position="after">-->
+<!--            <tr>-->
+<!--                <td name="td_taxes_label">Discount Amount</td>-->
+<!--                <td class="text-right">-->
+<!--                    <span t-field="o.discount_amount"-->
+<!--                          t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>-->
+<!--                </td>-->
+<!--            </tr>-->
+<!--        </xpath>-->
+<!--    </template>-->
+
+</odoo>
