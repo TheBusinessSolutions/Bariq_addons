@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <record id="moves_report" model="ir.actions.report">
+        <field name="name">Custom Moves</field>
+        <field name="model">moves.details.report</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">custom_moves_report.report_moves</field>
+    </record>
+
+    <template id="report_moves">
+    <t t-set="company" t-value="env.company"/>
+    <t t-call="web.html_container">
+    <t t-call="web.internal_layout">
+        <div class="page">
+            <div class="text-center">
+                <h3> <t t-esc="report_head"/> </h3>
+                <t t-if="date_start and date_stop">
+                    <strong><t t-esc="date_start" t-options="{'widget': 'datetime'}"/> - <t t-esc="date_stop" t-options="{'widget': 'datetime'}"/></strong>
+                </t>
+            </div>
+            <table  class="table table-sm">
+                <t t-if="to_collapse">
+                    <thead><tr>
+                        <th>Product</th>
+                        <th>Opening Balance</th>
+                        <th>Total In</th>
+                        <th>Total Out</th>
+                        <th>Balance</th>
+                    </tr></thead>
+                </t>
+                <t t-else="">
+                    <thead><tr>
+                        <th>Product</th>
+                        <th>Date</th>
+                        <th>Operation Type</th>
+                        <th>In</th>
+                        <th>Out</th>
+                        <th>Balance</th>
+                    </tr></thead>
+                </t>
+                <tbody t-foreach='data' t-as='rec'>
+                <t t-if="to_collapse">
+                    <tr>
+                        <td>
+                            <strong><t t-esc='products[rec_index]' /></strong>
+                        </td>
+                        <td>
+                            <strong><t t-esc='rec["opening_balance"]' /></strong>
+                        </td>
+                        <td><t t-esc="rec['total_in']"/></td>
+                        <td><t t-esc="rec['total_out']"/></td>
+                        <td>
+                            <strong><t t-esc='rec["balance"]'/></strong>
+                        </td>
+                    </tr>
+                </t>
+                 <t t-else="">
+                    <tr>
+                        <td colspan="2">
+                            <strong><t t-esc='products[rec_index]' /></strong>
+                        </td>
+                        <td colspan="3"></td>
+                        <td>
+                            <strong><t t-esc='rec["opening_balance"]'/></strong>
+                        </td>
+                    </tr>
+                    <tr t-foreach='rec["lst"]' t-as='line'>
+                        <td></td>
+                        <td> 
+                            <t t-esc='line["date"]' /> 
+                        </td>
+                        <td>
+                            <t t-esc='line["picking_type"]' />
+                        </td>
+                        <td>
+                            <t t-esc='line["in"]' />
+                        </td>
+                        <td>
+                            <t t-esc='line["out"]'/> 
+                        </td>
+                        <td>
+                            <t t-esc='line["balance"]'/> 
+                        </td>
+                    </tr>
+                    <tr> 
+                        <td colspan="5"></td>
+                        <td>
+                        <strong><t t-esc='rec["balance"]'/></strong>
+                        </td>
+                    </tr>
+                </t>
+                </tbody>
+            </table>
+        </div>
+    </t>
+    </t>
+    </template>
+</openerp>

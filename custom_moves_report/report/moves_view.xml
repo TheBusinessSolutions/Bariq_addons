@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+        
+    <record id="action_moves_details" model="ir.actions.act_window">
+        <field name="name">Moves Details</field>
+        <field name="res_model">moves.details.report</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem id="menu_moves_details" name="Moves Details" action="action_moves_details" parent="stock.menu_warehouse_report" sequence="4"/>
+</openerp>

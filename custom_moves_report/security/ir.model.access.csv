@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+custom_moves_report_model,custom moves report,custom_moves_report.model_moves_details_report,base.group_user,1,1,1,1
