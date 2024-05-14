@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<odoo>
+
+    <record id="print_kartu_stok_view_form" model="ir.ui.view">
+        <field name="name">kartu.stok.wizard.form</field>
+        <field name="model">kartu.stok.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Print Kartu Stok">
+                <group class="oe_title">
+                    <field name="location_id" domain="[('name','=','Stock'),('active','=', True),('usage','=','internal')]" options="{'no_quick_create':True,'no_create_edit':True,'no_open': True,}"/>
+                    <br/>
+                    <field name="day_date" widget="radio"/>
+                    <div>
+                    </div>
+                    <div>
+                        <group id="previous_number_days_settings" attrs="{'invisible': [('day_date', '!=', 'day')]}">
+                            <field name="previous_number_days"/>
+                        </group>
+                        <group id="date_from date_to_settings" attrs="{'invisible': [('day_date', '!=', 'date')]}">
+                            <field name="date_from"/>
+                            <field name="date_to"/>
+                        </group>
+                    </div>
+                </group>
+                <footer>
+                    <button name="action_kartu_stok_pdf_wizard" string="Print PDF" type="object" class="btn-primary"/>
+                    <button name="action_kartu_stok_excel_wizard" string="Print Excel" type="object" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="print_kartu_stok_product_product_action" model="ir.actions.act_window">
+        <field name="type">ir.actions.act_window</field>
+        <field name="name">Print Kartu Stok</field>
+        <field name="res_model">kartu.stok.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="print_kartu_stok_view_form"/>
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="product.model_product_product"/>
+        <field name="binding_type">action</field>
+    </record>
+
+    <record id="print_kartu_stok_product_template_action" model="ir.actions.act_window">
+        <field name="type">ir.actions.act_window</field>
+        <field name="name">Print Kartu Stok</field>
+        <field name="res_model">kartu.stok.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="print_kartu_stok_view_form"/>
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="product.model_product_template"/>
+        <field name="binding_type">action</field>
+    </record>
+
+
+</odoo>

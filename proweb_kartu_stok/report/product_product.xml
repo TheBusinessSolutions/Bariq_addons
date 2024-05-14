@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+
+    <data>
+        <record id="action_print_kartu_stok_proweb" model="ir.actions.report">
+            <field name="name">Kartu Stok</field>
+            <field name="model">product.product</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">proweb_kartu_stok.print_kartu_stok_proweb</field>
+            <field name="report_file">proweb_kartu_stok.print_kartu_stok_proweb</field>
+            <field name="print_report_name">'KartuStok'</field>
+        </record>
+    </data>
+
+
+    <template id="print_kartu_stok_proweb_document">
+        <t t-call="web.internal_layout">
+            <div class="page">
+                <div class="oe_structure"/>
+                <div class="text-center">
+                    <h2>
+                        <span t-field="doc.display_name"/>
+                    </h2>
+                    <strong>
+                        <p t-esc="location_name"/>
+                    </strong>
+                </div>
+
+                <t t-set="has_date_from" t-value="isinstance(date_from, datetime.datetime)"/>
+                <t t-set="has_date_to" t-value="isinstance(date_to, datetime.datetime)"/>
+                <div class="row mt32 mb32">
+                        <div t-if="has_date_from" class="col-3 bm-2">
+                            Data From: <span t-esc="date_from.strftime('%Y-%m-%d')"/>
+                        </div>
+                        <div t-if="has_date_to" class="col-3 bm-2">
+                            <t t-set="date_to_tmp" t-value="date_to + datetime.timedelta(days=1)"/>
+                            To: <span t-esc="date_to.strftime('%Y-%m-%d')"/>
+                        </div>
+                </div>
+
+
+                <t t-set="has_lot" t-value="0"/>
+                <t t-set="has_ed" t-value="0"/>
+
+                <t t-foreach="doc.stock_move_ids" t-as="stock_move">
+                    <t t-foreach="stock_move.move_line_ids" t-as="stockcards">
+                        <t t-if="has_ed == 0">
+                            <t t-if="has_date_from">
+                                <t t-if="has_date_to">
+                                    <t t-set="tmp_lines" t-value="stockcards.filtered(lambda a: (date_from &lt;= a.date and a.date &lt; date_to_tmp))"/>
+                                </t>
+                                <t t-else="">
+                                    <t t-set="tmp_lines" t-value="stockcards.filtered(lambda a: (date_from &lt;= a.date))"/>
+                                </t>
+                            </t>
+                            <t t-else="">
+                                <t t-set="tmp_lines" t-value="stockcards"/>
+                            </t>
+                            <t t-set="tmp_has_lot" t-value="len(tmp_lines.filtered(lambda a: a.lot_id))"/>
+                            <t t-if="tmp_has_lot">
+                                <t t-set="has_lot" t-value="1"/>
+                                <t t-set="tmp_has_ed" t-value="len(tmp_lines.filtered(lambda a: a.lot_id and a.expiration_date))"/>
+                                <t t-if="tmp_has_ed">
+                                    <t t-set="has_ed" t-value="1"/>
+                                </t>
+                            </t>
+                        </t>
+                    </t>
+                </t>
+
+                <table class="table table-bordered table-striped mb-0" style="border: 2px solid black;">
+                    <!-- In case we want to repeat the header, remove "display: table-row-group" -->
+                    <thead style="display: table-row-group">
+                        <tr t-att-class="'bg-200 font-weight-bold o_line_section'">
+                            <th name="th_date" class="text-right">Date</th>
+                            <th name="th_in" class="text-right">In</th>
+                            <th name="th_out" class="text-right">Out</th>
+                            <th name="th_stock" class="text-right">Stock</th>
+                            <t t-if="has_lot">
+                                <th name="th_lot" class="text-left">Lot/SN</th>
+                            </t>
+                            <t t-if="has_ed">
+                                <th name="th_ed" class="text-center">ED</th>
+                            </t>
+                            <th name="th_dist" class="text-center">Distributor</th>
+                            <th name="th_buyer" class="text-center">Buyer</th>
+                        </tr>
+                    </thead>
+                    <tbody style="border: 2px solid black;">
+                        <t t-set="stock_show_initial" t-value="0"/>
+                        <t t-set="stock_total" t-value="0"/>
+                        <t t-foreach="doc.stock_move_ids.sorted(key=lambda sm: sm.id)" t-as="stock_move">
+                            <t t-foreach="stock_move.move_line_ids" t-as="stockcards">
+                                <t t-foreach="stockcards" t-as="stock_move">
+                                    <t t-translation="off">
+                                        <t t-if="stock_move.state == 'done'">
+                                            <t t-if="stock_move.location_id.id == location_id or stock_move.location_dest_id.id == location_id">
+                                                <t t-set="smdate" t-value="stock_move.date"/>
+
+                                                <t t-if="not has_date_to or (smdate.strftime('%Y-%m-%d') &lt; date_to_tmp.strftime('%Y-%m-%d'))">
+                                                    <t t-if="not has_date_from or (smdate.strftime('%Y-%m-%d') &gt;= date_from.strftime('%Y-%m-%d'))">
+                                                        <t t-if="stock_show_initial == 0">
+                                                            <t t-set="stock_show_initial" t-value="1"/>
+                                                            <tr>
+                                                                <td name="td_date" class="text-right">
+                                                                </td>
+                                                                <td name="td_in" class="text-right">
+                                                                </td>
+                                                                <td name="td_out" class="text-right">
+                                                                </td>
+                                                                <td name="td_stock" class="text-right">
+                                                                    <strong>
+                                                                        <span t-esc="stock_total" t-options="{&quot;widget&quot;: &quot;integer&quot;}"/>
+                                                                    </strong>
+                                                                </td>
+                                                                <t t-if="has_lot">
+                                                                    <td name="td_lot" class="text-left">
+                                                                    </td>
+                                                                </t>
+                                                                <t t-if="has_ed">
+                                                                    <td name="td_ed" class="text-center">
+                                                                    </td>
+                                                                </t>                                                            
+                                                                <td name="td_dist" class="text-center">
+                                                                    <strong>
+                                                                        <span> Initial Stock</span>
+                                                                    </strong>
+                                                                </td>
+                                                                <td name="td_buyer" class="text-center">
+                                                                </td>
+                                                            </tr>
+                                                        </t>
+                                                        <tr>
+                                                            <td name="td_date" class="text-right">
+                                                                <span t-field="stock_move.date" t-options="{&quot;format&quot;: &quot;dd-MM&quot;}" class="m-0"/>
+                                                            </td>
+                                                            <td name="td_in" class="text-right">
+                                                                <t t-if="stock_move.location_dest_id.id == location_id">
+                                                                    <span t-field="stock_move.qty_done" t-options="{'widget': 'integer'}"/>
+                                                                    <t t-set="stock_total" t-value="stock_total + stock_move.qty_done"/>
+                                                                </t>
+                                                            </td>
+                                                            <td name="td_out" class="text-right">
+                                                                <t t-if="stock_move.location_id.id == location_id">
+                                                                    <span t-field="stock_move.qty_done" t-options="{&quot;widget&quot;: &quot;integer&quot;}"/>
+                                                                    <t t-set="stock_total" t-value="stock_total - stock_move.qty_done"/>
+                                                                </t>
+                                                            </td>
+                                                            <td name="td_stock" class="text-right">
+                                                                <span t-esc="stock_total" t-options="{&quot;widget&quot;: &quot;integer&quot;}"/>
+                                                            </td>
+                                                            <t t-if="has_lot">
+                                                                <td name="td_lot" class="text-left">
+                                                                    <t t-if="stock_move.lot_id">
+                                                                        <span t-field="stock_move.lot_id.name"/>
+                                                                    </t>
+                                                                </td>
+                                                            </t>
+                                                            <t t-if="has_ed">
+                                                                <td name="td_ed" class="text-center">
+                                                                    <t t-if="stock_move.lot_id">
+                                                                        <span t-field="stock_move.lot_id.expiration_date" t-options="{&quot;format&quot;: &quot;dd-MM-yyyy&quot;}"/>
+                                                                    </t>
+                                                                </td>
+                                                            </t>                                                            
+                                                            <td name="td_dist" class="text-center">
+                                                                <t t-if="stock_move.location_dest_id.id == location_id">
+                                                                    <t t-if="stock_move.picking_id and stock_move.picking_id.origin">
+                                                                        <span t-field="stock_move.picking_id.partner_id.name"/>
+                                                                    </t>
+                                                                    <t t-else="">
+                                                                        <t t-if="stock_move.location_id">
+                                                                            <t t-if="stock_move.location_id.name == 'Inventory adjustment'">
+                                                                                <span>Adjust *</span>
+                                                                            </t>
+                                                                            <t t-else="">
+                                                                                <span t-field="stock_move.location_id.location_id.name"/>
+    *
+                                                                            </t>
+                                                                        </t>
+                                                                        <t t-else="">
+                                                                            <span t-field="doc.seller_ids[0].name"/>
+    *
+                                                                        </t>
+                                                                    </t>
+                                                                </t>
+                                                            </td>
+                                                            <td name="td_buyer" class="text-center">
+                                                                <t t-if="stock_move.location_id.id == location_id">
+                                                                    <t t-if="stock_move.picking_id and stock_move.picking_id.origin">
+                                                                        <span t-field="stock_move.picking_id.partner_id.name"/>
+                                                                    </t>
+                                                                    <t t-else="">
+                                                                        <t t-if="stock_move.location_dest_id">
+                                                                            <t t-if="stock_move.location_dest_id.name == 'Inventory adjustment'">
+                                                                                <span>Adjust *</span>
+                                                                            </t>
+                                                                            <t t-else="">
+                                                                                <span t-field="stock_move.location_dest_id.location_id.name"/>
+    *
+                                                                            </t>
+                                                                        </t>
+                                                                        <t t-else="">
+                                                                            <span t-field="doc.seller_ids[0].name"/>
+    *
+                                                                        </t>
+                                                                    </t>
+                                                                </t>
+                                                            </td>
+                                                        </tr>
+                                                    </t>
+                                                    <t t-else="">
+                                                        <t t-if="stock_move.location_dest_id.id == location_id">
+                                                            <t t-set="stock_total" t-value="stock_total + stock_move.qty_done"/>
+                                                        </t>
+                                                        <t t-if="stock_move.location_id.id == location_id">
+                                                            <t t-set="stock_total" t-value="stock_total - stock_move.qty_done"/>
+                                                        </t>
+                                                    </t>
+                                                </t>
+                                            </t>
+                                        </t>
+                                    </t>
+                                </t>
+                            </t>
+                        </t>
+                        <t t-if="stock_show_initial == 0">
+                            <t t-set="stock_show_initial" t-value="1"/>
+                            <tr>
+                                <td name="td_date" class="text-right">
+                                </td>
+                                <td name="td_in" class="text-right">
+                                </td>
+                                <td name="td_out" class="text-right">
+                                </td>
+                                <td name="td_stock" class="text-right">
+                                    <strong>
+                                        <span t-esc="stock_total" t-options="{&quot;widget&quot;: &quot;integer&quot;}"/>
+                                    </strong>
+                                </td>
+                                <t t-if="has_lot">
+                                    <td name="td_lot" class="text-left">
+                                    </td>
+                                </t>
+                                <t t-if="has_ed">
+                                    <td name="td_ed" class="text-center">
+                                    </td>
+                                </t>                                                            
+                                <td name="td_dist" class="text-center">
+                                    <strong>
+                                        <span> Initial Stock</span>
+                                    </strong>
+                                </td>
+                                <td name="td_buyer" class="text-center">
+                                </td>
+                            </tr>
+                        </t>
+                    </tbody>
+                </table>
+            </div>
+        </t>
+    </template>
+
+    <template id="print_kartu_stok_proweb">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="proweb_kartu_stok.print_kartu_stok_proweb_document"/>
+            </t>
+        </t>
+    </template>
+
+</odoo>
+
