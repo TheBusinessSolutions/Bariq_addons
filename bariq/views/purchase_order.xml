@@ -14,7 +14,8 @@
                     <field name="date_planned" optional="hide" attrs="{'required': [('display_type', '=', False)]}" force_save="1" string="Ticket Date"/>
                 </xpath>
 
-                <xpath expr="//notebook/page[@name='products']/field[@name='order_line']/tree/field[@name='product_uom'][2]" position="after">
+                <!-- <xpath expr="//notebook/page[@name='products']/field[@name='order_line']/tree/field[@name='product_uom'][2]" position="after"> -->
+                            <xpath expr="//notebook/page[@name='products']/field[@name='order_line']/tree/field[@name='product_uom']" position="after">
                     <field name="bales_number"/>
                 </xpath>
 
