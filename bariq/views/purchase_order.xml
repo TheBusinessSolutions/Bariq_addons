@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_purchase_order_form_inherit" model="ir.ui.view">
+            <field name="name">view_purchase_order_form_inherit</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="purchase.purchase_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='partner_ref']" position="replace">
+                    <field name="partner_ref" string="DAWAR Ticket Number"/>
+                </xpath>
+
+                <xpath expr="//notebook/page[@name='products']/field[@name='order_line']/tree/field[@name='date_planned']" position="replace">
+                    <field name="date_planned" optional="hide" attrs="{'required': [('display_type', '=', False)]}" force_save="1" string="Ticket Date"/>
+                </xpath>
+
+                <xpath expr="//notebook/page[@name='products']/field[@name='order_line']/tree/field[@name='product_uom'][2]" position="after">
+                    <field name="bales_number"/>
+                </xpath>
+
+                <xpath expr="//notebook/page[@name='products']" position="after">
+                    <page string="Truck Details">
+                        <group>
+                            <group>
+                                <field name="driver_name"/>
+                                <field name="driver_license"/>
+                            </group>
+                            <group>
+                                <field name="truck_number"/>
+                                <field name="trailer_number"/>
+                            </group>
+                        </group>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
