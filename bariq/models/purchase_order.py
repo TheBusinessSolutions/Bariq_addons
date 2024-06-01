@@ -11,3 +11,5 @@ class PurchaseOrder(models.Model):
     driver_license = fields.Char(string="Driver License")
     truck_number   = fields.Char(string="Truck Number")
     trailer_number = fields.Char(string="Trailer Number")
+
+    is_dawar_purchase = fields.Boolean()

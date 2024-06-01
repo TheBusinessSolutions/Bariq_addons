@@ -7,4 +7,4 @@ from odoo.exceptions import ValidationError
 class PurchaseOrderLine(models.Model):
     _inherit = 'purchase.order.line'
 
-    bales_number = fields.Integer(string="Number OF Bales", size=2)
+    bales_number = fields.Integer(string="Bales", size=2)

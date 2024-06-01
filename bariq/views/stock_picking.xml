@@ -6,12 +6,31 @@
             <field name="model">stock.picking</field>
             <field name="inherit_id" ref="stock.view_picking_form"/>
             <field name="arch" type="xml">
+                <xpath expr="//header/button" position="before">
+                    <field  name="is_dawar_picking" invisible="1"/>
+                    <button name="action_generate_lots_name" string="Generate Lots" type="object" class="oe_highlight" attrs="{'invisible': ['|', '|', '|', ('is_get_weight_1', '=', False), ('is_get_weight_2', '=', False), ('state', 'in', ['done', 'cancel']), ('is_dawar_picking', '=', False)]}"/>
+                </xpath>
+
                 <xpath expr="//notebook" position="before">
-                    <group>
+                    <group attrs="{'invisible': [('is_dawar_picking', '=', False)]}">
                         <group>
                             <field name="weight_ticket_number"/>
-                            <field name="weight_1"/>
-                            <field name="weight_2"/>
+
+                            <label for="weight_1"/>
+                            <div class="o_row">
+                                <field  name="weight_1"/>
+                                <field  name="is_get_weight_1" invisible="1"/>
+                                <button name="get_weight_1"    type="object" icon="fa-gear"  attrs="{'invisible': [('is_get_weight_1', '=', True)]}"/>
+                                <button name="reset_weight_1"  type="object" icon="fa-trash" attrs="{'invisible': ['|', ('state', 'in', ['done', 'cancel']), ('is_get_weight_1', '=', False)]}"/>
+                            </div>
+
+                            <label for="weight_2"/>
+                            <div class="o_row">
+                                <field  name="weight_2" force_save="1"/>
+                                <field  name="is_get_weight_2" invisible="1"/>
+                                <button name="get_weight_2"    type="object" icon="fa-gear"  attrs="{'invisible': [('is_get_weight_2', '=', True)]}"/>
+                                <button name="reset_weight_2"  type="object" icon="fa-trash" attrs="{'invisible': ['|', ('state', 'in', ['done', 'cancel']), ('is_get_weight_2', '=', False)]}"/>
+                            </div>
                         </group>
                         <group>
                             <field name="dawar_ticket"/>
@@ -21,7 +40,7 @@
                 </xpath>
 
                 <xpath expr="//notebook/page[@name='extra']" position="before">
-                    <page string="Truck Details">
+                    <page string="Truck Details" attrs="{'invisible': [('is_dawar_picking', '=', False)]}">
                         <group>
                             <group>
                                 <field name="driver_name"/>

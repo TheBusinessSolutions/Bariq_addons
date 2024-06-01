@@ -12,12 +12,14 @@
 
     'category': '',
 
-    'version': '16.0.1',
+    'version': '15.0.1',
 
-    'depends': ['base', 'mail', 'web', 'purchase', 'stock', 'purchase_stock'],
+    'depends': ['base', 'mail', 'web', 'purchase', 'stock', 'purchase_stock', 'purchase_line_discount'],
 
     'data': [
+        'views/product_template.xml',
         'views/purchase_order.xml',
         'views/stock_picking.xml',
+        'views/res_company.xml',
     ],
 }
