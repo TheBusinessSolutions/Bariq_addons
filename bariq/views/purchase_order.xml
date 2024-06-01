@@ -51,5 +51,40 @@
                 </xpath>
             </field>
         </record>
+
+
+        <record id="purchase.purchase_rfq" model="ir.actions.act_window">
+            <field name="name">Requests for Quotation</field>
+            <field name="res_model">purchase.order</field>
+            <field name="view_mode">tree,kanban,form,pivot,graph,calendar,activity</field>
+            <field name="view_id" ref="purchase.purchase_order_kpis_tree"/>
+            <field name="domain">[('is_dawar_purchase', '=', False)]</field>
+            <field name="search_view_id" ref="purchase.view_purchase_order_filter"/>
+            <field name="context">{'quotation_only': True}</field>
+        </record>
+
+
+        <record id="purchase.purchase_form_action" model="ir.actions.act_window">
+            <field name="name">Purchase Orders</field>
+            <field name="res_model">purchase.order</field>
+            <field name="view_mode">tree,kanban,form,pivot,graph,calendar,activity</field>
+            <field name="view_id" ref="purchase.purchase_order_view_tree"/>
+            <field name="domain">[('state','in',('purchase', 'done')), ('is_dawar_purchase', '=', False)]</field>
+            <field name="search_view_id" ref="purchase.purchase_order_view_search"/>
+        </record>
+
+
+        <record id="material_purchasing_action" model="ir.actions.act_window">
+            <field name="name">Material Purchasing</field>
+            <field name="res_model">purchase.order</field>
+            <field name="view_mode">tree,kanban,form,pivot,graph,calendar,activity</field>
+            <field name="view_id" ref="purchase.purchase_order_kpis_tree"/>
+            <field name="domain">[('is_dawar_purchase', '=', True)]</field>
+            <field name="search_view_id" ref="purchase.view_purchase_order_filter"/>
+            <field name="context">{'default_is_dawar_purchase': True}</field>
+        </record>
+
+
+        <menuitem id="material_purchasing_menu" name="Material Purchasing" parent="purchase.menu_procurement_management" action="material_purchasing_action" sequence="7"/>
     </data>
 </odoo>
