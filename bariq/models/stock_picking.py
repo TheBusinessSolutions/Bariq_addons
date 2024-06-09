@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+import re
 import socket
 from datetime import datetime
 from odoo.exceptions import UserError
@@ -13,20 +14,27 @@ class StockPicking(models.Model):
     driver_license = fields.Char(string="Driver License", compute='compute_ticket_details')
     truck_number   = fields.Char(string="Truck Number",   compute='compute_ticket_details')
     trailer_number = fields.Char(string="Trailer Number", compute='compute_ticket_details')
-    dawar_ticket   = fields.Char(string="DAWAR Ticket",   compute='compute_ticket_details')
+    dawar_ticket   = fields.Char(string="Dawar Ticket",   compute='compute_ticket_details')
 
-    weight_ticket_number = fields.Char(string="Weight Ticket Number")
+    weight_ticket_number = fields.Char(string="Ticket Number", related='weight_id.code')
+    available_weight_ids = fields.Many2many('stock.weight', string='Available Weight', compute='compute_available_weight')
     is_get_weight_1 = fields.Boolean(string='Is Get Weight 1')
     is_get_weight_2 = fields.Boolean(string='Is Get Weight 2')
-    weight_1 = fields.Float(string="Weight 1", readonly=True)
-    weight_2 = fields.Float(string="Weight 2", readonly=True)
-
-    rejected = fields.Float(string="Rejected (%)")
+    weight_id = fields.Many2one('stock.weight', string='Weight')
+    is_manual = fields.Boolean(string="Manual", related='weight_id.is_manual')
+    weight_1  = fields.Float(string="Weight 1")
+    weight_2  = fields.Float(string="Weight 2")
+    rejected  = fields.Float(string="Rejected (%)")
 
     is_dawar_picking = fields.Boolean(compute='compute_is_dawar_picking')
     is_generate_lots = fields.Boolean()
 
 
+    def compute_available_weight(self):
+        for record in self:
+            record.available_weight_ids = self.env['stock.weight'].search([]).filtered(lambda weight: record.env.user.id in weight.user_ids.ids)
+
+    
     def compute_ticket_details(self):
         for record in self:
             purcahse_id = self.env['purchase.order'].search([('id', '=', record.purchase_id.id), ('is_dawar_purchase', '=', True)])
@@ -63,10 +71,13 @@ class StockPicking(models.Model):
     def get_weight_1(self):
         try:
             client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            client.connect((str(self.company_id.weight_script_url), int(self.company_id.weight_script_port)))
+            client.connect((self.weight_id.ip_addr, int(self.weight_id.port)))
 
             response = client.recv(1024)
             response = response.decode("utf-8")
+
+            if not response.isdigit():
+                raise UserError("Invaild Return Response %s" %response)
 
             try:
                 self.weight_1 = float(response)
@@ -79,17 +90,21 @@ class StockPicking(models.Model):
                 record.qty_done = self.weight_1 - self.weight_2
 
             client.close()
-        except:
-            pass
+            
+        except Exception as e:
+            raise UserError("We Can't Process Request: (%s)" %e)
 
 
     def get_weight_2(self):
         try:
             client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            client.connect((str(self.company_id.weight_script_url), int(self.company_id.weight_script_port)))
+            client.connect((self.weight_id.ip_addr, int(self.weight_id.port)))
 
             response = client.recv(1024)
             response = response.decode("utf-8")
+
+            if not response.isdigit():
+                raise UserError("Invaild Return Response %s" % response)
 
             try:
                 self.weight_2 = float(response)
@@ -102,8 +117,9 @@ class StockPicking(models.Model):
                 record.qty_done = self.weight_1 - self.weight_2
 
             client.close()
-        except:
-            pass
+
+        except Exception as e:
+            raise UserError("We Can't Process Request: (%s)" % e)
 
 
     @api.onchange('weight_1', 'weight_2')
@@ -116,14 +132,25 @@ class StockPicking(models.Model):
     def action_generate_lots_name(self):
         day    = str(fields.date.today().day)
         month  = str(fields.date.today().month)
-        hour   = datetime.now().hour
-        period = datetime.now().strftime("%p")
-        shift  = 'A' if (period == "PM" and hour >= 13) or (period == "AM" and hour < 13) else 'B'
+        code   = False
         ticket = str(self.weight_ticket_number) if self.weight_ticket_number else ''
+
+        for shift in self.env['shift.weight'].search([]):
+            time_format = "%I:%M %p"
+            time_now    = datetime.now().strftime(time_format)
+            time_now    = datetime.strptime(time_now, time_format)
+            start_shift = datetime.strptime(f"{shift.start_hour}:{shift.start_minute} {shift.start_type}", time_format)
+            end_shift   = datetime.strptime(f"{shift.end_hour}:{shift.end_minute} {shift.end_type}", time_format)
+
+            if start_shift <= end_shift and start_shift <= time_now <= end_shift:
+                code = shift.code
+
+            if not start_shift <= end_shift and (time_now >= start_shift or time_now <= end_shift):
+                code = shift.code
 
         for record in self.move_line_nosuggest_ids:
             barcode = str(record.product_id.material_code) if record.product_id.material_code else ''
-            record.lot_name = barcode + day + month + shift + ticket
+            record.lot_name = barcode + day + month + code + ticket
 
         self.is_generate_lots = True
 

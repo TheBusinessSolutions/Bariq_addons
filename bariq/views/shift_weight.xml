@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="shift_weight_view_tree" model="ir.ui.view">
+            <field name="name">shift.weight.view.tree</field>
+            <field name="model">shift.weight</field>
+            <field name="arch" type="xml">
+                <tree editable="top">
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="start_hour"/>
+                    <field name="start_minute"/>
+                    <field name="start_type"/>
+                    <field name="end_hour"/>
+                    <field name="end_minute"/>
+                    <field name="end_type"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="shift_weight_action" model="ir.actions.act_window">
+            <field name="name">Shifts</field>
+            <field name="res_model">shift.weight</field>
+            <field name="view_mode">tree</field>
+        </record>
+        
+
+        <menuitem id="shift_weight_menu" name="Shifts" parent="stock_weight_menu_parent" action="shift_weight_action" sequence="2"/>
+    </data>
+</odoo>

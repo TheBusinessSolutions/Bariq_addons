@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_stock_weight,stock_weight,model_stock_weight,,1,1,1,1
+access_shift_weight,shift_weight,model_shift_weight,,1,1,1,1
