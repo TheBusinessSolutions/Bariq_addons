@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="stock_weight_view_tree" model="ir.ui.view">
+            <field name="name">stock.weight.view.tree</field>
+            <field name="model">stock.weight</field>
+            <field name="arch" type="xml">
+                <tree editable="top">
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="ip_addr"/>
+                    <field name="port"/>
+                    <field name="user_ids" widget="many2many_tags"/>
+                    <field name="is_manual"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="stock_weight_action" model="ir.actions.act_window">
+            <field name="name">Stock Weights</field>
+            <field name="res_model">stock.weight</field>
+            <field name="view_mode">tree</field>
+        </record>
+        
+
+        <menuitem id="stock_weight_menu_parent" name="Stock Weights" parent="stock.menu_stock_config_settings" sequence="99"/>
+        <menuitem id="stock_weight_menu" name="Weights" parent="stock_weight_menu_parent" action="stock_weight_action" sequence="1"/>
+    </data>
+</odoo>

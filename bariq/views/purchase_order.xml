@@ -6,34 +6,85 @@
             <field name="model">purchase.order</field>
             <field name="inherit_id" ref="purchase.purchase_order_form"/>
             <field name="arch" type="xml">
+                <xpath expr="//header" position="inside">
+                    <field name="is_dawar_purchase" invisible="1"/>
+                </xpath>
+
                 <xpath expr="//field[@name='partner_ref']" position="replace">
-                    <field name="partner_ref" string="DAWAR Ticket Number"/>
+                    <field name="partner_ref" string="DAWAR Ticket" force_save="1" readonly="1" attrs="{'invisible': [('is_dawar_purchase', '=', False)]}"/>
+                    <field name="partner_ref" attrs="{'invisible': [('is_dawar_purchase', '=', True)]}"/>
                 </xpath>
 
                 <xpath expr="//notebook/page[@name='products']/field[@name='order_line']/tree/field[@name='date_planned']" position="replace">
-                    <field name="date_planned" optional="hide" attrs="{'required': [('display_type', '=', False)]}" force_save="1" string="Ticket Date"/>
+                    <field name="date_planned" force_save="1" readonly="1" string="Ticket Date" attrs="{'column_invisible': [('parent.is_dawar_purchase', '=', False)]}"/>
                 </xpath>
 
-                <!-- <xpath expr="//notebook/page[@name='products']/field[@name='order_line']/tree/field[@name='product_uom'][2]" position="after"> -->
-                            <xpath expr="//notebook/page[@name='products']/field[@name='order_line']/tree/field[@name='product_uom']" position="after">
-                    <field name="bales_number"/>
+                <xpath expr="//notebook/page[@name='products']/field[@name='order_line']/tree/field[@name='product_uom']" position="after">
+                    <field name="bales_number" force_save="1" readonly="1" attrs="{'column_invisible': [('parent.is_dawar_purchase', '=', False)]}"/>
                 </xpath>
 
                 <xpath expr="//notebook/page[@name='products']" position="after">
-                    <page string="Truck Details">
+                    <page string="Truck Details" attrs="{'invisible': [('is_dawar_purchase', '=', False)]}">
                         <group>
                             <group>
-                                <field name="driver_name"/>
-                                <field name="driver_license"/>
+                                <field name="driver_name"    force_save="1" readonly="1"/>
+                                <field name="driver_license" force_save="1" readonly="1"/>
                             </group>
                             <group>
-                                <field name="truck_number"/>
-                                <field name="trailer_number"/>
+                                <field name="truck_number"   force_save="1" readonly="1"/>
+                                <field name="trailer_number" force_save="1" readonly="1"/>
                             </group>
                         </group>
                     </page>
                 </xpath>
             </field>
         </record>
+
+
+        <record id="view_purchase_line_discount_form_inherit" model="ir.ui.view">
+            <field name="name">view_purchase_line_discount_form_inherit</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="purchase_line_discount.purchase_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='discount']" position="replace">
+                    <field name="discount" widget="purchase_product_discount" attrs="{'readonly': [('invoice_lines', '!=', [])]}" string="Rejected (%)"/>
+                </xpath>
+            </field>
+        </record>
+
+
+        <record id="purchase.purchase_rfq" model="ir.actions.act_window">
+            <field name="name">Requests for Quotation</field>
+            <field name="res_model">purchase.order</field>
+            <field name="view_mode">tree,kanban,form,pivot,graph,calendar,activity</field>
+            <field name="view_id" ref="purchase.purchase_order_kpis_tree"/>
+            <field name="domain">[('is_dawar_purchase', '=', False)]</field>
+            <field name="search_view_id" ref="purchase.view_purchase_order_filter"/>
+            <field name="context">{'quotation_only': True}</field>
+        </record>
+
+
+        <record id="purchase.purchase_form_action" model="ir.actions.act_window">
+            <field name="name">Purchase Orders</field>
+            <field name="res_model">purchase.order</field>
+            <field name="view_mode">tree,kanban,form,pivot,graph,calendar,activity</field>
+            <field name="view_id" ref="purchase.purchase_order_view_tree"/>
+            <field name="domain">[('state','in',('purchase', 'done')), ('is_dawar_purchase', '=', False)]</field>
+            <field name="search_view_id" ref="purchase.purchase_order_view_search"/>
+        </record>
+
+
+        <record id="material_purchasing_action" model="ir.actions.act_window">
+            <field name="name">Material Purchasing</field>
+            <field name="res_model">purchase.order</field>
+            <field name="view_mode">tree,kanban,form,pivot,graph,calendar,activity</field>
+            <field name="view_id" ref="purchase.purchase_order_kpis_tree"/>
+            <field name="domain">[('is_dawar_purchase', '=', True)]</field>
+            <field name="search_view_id" ref="purchase.view_purchase_order_filter"/>
+            <field name="context">{'default_is_dawar_purchase': True}</field>
+        </record>
+
+
+        <menuitem id="material_purchasing_menu" name="Material Purchasing" parent="purchase.menu_procurement_management" action="material_purchasing_action" sequence="7"/>
     </data>
 </odoo>

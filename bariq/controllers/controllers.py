@@ -1,12 +1,8 @@
 # -*- coding: utf-8 -*-
 
-from dateutil.relativedelta import relativedelta
 from odoo.http import request, Response, route
-from datetime import datetime, date
 from odoo import http
-import requests
 import json
-import math
 
 class BariqAPI(http.Controller):
 
@@ -25,9 +21,9 @@ class BariqAPI(http.Controller):
             return response
 
         for line in data.get('lines').values():
-            product_id = request.env['product.product'].sudo().search([('barcode', '=', line['product_code'])], limit=1)
+            product_id = request.env['product.product'].sudo().search([('material_code', '=', line['product_code'])], limit=1)
             if not product_id:
-                response = {"code": 400, "message": "Product Code is not Found", "data": {'product_id': line['product_code']}}
+                response = {"code": 400, "message": "Product Code is not Found", "data": {'material_code': line['product_code']}}
                 return response
 
             lines.append((0, 6, {
@@ -40,13 +36,14 @@ class BariqAPI(http.Controller):
 
 
         order_id = request.env['purchase.order'].sudo().create({
+            'is_dawar_purchase' : True,
             'partner_id'     : partner_id.id,
             'partner_ref'    : data.get('dawar_ticket_number'),
             'driver_name'    : data.get('driver_name'),
             'driver_license' : data.get('driver_license'),
             'truck_number'   : data.get('truck_number'),
             'trailer_number' : data.get('trailer_number'),
-            'order_line' : lines,
+            'order_line'     : lines,
         })
         
         order_id.button_confirm()
