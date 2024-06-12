@@ -1,0 +1,67 @@
+<odoo>
+    <record id="view_order_form_inherit" model="ir.ui.view">
+        <field name="name">purchase.order.form.inherit</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form"/>
+        <field name="arch" type="xml">
+            <field name="partner_id" position="after">
+                <field name="imported_order"/>
+            </field>
+            <!-- Ensure the tab is placed after the "Delivery Information" tab -->
+            <xpath expr="//page[@name='purchase_delivery_invoice']" position="after">
+                <page string="Import Order Data" attrs="{'invisible': [('imported_order', '=', False)]}">
+                    <group name="shipping_data_group" string="Shipping Data">
+                        <group>
+                            <field name="cntrs_number"/>
+                            <field name="bl_number"/>
+                        </group>
+                        <group>
+                            <field name="pol"/>
+                            <field name="pod"/>
+                            <field name="vessel_etd"/>
+                            <field name="vessel_eta"/>
+                            <field name="number_of_days"/>
+                        </group>
+                        <group>
+                            <field name="acid_number"/>
+                            <field name="acid_date"/>
+                            <field name="shipped_from_supplier"/>
+                        </group>
+                        <group>
+                            <field name="received_documents"/>
+                            <field name="inspection_certificate"/>
+                            <field name="insurance_certificate"/>
+                            <field name="arrived_at_port"/>
+                            <field name="lg_date"/>
+                            <field name="arrived_at_bariq"/>
+                        </group>
+                    </group>
+                    <group name="clearance_data_group" string="Clearance Data">
+                        <group>
+                            <group>
+                                <field name="clearance_start_date"/>
+                                <field name="clearance_end_date"/>
+                                <field name="clearance_days"/>
+                            </group>
+                            <group>
+                                <field name="clearance_company"/>
+                                <field name="customs_certificate_number"/>
+                                <field name="customs_certificate_date"/>
+                            </group>
+                            <group>
+                                <field name="report_ref_goiec"/>
+                                <field name="report_ref_date_goiec"/>
+                                <field name="sample_withdrawal_number"/>
+                            </group>
+                            <group>
+                                <field name="sample_withdrawal_date"/>
+                                <field name="conformity_certificate_number"/>
+                                <field name="conformity_certificate_date"/>
+                            </group>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>
