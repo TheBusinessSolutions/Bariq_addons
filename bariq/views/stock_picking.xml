@@ -16,30 +16,34 @@
                 <xpath expr="//notebook" position="before">
                     <group attrs="{'invisible': [('is_dawar_picking', '=', False)]}">
                         <group>
-                            <field name="weight_id" domain="[('id', 'in', available_weight_ids)]" attrs="{'readonly': [('state', 'in', ['done', 'cancel'])]}"/>
+                            <field name="weight_id" domain="[('id', 'in', available_weight_ids)]" attrs="{'readonly': [('state', 'in', ['done', 'cancel'])]}" options="{'no_quick_create': True, 'no_create_edit' : True}"/>
 
                             <label for="weight_1"/>
                             <div class="o_row">
                                 <field  name="weight_1" force_save="1" attrs="{'readonly': ['|', ('is_manual', '=', False), ('state', 'in', ['done', 'cancel'])]}"/>
                                 <field  name="is_get_weight_1" invisible="1"/>
-                                <button name="get_weight_1"    type="object" icon="fa-gear"  attrs="{'invisible': [('is_get_weight_1', '=', True)], 'readonly': [('state', 'in', ['done', 'cancel'])]}"/>
-                                <button name="reset_weight_1"  type="object" icon="fa-trash" attrs="{'invisible': ['|', ('state', 'in', ['done', 'cancel']), ('is_get_weight_1', '=', False)], 'readonly': [('state', 'in', ['done', 'cancel'])]}"/>
+                                <button name="get_weight_1"    type="object" icon="fa-gear"  attrs="{'invisible': ['|', '|', ('is_get_weight_1', '=', True), ('is_manual', '=', True), ('state', 'in', ['done', 'cancel'])]}"/>
+                                <button name="reset_weight_1"  type="object" icon="fa-trash" attrs="{'invisible': ['|', '|', ('is_get_weight_1', '=', False), ('is_manual', '=', True), ('state', 'in', ['done', 'cancel'])]}"/>
                             </div>
 
                             <label for="weight_2"/>
                             <div class="o_row">
                                 <field  name="weight_2" force_save="1" attrs="{'readonly': ['|', ('is_manual', '=', False), ('state', 'in', ['done', 'cancel'])]}"/>
                                 <field  name="is_get_weight_2" invisible="1"/>
-                                <button name="get_weight_2"    type="object" icon="fa-gear"  attrs="{'invisible': [('is_get_weight_2', '=', True)], 'readonly': [('state', 'in', ['done', 'cancel'])]}"/>
-                                <button name="reset_weight_2"  type="object" icon="fa-trash" attrs="{'invisible': ['|', ('state', 'in', ['done', 'cancel']), ('is_get_weight_2', '=', False)], 'readonly': [('state', 'in', ['done', 'cancel'])]}"/>
+                                <button name="get_weight_2"    type="object" icon="fa-gear"  attrs="{'invisible': ['|', '|', ('is_get_weight_2', '=', True), ('is_manual', '=', True), ('state', 'in', ['done', 'cancel'])]}"/>
+                                <button name="reset_weight_2"  type="object" icon="fa-trash" attrs="{'invisible': ['|', '|', ('is_get_weight_2', '=', False), ('is_manual', '=', True), ('state', 'in', ['done', 'cancel'])]}"/>
                             </div>
                         </group>
                         <group>
-                            <field name="weight_ticket_number" attrs="{'readonly': [('state', 'in', ['done', 'cancel'])]}"/>
-                            <field name="dawar_ticket" attrs="{'readonly': [('state', 'in', ['done', 'cancel'])]}"/>
+                            <field name="weight_ticket_number" readonly="1" force_save="1"/>
+                            <field name="dawar_ticket" readonly="1" force_save="1"/>
                             <field name="rejected" attrs="{'readonly': [('state', 'in', ['done', 'cancel'])]}"/>
                         </group>
                     </group>
+                </xpath>
+
+                <xpath expr="//notebook/page[@name='operations']/field[@name='move_ids_without_package']/tree/field[@name='quantity_done']" position="before">
+                    <field name="bales_number"/>
                 </xpath>
 
                 <xpath expr="//notebook/page[@name='extra']" position="before">

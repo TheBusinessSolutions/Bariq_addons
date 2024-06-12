@@ -30,6 +30,23 @@ class StockPicking(models.Model):
     is_generate_lots = fields.Boolean()
 
 
+    @api.onchange('weight_1', 'weight_2')
+    def action_calculate_done_qty(self):
+        for record in self.move_line_nosuggest_ids:
+            record.qty_done = self.weight_1 - self.weight_2
+
+
+
+    @api.onchange('weight_1')
+    def set_is_get_weight_1(self):
+        self.is_get_weight_1 = True if self.weight_1 > 0 else False
+
+
+    @api.onchange('weight_2')
+    def set_is_get_weight_2(self):
+        self.is_get_weight_2 = True if self.weight_2 > 0 else False
+
+
     def compute_available_weight(self):
         for record in self:
             record.available_weight_ids = self.env['stock.weight'].search([]).filtered(lambda weight: record.env.user.id in weight.user_ids.ids)

@@ -11,28 +11,28 @@
                 </xpath>
 
                 <xpath expr="//field[@name='partner_ref']" position="replace">
-                    <field name="partner_ref" string="DAWAR Ticket" force_save="1" readonly="1" attrs="{'invisible': [('is_dawar_purchase', '=', False)]}"/>
+                    <field name="partner_ref" string="Dawar Ticket" attrs="{'invisible': [('is_dawar_purchase', '=', False)], 'readonly': [('state', 'in', ['purchase', 'done', 'cancel'])]}"/>
                     <field name="partner_ref" attrs="{'invisible': [('is_dawar_purchase', '=', True)]}"/>
                 </xpath>
 
                 <xpath expr="//notebook/page[@name='products']/field[@name='order_line']/tree/field[@name='date_planned']" position="replace">
-                    <field name="date_planned" force_save="1" readonly="1" string="Ticket Date" attrs="{'column_invisible': [('parent.is_dawar_purchase', '=', False)]}"/>
+                    <field name="date_planned" string="Ticket Date" attrs="{'column_invisible': [('parent.is_dawar_purchase', '=', False)], 'readonly': [('parent.state', 'in', ['purchase', 'done', 'cancel'])]}"/>
                 </xpath>
 
                 <xpath expr="//notebook/page[@name='products']/field[@name='order_line']/tree/field[@name='product_uom']" position="after">
-                    <field name="bales_number" force_save="1" readonly="1" attrs="{'column_invisible': [('parent.is_dawar_purchase', '=', False)]}"/>
+                    <field name="bales_number" attrs="{'column_invisible': [('parent.is_dawar_purchase', '=', False)], 'readonly': [('parent.state', 'in', ['purchase', 'done', 'cancel'])]}"/>
                 </xpath>
 
                 <xpath expr="//notebook/page[@name='products']" position="after">
                     <page string="Truck Details" attrs="{'invisible': [('is_dawar_purchase', '=', False)]}">
                         <group>
                             <group>
-                                <field name="driver_name"    force_save="1" readonly="1"/>
-                                <field name="driver_license" force_save="1" readonly="1"/>
+                                <field name="driver_name"    attrs="{'readonly': [('state', 'in', ['purchase', 'done', 'cancel'])]}"/>
+                                <field name="driver_license" attrs="{'readonly': [('state', 'in', ['purchase', 'done', 'cancel'])]}"/>
                             </group>
                             <group>
-                                <field name="truck_number"   force_save="1" readonly="1"/>
-                                <field name="trailer_number" force_save="1" readonly="1"/>
+                                <field name="truck_number"   attrs="{'readonly': [('state', 'in', ['purchase', 'done', 'cancel'])]}"/>
+                                <field name="trailer_number" attrs="{'readonly': [('state', 'in', ['purchase', 'done', 'cancel'])]}"/>
                             </group>
                         </group>
                     </page>
@@ -47,7 +47,7 @@
             <field name="inherit_id" ref="purchase_line_discount.purchase_order_form"/>
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='discount']" position="replace">
-                    <field name="discount" widget="purchase_product_discount" attrs="{'readonly': [('invoice_lines', '!=', [])]}" string="Rejected (%)"/>
+                    <field name="discount" widget="purchase_product_discount" readonly="1" force_save="1" string="Rejected (%)"/>
                 </xpath>
             </field>
         </record>
