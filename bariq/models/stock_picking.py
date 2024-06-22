@@ -176,9 +176,9 @@ class StockPicking(models.Model):
     def action_generate_lots_name(self):
         day    = str(fields.date.today().day)
         month  = str(fields.date.today().month)
-        code   = False
+        code   = ''
         ticket = str(self.weight_id.code)
-        sequence = self.weight_id.sequence_id._next() if self.weight_id.sequence_id else ''
+        sequence = str(self.weight_id.sequence_id._next()) if self.weight_id.sequence_id else ''
 
         for record in self.move_line_nosuggest_ids:
             barcode  = str(record.product_id.material_code) if record.product_id.material_code else ''
