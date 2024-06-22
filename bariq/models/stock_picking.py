@@ -32,32 +32,6 @@ class StockPicking(models.Model):
     is_generate_lots = fields.Boolean()
 
 
-    # @api.depends('weight_id')
-    # def compute_weight_ticket_number(self):
-    #     for record in self:
-    #         if record.weight_id.code:
-    #             day    = str(fields.date.today().day)
-    #             month  = str(fields.date.today().month)
-    #             code   = False
-    #             ticket = str(record.weight_id.code)
-    #             sequence = record.weight_id.sequence_id._next() if record.weight_id.sequence_id else ''
-    #
-    #
-    #             for shift in self.env['shift.weight'].search([]):
-    #                 time_format = "%I:%M %p"
-    #                 time_now    = datetime.strptime(datetime.now().strftime(time_format), time_format)
-    #                 start_shift = datetime.strptime(f"{shift.start_hour}:{shift.start_minute} {shift.start_type}", time_format)
-    #                 end_shift   = datetime.strptime(f"{shift.end_hour}:{shift.end_minute} {shift.end_type}", time_format)
-    #
-    #                 if start_shift <= end_shift and start_shift <= time_now <= end_shift:
-    #                     code = shift.code
-    #                 if not start_shift <= end_shift and (time_now >= start_shift or time_now <= end_shift):
-    #                     code = shift.code
-    #
-    #             record.weight_ticket_number = day + month + code + ticket + sequence
-    #         else:
-    #             record.weight_ticket_number = ''
-
     def close_dawar_ticket(self):
         auth_link, close_link, user_token = '', '', ''
 
@@ -84,13 +58,6 @@ class StockPicking(models.Model):
             response = requests.request("POST", close_link, headers=headers, data=payload)
         except Exception as e:
             raise UserError("We Can't Process Request: (%s)" % e)
-
-
-        print("######################################################")
-        print("######################################################")
-        print(user_token)
-        print("######################################################")
-        print("######################################################")
         
 
     @api.onchange('weight_1', 'weight_2')
