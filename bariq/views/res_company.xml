@@ -1,0 +1,26 @@
+<odoo>
+    <data>
+        <record id="view_res_company_form_inherit_dawar" model="ir.ui.view">
+            <field name="name">view.res.company.form.inherit.dawar</field>
+            <field name="model">res.company</field>
+            <field name="inherit_id" ref="base.view_company_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//notebook" position="inside">
+                    <page name="dawar_configuration" string="Dawar Configuration">
+                        <group>
+                            <field name="link"/>
+                        </group>
+                        <group>
+                            <group>
+                                <field name="username"/>
+                            </group>
+                            <group>
+                                <field name="password" type="password"/>
+                            </group>
+                        </group>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

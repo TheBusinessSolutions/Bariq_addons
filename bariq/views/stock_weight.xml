@@ -11,6 +11,7 @@
                     <field name="ip_addr"/>
                     <field name="port"/>
                     <field name="user_ids" widget="many2many_tags"/>
+                    <field name="sequence_id"/>
                     <field name="is_manual"/>
                 </tree>
             </field>

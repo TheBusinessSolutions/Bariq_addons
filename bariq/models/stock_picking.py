@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 
 import re
+import json
 import socket
+import requests
 from datetime import datetime
 from odoo.exceptions import UserError
 from odoo import models, api, fields, _
@@ -16,7 +18,7 @@ class StockPicking(models.Model):
     trailer_number = fields.Char(string="Trailer Number", compute='compute_ticket_details')
     dawar_ticket   = fields.Char(string="Dawar Ticket",   compute='compute_ticket_details')
 
-    weight_ticket_number = fields.Char(string="Ticket Number", related='weight_id.code')
+    weight_ticket_number = fields.Char(string="Ticket Number", compute='compute_weight_ticket_number', store=True)
     available_weight_ids = fields.Many2many('stock.weight', string='Available Weight', compute='compute_available_weight')
     is_get_weight_1 = fields.Boolean(string='Is Get Weight 1')
     is_get_weight_2 = fields.Boolean(string='Is Get Weight 2')
@@ -30,11 +32,71 @@ class StockPicking(models.Model):
     is_generate_lots = fields.Boolean()
 
 
+    # @api.depends('weight_id')
+    # def compute_weight_ticket_number(self):
+    #     for record in self:
+    #         if record.weight_id.code:
+    #             day    = str(fields.date.today().day)
+    #             month  = str(fields.date.today().month)
+    #             code   = False
+    #             ticket = str(record.weight_id.code)
+    #             sequence = record.weight_id.sequence_id._next() if record.weight_id.sequence_id else ''
+    #
+    #
+    #             for shift in self.env['shift.weight'].search([]):
+    #                 time_format = "%I:%M %p"
+    #                 time_now    = datetime.strptime(datetime.now().strftime(time_format), time_format)
+    #                 start_shift = datetime.strptime(f"{shift.start_hour}:{shift.start_minute} {shift.start_type}", time_format)
+    #                 end_shift   = datetime.strptime(f"{shift.end_hour}:{shift.end_minute} {shift.end_type}", time_format)
+    #
+    #                 if start_shift <= end_shift and start_shift <= time_now <= end_shift:
+    #                     code = shift.code
+    #                 if not start_shift <= end_shift and (time_now >= start_shift or time_now <= end_shift):
+    #                     code = shift.code
+    #
+    #             record.weight_ticket_number = day + month + code + ticket + sequence
+    #         else:
+    #             record.weight_ticket_number = ''
+
+    def close_dawar_ticket(self):
+        auth_link, close_link, user_token = '', '', ''
+
+        if self.env.company.link and self.env.company.link[-1] == '/':
+            auth_link  = self.env.company.link + 'auth/login'
+            close_link = self.env.company.link + 'tickets/oddo/close/:id'
+        else:
+            auth_link  = self.env.company.link + '/auth/login'
+            close_link = self.env.company.link + '/tickets/oddo/close/:id'
+
+
+        try:
+            headers    = {'content-type': "application/x-www-form-urlencoded", 'cache-control': "no-cache"}
+            payload    = {'grant_type': 'client_credentials', 'phone': self.env.company.username, 'password': self.env.company.password}
+            response   = requests.request("POST", auth_link, headers=headers, data=payload)
+            user_token = response.json().get('access_token')
+        except Exception as e:
+            raise UserError("We Can't Process Request: (%s)" % e)
+
+
+        try:
+            headers  = {'Authorization': f'Bearer {user_token}', 'Content-Type': 'application/json'}
+            payload  = {'grant_type': 'client_credentials', 'weighBridgeId': "oddoman", 'netWeight': "10"}
+            response = requests.request("POST", close_link, headers=headers, data=payload)
+        except Exception as e:
+            raise UserError("We Can't Process Request: (%s)" % e)
+
+
+        print("######################################################")
+        print("######################################################")
+        print(user_token)
+        print("######################################################")
+        print("######################################################")
+        
+
     @api.onchange('weight_1', 'weight_2')
     def action_calculate_done_qty(self):
         for record in self.move_line_nosuggest_ids:
             record.qty_done = self.weight_1 - self.weight_2
-
 
 
     @api.onchange('weight_1')
@@ -72,7 +134,6 @@ class StockPicking(models.Model):
     def reset_weight_1(self):
         self.weight_1 = 0.0
         self.is_get_weight_1 = False
-
         for record in self.move_line_nosuggest_ids:
             record.qty_done = self.weight_1 - self.weight_2
 
@@ -80,7 +141,6 @@ class StockPicking(models.Model):
     def reset_weight_2(self):
         self.weight_2 = 0.0
         self.is_get_weight_2 = False
-
         for record in self.move_line_nosuggest_ids:
             record.qty_done = self.weight_1 - self.weight_2
 
@@ -150,25 +210,27 @@ class StockPicking(models.Model):
         day    = str(fields.date.today().day)
         month  = str(fields.date.today().month)
         code   = False
-        ticket = str(self.weight_ticket_number) if self.weight_ticket_number else ''
-
-        for shift in self.env['shift.weight'].search([]):
-            time_format = "%I:%M %p"
-            time_now    = datetime.now().strftime(time_format)
-            time_now    = datetime.strptime(time_now, time_format)
-            start_shift = datetime.strptime(f"{shift.start_hour}:{shift.start_minute} {shift.start_type}", time_format)
-            end_shift   = datetime.strptime(f"{shift.end_hour}:{shift.end_minute} {shift.end_type}", time_format)
-
-            if start_shift <= end_shift and start_shift <= time_now <= end_shift:
-                code = shift.code
-
-            if not start_shift <= end_shift and (time_now >= start_shift or time_now <= end_shift):
-                code = shift.code
+        ticket = str(self.weight_id.code)
+        sequence = self.weight_id.sequence_id._next() if self.weight_id.sequence_id else ''
 
         for record in self.move_line_nosuggest_ids:
-            barcode = str(record.product_id.material_code) if record.product_id.material_code else ''
-            record.lot_name = barcode + day + month + code + ticket
+            barcode  = str(record.product_id.material_code) if record.product_id.material_code else ''
 
+            for shift in self.env['shift.weight'].search([]):
+                time_format = "%I:%M %p"
+                time_now    = datetime.strptime(datetime.now().strftime(time_format), time_format)
+                start_shift = datetime.strptime(f"{shift.start_hour}:{shift.start_minute} {shift.start_type}", time_format)
+                end_shift   = datetime.strptime(f"{shift.end_hour}:{shift.end_minute} {shift.end_type}", time_format)
+
+                if start_shift <= end_shift and start_shift <= time_now <= end_shift:
+                    code = shift.code
+                if not start_shift <= end_shift and (time_now >= start_shift or time_now <= end_shift):
+                    code = shift.code
+
+            record.lot_name = barcode + day + month + code + ticket + sequence
+
+
+        self.weight_ticket_number = day + month + code + ticket + sequence
         self.is_generate_lots = True
 
 

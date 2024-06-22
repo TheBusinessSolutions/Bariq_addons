@@ -13,6 +13,7 @@ class StockWeight(models.Model):
     port      = fields.Char(string="Port Number", required=True)
     user_ids  = fields.Many2many('res.users', string="Access Users", required=True)
     is_manual = fields.Boolean(string="Manual")
+    sequence_id = fields.Many2one('ir.sequence', string="Sequence", required=True)
 
 
     @api.model

@@ -10,28 +10,30 @@
                     <field  name="available_weight_ids" invisible="1"/>
                     <field  name="is_dawar_picking" invisible="1"/>
                     <field  name="is_manual" invisible="1"/>
-                    <button name="action_generate_lots_name" string="Generate Lots" type="object" class="oe_highlight" attrs="{'invisible': ['|', '|', '|', ('is_get_weight_1', '=', False), ('is_get_weight_2', '=', False), ('state', 'in', ['done', 'cancel']), ('is_dawar_picking', '=', False)]}"/>
+                    <field  name="is_generate_lots" invisible="1"/>
+                    <button name="action_generate_lots_name" string="Generate Lots" type="object" class="oe_highlight" attrs="{'invisible': ['|', '|', '|', '|', ('is_get_weight_1', '=', False), ('is_get_weight_2', '=', False), ('state', 'in', ['done', 'cancel']), ('is_dawar_picking', '=', False), ('is_generate_lots', '=', True)]}"/>
+                    <button name="close_dawar_ticket" string="Close Ticket" type="object" class="oe_highlight"/>
                 </xpath>
 
                 <xpath expr="//notebook" position="before">
                     <group attrs="{'invisible': [('is_dawar_picking', '=', False)]}">
                         <group>
-                            <field name="weight_id" domain="[('id', 'in', available_weight_ids)]" attrs="{'readonly': [('state', 'in', ['done', 'cancel'])]}" options="{'no_quick_create': True, 'no_create_edit' : True}"/>
+                            <field name="weight_id" domain="[('id', 'in', available_weight_ids)]" attrs="{'readonly': ['|', ('state', 'in', ['done', 'cancel']), ('is_generate_lots', '=', True)]}" options="{'no_quick_create': True, 'no_create_edit' : True}"/>
 
                             <label for="weight_1"/>
                             <div class="o_row">
-                                <field  name="weight_1" force_save="1" attrs="{'readonly': ['|', ('is_manual', '=', False), ('state', 'in', ['done', 'cancel'])]}"/>
+                                <field  name="weight_1" force_save="1" attrs="{'readonly': ['|', '|', ('is_manual', '=', False), ('state', 'in', ['done', 'cancel']), ('is_generate_lots', '=', True)]}"/>
                                 <field  name="is_get_weight_1" invisible="1"/>
-                                <button name="get_weight_1"    type="object" icon="fa-gear"  attrs="{'invisible': ['|', '|', ('is_get_weight_1', '=', True), ('is_manual', '=', True), ('state', 'in', ['done', 'cancel'])]}"/>
-                                <button name="reset_weight_1"  type="object" icon="fa-trash" attrs="{'invisible': ['|', '|', ('is_get_weight_1', '=', False), ('is_manual', '=', True), ('state', 'in', ['done', 'cancel'])]}"/>
+                                <button name="get_weight_1"    type="object" icon="fa-gear"  attrs="{'invisible': ['|', '|', '|', ('is_get_weight_1', '=', True), ('is_manual', '=', True), ('state', 'in', ['done', 'cancel']), ('is_generate_lots', '=', True)]}"/>
+                                <button name="reset_weight_1"  type="object" icon="fa-trash" attrs="{'invisible': ['|', '|', '|', ('is_get_weight_1', '=', False), ('is_manual', '=', True), ('state', 'in', ['done', 'cancel']), ('is_generate_lots', '=', True)]}"/>
                             </div>
 
                             <label for="weight_2"/>
                             <div class="o_row">
-                                <field  name="weight_2" force_save="1" attrs="{'readonly': ['|', ('is_manual', '=', False), ('state', 'in', ['done', 'cancel'])]}"/>
+                                <field  name="weight_2" force_save="1" attrs="{'readonly': ['|', '|', ('is_manual', '=', False), ('state', 'in', ['done', 'cancel']), ('is_generate_lots', '=', True)]}"/>
                                 <field  name="is_get_weight_2" invisible="1"/>
-                                <button name="get_weight_2"    type="object" icon="fa-gear"  attrs="{'invisible': ['|', '|', ('is_get_weight_2', '=', True), ('is_manual', '=', True), ('state', 'in', ['done', 'cancel'])]}"/>
-                                <button name="reset_weight_2"  type="object" icon="fa-trash" attrs="{'invisible': ['|', '|', ('is_get_weight_2', '=', False), ('is_manual', '=', True), ('state', 'in', ['done', 'cancel'])]}"/>
+                                <button name="get_weight_2"    type="object" icon="fa-gear"  attrs="{'invisible': ['|', '|', '|', ('is_get_weight_2', '=', True), ('is_manual', '=', True), ('state', 'in', ['done', 'cancel']), ('is_generate_lots', '=', True)]}"/>
+                                <button name="reset_weight_2"  type="object" icon="fa-trash" attrs="{'invisible': ['|', '|', '|', ('is_get_weight_2', '=', False), ('is_manual', '=', True), ('state', 'in', ['done', 'cancel']), ('is_generate_lots', '=', True)]}"/>
                             </div>
                         </group>
                         <group>
