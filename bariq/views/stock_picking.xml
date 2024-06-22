@@ -12,7 +12,7 @@
                     <field  name="is_manual" invisible="1"/>
                     <field  name="is_generate_lots" invisible="1"/>
                     <button name="action_generate_lots_name" string="Generate Lots" type="object" class="oe_highlight" attrs="{'invisible': ['|', '|', '|', '|', ('is_get_weight_1', '=', False), ('is_get_weight_2', '=', False), ('state', 'in', ['done', 'cancel']), ('is_dawar_picking', '=', False), ('is_generate_lots', '=', True)]}"/>
-                    <button name="close_dawar_ticket" string="Close Ticket" type="object" class="oe_highlight"/>
+                    <button name="close_dawar_ticket" string="Close Ticket" type="object" class="oe_highlight" invisible="1"/>
                 </xpath>
 
                 <xpath expr="//notebook" position="before">
