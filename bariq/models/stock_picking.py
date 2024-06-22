@@ -62,7 +62,7 @@ class StockPicking(models.Model):
 
     @api.onchange('weight_1', 'weight_2')
     def action_calculate_done_qty(self):
-        for record in self.move_line_nosuggest_ids:
+        for record in self.move_line_ids_without_package:
             record.qty_done = self.weight_1 - self.weight_2
 
 
@@ -101,14 +101,14 @@ class StockPicking(models.Model):
     def reset_weight_1(self):
         self.weight_1 = 0.0
         self.is_get_weight_1 = False
-        for record in self.move_line_nosuggest_ids:
+        for record in self.move_line_ids_without_package:
             record.qty_done = self.weight_1 - self.weight_2
 
 
     def reset_weight_2(self):
         self.weight_2 = 0.0
         self.is_get_weight_2 = False
-        for record in self.move_line_nosuggest_ids:
+        for record in self.move_line_ids_without_package:
             record.qty_done = self.weight_1 - self.weight_2
 
 
@@ -130,7 +130,7 @@ class StockPicking(models.Model):
                 self.weight_1 = 0.0
                 self.is_get_weight_1 = False
 
-            for record in self.move_line_nosuggest_ids:
+            for record in self.move_line_ids_without_package:
                 record.qty_done = self.weight_1 - self.weight_2
 
             client.close()
@@ -157,7 +157,7 @@ class StockPicking(models.Model):
                 self.weight_2 = 0.0
                 self.is_get_weight_2 = False
 
-            for record in self.move_line_nosuggest_ids:
+            for record in self.move_line_ids_without_package:
                 record.qty_done = self.weight_1 - self.weight_2
 
             client.close()
@@ -169,7 +169,7 @@ class StockPicking(models.Model):
     @api.onchange('weight_1', 'weight_2')
     def onchange_weight(self):
         if self.weight_1 != 0.0 or self.weight_2 != 0.0:
-            for record in self.move_line_nosuggest_ids:
+            for record in self.move_line_ids_without_package:
                 record.qty_done = self.weight_1 - self.weight_2
 
 
@@ -180,7 +180,7 @@ class StockPicking(models.Model):
         ticket = str(self.weight_id.code)
         sequence = str(self.weight_id.sequence_id._next()) if self.weight_id.sequence_id else ''
 
-        for record in self.move_line_nosuggest_ids:
+        for record in self.move_line_ids_without_package:
             barcode  = str(record.product_id.material_code) if record.product_id.material_code else ''
 
             for shift in self.env['shift.weight'].search([]):
@@ -214,7 +214,7 @@ class StockPicking(models.Model):
             for record in self.purchase_id.order_line:
                 record.discount = self.rejected
 
-        for record in self.move_line_nosuggest_ids:
+        for record in self.move_line_ids_without_package:
             record.qty_done = self.weight_1 - self.weight_2
 
         return rec
