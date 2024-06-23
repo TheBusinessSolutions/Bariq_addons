@@ -5,7 +5,8 @@
         <field name="inherit_id" ref="purchase.purchase_order_form"/>
         <field name="arch" type="xml">
             <field name="partner_id" position="after">
-                <field name="imported_order" attrs="{'invisible': [('state','in',('draft','sent'))]}"/>
+                <field name="imported_order" />
+                <!-- attrs="{'invisible': [('state','in',('draft','sent'))]}"/> -->
             </field>
             <field name='imported_order' position="after">
                 <field name='shipment_status' attrs="{'visible':[('imported_order','=',True)]}"/>
