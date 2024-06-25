@@ -19,7 +19,7 @@
     'demo': [],
     "license": "OPL-1",
     'images': ['static/description/banner.jpg'],
-   
+    'live_test_url': 'https://youtu.be/6pql7VwPPjo',
     'installable': True,
     'application': True,
     'auto_install': False,
