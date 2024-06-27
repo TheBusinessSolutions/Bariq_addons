@@ -1,0 +1,12 @@
+<odoo>
+    <record id="print_product_barcode_line" model="ir.ui.view">
+        <field name="name">line barcode print button</field>
+        <field name="model">stock.move.line</field>
+        <field name="inherit_id" ref="stock.view_move_line_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//form/sheet/notebook/page[@name='operations']" position="inside">
+                <button name="action_open_label_layout" type="object" class="fa fa-barcode font-weight-bolder" string="Print Barcode"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>
