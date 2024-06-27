@@ -1,10 +1,10 @@
-from odoo import models
+from odoo import models, fields
 
 
 class StockLinePrintBarcode(models.Model):
-    _inherit = "stock.move"
-    _inherit = 'stock.move.line'
-    bales_number = fields.Integer(string="Bales", size=2, related='move_id.purchase_line_id.bales_number')
+    _inherit = ['stock.move', 'stock.move.line']
+    
+    bales_number = fields.Integer(string="Bales", related='move_id.purchase_line_id.bales_number')
     is_dawar_picking = fields.Boolean(related='picking_id.is_dawar_picking')
 
     def action_open_label_layout(self):
