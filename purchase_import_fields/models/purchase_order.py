@@ -33,3 +33,16 @@ class PurchaseOrder(models.Model):
     sample_withdrawal_date = fields.Date(string='تاريخ سحب العينة')
     conformity_certificate_number = fields.Char(string='رقم شهادة المطابقة')
     conformity_certificate_date = fields.Date(string='تاريخ شهادة المطابقة')
+    shipment_status = fields.Selection(
+    selection=[
+        ('pending_advance_payment', 'Pending Advance Payment'),
+        ('under_manufacturing', 'Under Manufacturing'),
+        ('pending_pickup', 'Pending Pickup'),
+        ('pending_vessel_arrival', 'Pending Vessel Arrival'),
+        ('pending_original_docs', 'Pending Original Docs'),
+        ('pending_customs_duties', 'Pending Customs Duties'),
+        ('under_clearance', 'Under Clearance'),
+        ('arrived', 'Arrived'),
+    ],
+    string='Shipment Status'
+)
