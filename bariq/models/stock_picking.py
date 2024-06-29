@@ -31,16 +31,85 @@ class StockPicking(models.Model):
     is_dawar_picking = fields.Boolean(compute='compute_is_dawar_picking')
     is_generate_lots = fields.Boolean()
 
+    barcode = fields.Char(string='Barcode')
+
+
+    def action_open_label_layout(self):
+        view  = self.env.ref('stock.product_label_layout_form_picking')
+        bales = 0
+
+        for record in self.move_ids_without_package:
+            bales = record.bales_number
+
+        if bales != 0:
+            return {
+                'name': _('Choose Labels Layout'),
+                'type': 'ir.actions.act_window',
+                'res_model': 'product.label.layout',
+                'views': [(view.id, 'form')],
+                'target': 'new',
+                'context': {
+                    'default_product_ids': self.move_lines.product_id.ids,
+                    'default_move_line_ids': self.move_line_ids.ids,
+                    'default_picking_quantity': 'custom',
+                    'default_custom_quantity': bales,
+                },
+            }
+
+        else:
+            return {
+                'name': _('Choose Labels Layout'),
+                'type': 'ir.actions.act_window',
+                'res_model': 'product.label.layout',
+                'views': [(view.id, 'form')],
+                'target': 'new',
+                'context': {
+                    'default_product_ids': self.move_lines.product_id.ids,
+                    'default_move_line_ids': self.move_line_ids.ids,
+                    'default_picking_quantity': 'picking'
+                },
+            }
+
+
+    @api.onchange('barcode')
+    def create_new_picking_line(self):
+        if self.barcode and self.picking_type_id.code in ['outgoing', 'internal']:
+
+            stock_lot_id = self.env['stock.production.lot'].sudo().search([('name', '=', self.barcode)])
+            product_id   = False
+
+            if not stock_lot_id:
+                product_id = self.env['product.product'].sudo().search([('barcode', '=', self.barcode)])
+
+                if not product_id:
+                    raise UserError("This Barcode Not Found In Products & Lots")
+            else:
+                product_id = stock_lot_id.product_id
+
+
+            self.env['stock.move.line'].create({
+                'product_id': product_id.id,
+                'picking_id': self.id,
+                'location_id': self.location_id.id,
+                'location_dest_id': self.location_dest_id.id,
+                'qty_done': stock_lot_id.product_qty if stock_lot_id else 0.0,
+                'lot_id': stock_lot_id.id if stock_lot_id else False,
+                'product_uom_id': product_id.uom_id.id,
+                'company_id': self.env.company.id
+            })
+
+            self.barcode = False
+
 
     def close_dawar_ticket(self):
         auth_link, close_link, user_token = '', '', ''
 
         if self.env.company.link and self.env.company.link[-1] == '/':
             auth_link  = self.env.company.link + 'auth/login'
-            close_link = self.env.company.link + 'tickets/oddo/close/:id'
+            close_link = self.env.company.link + 'tickets/oddo/close/'  + self.dawar_ticket
         else:
             auth_link  = self.env.company.link + '/auth/login'
-            close_link = self.env.company.link + '/tickets/oddo/close/:id'
+            close_link = self.env.company.link + '/tickets/oddo/close/' + self.dawar_ticket
 
 
         try:

@@ -35,6 +35,11 @@
                     <button name="close_dawar_ticket" string="Close Ticket" type="object" class="oe_highlight" invisible="1"/>
                 </xpath>
 
+                <xpath expr="//field[@name='origin']" position="after">
+                    <field name="picking_type_code" invisible="1"/>
+                    <field name="barcode" attrs="{'invisible': [('picking_type_code', 'not in', ['outgoing', 'internal'])]}"/>
+                </xpath>
+
                 <xpath expr="//notebook" position="before">
                     <group attrs="{'invisible': [('is_dawar_picking', '=', False)]}">
                         <group>
