@@ -14,7 +14,7 @@
 
     'version': '15.0.1',
 
-    'depends': ['base', 'mail', 'web', 'purchase', 'stock', 'purchase_stock', 'purchase_line_discount'],
+    'depends': ['base', 'mail', 'web', 'purchase', 'stock', 'purchase_stock', 'purchase_line_discount', 'purchase_import_fields', 'po_create_multi_picking_by_container_numbers'],
 
     'data': [
         'security/ir.model.access.csv',
