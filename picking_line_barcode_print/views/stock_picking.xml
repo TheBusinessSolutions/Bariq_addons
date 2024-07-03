@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_stock_move_line_detailed_operation_tree_inherit_print_barcode" model="ir.ui.view">
+            <field name="name">view_stock_move_line_detailed_operation_tree_inherit_print_barcode</field>
+            <field name="model">stock.move.line</field>
+            <field name="inherit_id" ref="stock.view_stock_move_line_detailed_operation_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//tree" position="inside">
+                    <button name="action_print_line_barcode" string="Print Barcode" type="object" class="btn-primary"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
