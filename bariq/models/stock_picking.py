@@ -87,16 +87,20 @@ class StockPicking(models.Model):
                 product_id = stock_lot_id.product_id
 
 
-            self.env['stock.move.line'].create({
+            move_id = self.env['stock.move'].create({
                 'product_id': product_id.id,
+                'name': product_id.name,
                 'picking_id': self.id,
+                'date': datetime.now(),
                 'location_id': self.location_id.id,
                 'location_dest_id': self.location_dest_id.id,
-                'qty_done': stock_lot_id.product_qty if stock_lot_id else 0.0,
-                'lot_id': stock_lot_id.id if stock_lot_id else False,
-                'product_uom_id': product_id.uom_id.id,
+                'quantity_done': stock_lot_id.product_qty if stock_lot_id else 0.0,
+                'product_uom': product_id.uom_id.id,
                 'company_id': self.env.company.id
             })
+
+            for record in move_id.move_line_ids:
+                record.lot_id = stock_lot_id.id if stock_lot_id else False
 
             self.barcode = False
 
@@ -273,17 +277,21 @@ class StockPicking(models.Model):
     def button_validate(self):
         rec = super(StockPicking, self).button_validate()
 
-        if not self.is_generate_lots and self.is_dawar_picking:
-            raise UserError(_('You Must Generate Lots Name Before Validate.'))
+        if self.picking_type_id.code == 'incoming':
+            if not self.is_generate_lots and self.is_dawar_picking:
+                raise UserError(_('You Must Generate Lots Name Before Validate.'))
 
-        if (not self.is_get_weight_1 or not self.is_get_weight_2) and self.is_dawar_picking:
-            raise UserError(_('You Must Get Track Weight First Before Validate.'))
+            if (not self.is_get_weight_1 or not self.is_get_weight_2) and self.is_dawar_picking:
+                raise UserError(_('You Must Get Track Weight First Before Validate.'))
 
-        if self.rejected != 0.0:
-            for record in self.purchase_id.order_line:
-                record.discount = self.rejected
+            if self.rejected != 0.0:
+                for record in self.purchase_id.order_line:
+                    record.discount = self.rejected
 
-        for record in self.move_line_ids_without_package:
-            record.qty_done = self.weight_1 - self.weight_2
+            for record in self.move_line_ids_without_package:
+                record.qty_done = self.weight_1 - self.weight_2
+
+            if self.is_dawar_picking:
+                self.close_dawar_ticket()
 
         return rec
