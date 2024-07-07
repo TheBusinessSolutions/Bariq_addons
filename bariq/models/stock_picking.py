@@ -127,11 +127,19 @@ class StockPicking(models.Model):
 
         try:
             headers  = {'Authorization': f'Bearer {user_token}', 'Content-Type': 'application/json'}
-            payload  = {'grant_type': 'client_credentials', 'weighBridgeId': "oddoman", 'netWeight': "10"}
-            response = requests.request("POST", close_link, headers=headers, data=payload)
+            payload  = {
+                'grant_type'  : 'client_credentials',
+                'weighBridgeId': self.weight_ticket_number,
+                'netWeight'   : (self.weight_1 - self.weight_2) * (self.rejected / 100),
+                'firstWeight' : self.weight_1,
+                'secondWeight': self.weight_2,
+                'grossWeight' : self.weight_1 - self.weight_2,
+                'rejectedRate': self.rejected / 100
+            }
+            response = requests.patch(close_link, json=payload, headers=headers)
         except Exception as e:
             raise UserError("We Can't Process Request: (%s)" % e)
-        
+
 
     @api.onchange('weight_1', 'weight_2')
     def action_calculate_done_qty(self):
