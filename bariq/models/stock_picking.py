@@ -137,7 +137,7 @@ class StockPicking(models.Model):
                 
                 
                 #this code is made to correct the calculation method to show
-                # the net quantity
+                # the net quantity.
                 'netWeight'   : (self.weight_1 - self.weight_2)-((self.weight_1 - self.weight_2) * (self.rejected / 100)),
 
 
