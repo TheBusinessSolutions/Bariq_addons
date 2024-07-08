@@ -134,15 +134,11 @@ class StockPicking(models.Model):
                 #this section to calculate the net amount and sent to DAWR close
                 #this is the original code to calcualte the net weight
                 #'netWeight'   : (self.weight_1 - self.weight_2) * (self.rejected / 100),
+                
+                
                 #this code is made to correct the calculation method to show
                 # the net quantity
                 'netWeight'   : (self.weight_1 - self.weight_2)-((self.weight_1 - self.weight_2) * (self.rejected / 100)),
-
-
-
-
-                'netWeight'   : (self.weight_1 - self.weight_2) * (self.rejected / 100),
-
 
 
                 'firstWeight' : self.weight_1,
