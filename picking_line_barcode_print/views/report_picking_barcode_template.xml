@@ -8,10 +8,11 @@
                         <div class="page">
                             <div style="padding: 5px!important; margin: 5px!important">
                                 <center>
-                                    <t t-if="o.product_id.barcode">
+                                    <!-- remove the product barcode from the print -->
+                                    <!-- <t t-if="o.product_id.barcode">
                                         <p style="font-size: 10px">Product Barcode: <t t-esc="o.product_id.barcode"/></p>
                                         <img t-att-src="'/report/barcode/?type=EAN13&amp;value=%s' % o.product_id.barcode" style="width: 200px!important; margin-top: -15px!important; margin-left: -18px!important"/>
-                                    </t>
+                                    </t> -->
 
                                     <t t-if="o.lot_id">
                                         <p style="font-size: 10px">Lot Barcode: <t t-esc="o.lot_id.name"/></p>
