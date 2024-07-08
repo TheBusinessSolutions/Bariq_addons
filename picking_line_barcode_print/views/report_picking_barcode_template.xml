@@ -5,14 +5,14 @@
             <t t-call="web.basic_layout">
                 <t t-foreach="docs" t-as="o">
                     <t t-foreach="range(o.bales_number)" t-as="bale">
-                        <!-- <div class="page">
+                        <div class="page">
                             <div style="padding: 5px!important; margin: 5px!important">
                                 <center>
-                                     remove the product barcode from the print
+                                     <!-- remove the product barcode from the print
                                     <t t-if="o.product_id.barcode">
                                         <p style="font-size: 10px">Product Barcode: <t t-esc="o.product_id.barcode"/></p>
                                         <img t-att-src="'/report/barcode/?type=EAN13&amp;value=%s' % o.product_id.barcode" style="width: 200px!important; margin-top: -15px!important; margin-left: -18px!important"/>
-                                    </t> 
+                                    </t>  -->
 
                                     <t t-if="o.lot_id">
                                         <p style="font-size: 10px">Lot Barcode: <t t-esc="o.lot_id.name"/></p>
@@ -20,19 +20,10 @@
                                     </t>
                                 </center>
                             </div>
-                        </div>-->
+                        </div>
                         
 
-                        <div class="page">
-                            <div style="padding: 5px; margin: 5px; display: flex; justify-content: center; align-items: center; height: 100vh;">
-                                <div style="text-align: center;">
-                                    <t t-if="o.lot_id">
-                                        <p style="font-size: 10px;">Lot Barcode: <t t-esc="o.lot_id.name"/></p>
-                                        <img t-att-src="'/report/barcode/?type=Code128&amp;value=%s' % o.lot_id.name" style="width: 200px; margin-top: -15px;"/>
-                                    </t>
-                                </div>
-                            </div>
-                        </div>
+                        
                     </t>
                 </t>
             </t>
