@@ -1,41 +1,37 @@
 <!-- print_warehouse_weight_data/views/report_deliveryslip_templates.xml -->
 <odoo>
     <template id="report_deliveryslip_document_custom" inherit_id="stock.report_delivery_document">
-        <!-- <xpath expr="//div[@class='page']" position="inside"> -->
-        
-        <!--add DAWAR ticket number-->
-        <xpath expr="//div[@name='div_origin']" position="after">
-            <strong>DAWAR:</strong>
-            <p t-field="o.dawar_ticket"/>
-        </xpath>
         
         <xpath expr="//div[@class='row mt32 mb32']" position="after">
             <div class="custom-fields">
                 <table style="width: 100%;">
                     <tr>
-                        <td class="text-left">Truck number</td>
+                        <td class="text-left">Truck Number:</td>
                         <td class="text-left"><span t-esc="o.truck_number"/></td>
                     
-                        <td class="text-left">Trailer number</td>
+                        <td class="text-left">Trailer Number:</td>
                         <td class="text-left"><span t-esc="o.trailer_number"/></td>
                     </tr>
                     <tr>
-                        <td class="text-left">Driver name</td>
+                        <td class="text-left">Driver Name:</td>
                         <td class="text-left"><span t-esc="o.driver_name"/></td>
                     
-                        <td class="text-left">Driver license</td>
+                        <td class="text-left">Driver license:</td>
                         <td class="text-left"><span t-esc="o.driver_license"/></td>
                     </tr>
                     <tr>
-                        <td class="text-left">Weight</td>
+                        <td class="text-left">Weight:</td>
                         <td class="text-left"><span t-esc="o.weight_id.name"/></td>
                     
-                        <td class="text-left">Wight Ticket</td>
+                        <td class="text-left">Wight Ticket:</td>
                         <td class="text-left"><span t-esc="o.weight_ticket_number"/></td>
                     </tr>
                     <tr>
-                        <td class="text-left">Wight 1</td>
+                        <td class="text-left">Wight 1:</td>
                         <td class="text-left"><span t-esc="o.weight_1"/></td>
+
+                        <td class="text-left">DAWAR:</td>
+                        <td class="text-left"><span t-esc="o.dawar_ticket"/></td>
                     </tr>
                     <tr>
                         <td class="text-left">Wight 2</td>
