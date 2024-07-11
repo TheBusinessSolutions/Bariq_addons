@@ -8,24 +8,21 @@
                     <tr>
                         <td class="text-left">Truck number</td>
                         <td class="text-left"><span t-esc="o.truck_number"/></td>
-                    </tr>
-                    <tr>
+                    
                         <td class="text-left">Trailer number</td>
                         <td class="text-left"><span t-esc="o.trailer_number"/></td>
                     </tr>
                     <tr>
                         <td class="text-left">Driver name</td>
                         <td class="text-left"><span t-esc="o.driver_name"/></td>
-                    </tr>
-                    <tr>
+                    
                         <td class="text-left">Driver license</td>
                         <td class="text-left"><span t-esc="o.driver_license"/></td>
                     </tr>
                     <tr>
                         <td class="text-left">Weight</td>
-                        <td class="text-left"><span t-esc="o.weight_id"/></td>
-                    </tr>
-                    <tr>
+                        <td class="text-left"><span t-esc="o.weight_id.name"/></td>
+                    
                         <td class="text-left">Wight Ticket</td>
                         <td class="text-left"><span t-esc="o.weight_ticket_number"/></td>
                     </tr>
