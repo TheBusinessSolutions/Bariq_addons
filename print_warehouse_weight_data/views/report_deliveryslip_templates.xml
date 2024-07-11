@@ -51,6 +51,16 @@
     
     </template>
 
+<!-- Adding 'Bales' header before 'Delivered' header in move line table -->
+    <template id="stock_report_delivery_document_custom" inherit_id="stock.report_delivery_document">
+        
+        <xpath expr="//table[@name='stock_move_line_table']/thead/tr/th[@name='th_sml_quantity']" position="before">
+            <th name="th_sml_bales" class="text-center">
+                <strong>Bales</strong>
+            </th>
+        </xpath>
+    </template>
+
 <!--include the bale number in the move line if the move has serial number-->
     <template id="stock_report_delivery_has_serial_move_line_custom" inherit_id="stock.stock_report_delivery_has_serial_move_line">
         <xpath expr="//td[@class='text-center' and @name='move_line_lot_qty_done']" position="before">
@@ -59,4 +69,6 @@
             </td>
         </xpath>
     </template>
+
+
 </odoo>
