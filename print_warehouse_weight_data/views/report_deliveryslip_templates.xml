@@ -1,6 +1,6 @@
 <!-- print_warehouse_weight_data/views/report_deliveryslip_templates.xml -->
 <odoo>
-    <template id="report_deliveryslip_document_custom" inherit_id="stock.report_deliveryslip_document">
+    <template id="report_deliveryslip_document_custom" inherit_id="stock.report_delivery_document">
         <xpath expr="//div[@class='page']" position="inside">
             <div class="custom-fields">
                 <p>Weight Name: <span t-esc="o.weight_id"/></p>
