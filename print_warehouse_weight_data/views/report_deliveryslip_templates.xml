@@ -50,4 +50,13 @@
         </xpath>
     
     </template>
+
+<!--include the bale number in the move line if the move has serial number-->
+    <template id="stock_report_delivery_has_serial_move_line_custom" inherit_id="stock.stock_report_delivery_has_serial_move_line">
+        <xpath expr="//td[@class='text-center' and @name='move_line_lot_qty_done']" position="before">
+            <td>
+                <span t-field="move.bales_number"/>
+            </td>
+        </xpath>
+    </template>
 </odoo>
