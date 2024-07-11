@@ -2,6 +2,13 @@
 <odoo>
     <template id="report_deliveryslip_document_custom" inherit_id="stock.report_delivery_document">
         <!-- <xpath expr="//div[@class='page']" position="inside"> -->
+        
+        <!--add DAWAR ticket number-->
+        <xpath expr="//div[@name='div_origin']" position="after">
+            <strong>DAWAR:</strong>
+            <p t-field="o.dawar_ticket"/>
+        </xpath>
+        
         <xpath expr="//div[@class='row mt32 mb32']" position="after">
             <div class="custom-fields">
                 <table style="width: 100%;">
