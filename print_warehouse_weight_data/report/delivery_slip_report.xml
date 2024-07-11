@@ -1,0 +1,12 @@
+<!-- print_warehouse_weight_data/report/delivery_slip_report.xml -->
+<odoo>
+    <report
+        id="action_report_deliveryslip"
+        model="stock.picking"
+        string="Delivery Slip"
+        report_type="qweb-pdf"
+        name="print_warehouse_weight_data.report_deliveryslip_document_custom"
+        file="print_warehouse_weight_data.report_deliveryslip_document_custom"
+        print_report_name="(object.name or object.display_name or '').replace('/','_')"
+    />
+</odoo>
