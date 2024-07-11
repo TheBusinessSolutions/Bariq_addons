@@ -42,5 +42,12 @@
                 </table>
             </div>
         </xpath>
+
+
+         
+        <xpath expr="//table[@name='stock_move_table']//td[3]/span[@t-field='move.quantity_done']" position="before">
+            <span t-field="move.bales_number"/>
+        </xpath>
+    
     </template>
 </odoo>
