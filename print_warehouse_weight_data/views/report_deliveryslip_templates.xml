@@ -1,7 +1,8 @@
 <!-- print_warehouse_weight_data/views/report_deliveryslip_templates.xml -->
 <odoo>
     <template id="report_deliveryslip_document_custom" inherit_id="stock.report_delivery_document">
-        <xpath expr="//div[@class='page']" position="inside">
+        <!-- <xpath expr="//div[@class='page']" position="inside"> -->
+        <xpath expr="//div[@class='row mt32 mb32']" position="after">
             <div class="custom-fields">
                 <p>Weight Name: <span t-esc="o.weight_id"/></p>
                 <p>Ticket Number: <span t-esc="o.weight_ticket_number"/></p>
