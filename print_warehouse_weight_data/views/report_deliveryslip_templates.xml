@@ -4,7 +4,7 @@
         <!-- <xpath expr="//div[@class='page']" position="inside"> -->
         <xpath expr="//div[@class='row mt32 mb32']" position="after">
             <div class="custom-fields">
-                <table class="table table-sm" t-if="o.state!='done'" name="ticket_details">
+                <table >
                     <tr>
                         <td class="text-left">Truck number</td>
                         <td class="text-left"><span t-esc="o.truck_number"/></td>
@@ -41,7 +41,7 @@
                         <td class="text-left">Rejected %</td>
                         <td class="text-left"><span t-esc="o.rejected"/></td>
                     </tr>
-                    
+
                 </table>
             </div>
         </xpath>
