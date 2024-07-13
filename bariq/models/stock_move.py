@@ -8,6 +8,8 @@ class StockMove(models.Model):
 
 
     bales_number = fields.Integer(string="Bales", compute='compute_bales_number')
+    bariq_lot_id = fields.Char(string="Bariq Lot ID")
+
 
     def compute_bales_number(self):
         for record in self:

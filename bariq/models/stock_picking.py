@@ -86,21 +86,17 @@ class StockPicking(models.Model):
             else:
                 product_id = stock_lot_id.product_id
 
-
-            move_id = self.env['stock.move'].create({
+            self.move_ids_without_package = [(0, 0, {
                 'product_id': product_id.id,
                 'name': product_id.name,
-                'picking_id': self.id,
                 'date': datetime.now(),
                 'location_id': self.location_id.id,
                 'location_dest_id': self.location_dest_id.id,
                 'quantity_done': stock_lot_id.product_qty if stock_lot_id else 0.0,
                 'product_uom': product_id.uom_id.id,
-                'company_id': self.env.company.id
-            })
-
-            for record in move_id.move_line_ids:
-                record.lot_id = stock_lot_id.id if stock_lot_id else False
+                'company_id': self.env.company.id,
+                'bariq_lot_id': stock_lot_id.id if stock_lot_id else False
+            })]
 
             self.barcode = False
 
@@ -130,17 +126,7 @@ class StockPicking(models.Model):
             payload  = {
                 'grant_type'  : 'client_credentials',
                 'weighBridgeId': self.weight_ticket_number,
-               
-                #this section to calculate the net amount and sent to DAWR close
-                #this is the original code to calcualte the net weight
-                #'netWeight'   : (self.weight_1 - self.weight_2) * (self.rejected / 100),
-                
-                
-                #this code is made to correct the calculation method to show
-                # the net quantity.
-                'netWeight'   : (self.weight_1 - self.weight_2)-((self.weight_1 - self.weight_2) * (self.rejected / 100)),
-
-
+                'netWeight'   : (self.weight_1 - self.weight_2) * (self.rejected / 100),
                 'firstWeight' : self.weight_1,
                 'secondWeight': self.weight_2,
                 'grossWeight' : self.weight_1 - self.weight_2,
@@ -293,8 +279,6 @@ class StockPicking(models.Model):
 
 
     def button_validate(self):
-        rec = super(StockPicking, self).button_validate()
-
         if self.picking_type_id.code == 'incoming':
             if not self.is_generate_lots and self.is_dawar_picking:
                 raise UserError(_('You Must Generate Lots Name Before Validate.'))
@@ -312,4 +296,10 @@ class StockPicking(models.Model):
             if self.is_dawar_picking:
                 self.close_dawar_ticket()
 
-        return rec
+
+        if self.picking_type_id.code in ['outgoing', 'internal']:
+            for record in self.move_ids_without_package:
+                for line in record.move_line_ids:
+                    line.lot_id = int(record.bariq_lot_id) if record.bariq_lot_id else False
+
+        return super(StockPicking, self).button_validate()
