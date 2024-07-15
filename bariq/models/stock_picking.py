@@ -126,7 +126,8 @@ class StockPicking(models.Model):
             payload  = {
                 'grant_type'  : 'client_credentials',
                 'weighBridgeId': self.weight_ticket_number,
-                'netWeight'   : (self.weight_1 - self.weight_2) * (self.rejected / 100),
+                # 'netWeight'   : (self.weight_1 - self.weight_2) * (self.rejected / 100),
+                'netweight'   : abs((self.weight_1 - self.weight_2) * (self.rejected / 100)),
                 'firstWeight' : self.weight_1,
                 'secondWeight': self.weight_2,
                 'grossWeight' : self.weight_1 - self.weight_2,
@@ -140,7 +141,7 @@ class StockPicking(models.Model):
     @api.onchange('weight_1', 'weight_2')
     def action_calculate_done_qty(self):
         for record in self.move_line_ids_without_package:
-            record.qty_done = self.weight_1 - self.weight_2
+            record.qty_done = abs(self.weight_1 - self.weight_2)
 
 
     @api.onchange('weight_1')
@@ -179,14 +180,16 @@ class StockPicking(models.Model):
         self.weight_1 = 0.0
         self.is_get_weight_1 = False
         for record in self.move_line_ids_without_package:
-            record.qty_done = self.weight_1 - self.weight_2
+            # record.qty_done = self.weight_1 - self.weight_2
+            record.qty_done = abs(self.weight_1 - self.weight_2)
 
 
     def reset_weight_2(self):
         self.weight_2 = 0.0
         self.is_get_weight_2 = False
         for record in self.move_line_ids_without_package:
-            record.qty_done = self.weight_1 - self.weight_2
+            # record.qty_done = self.weight_1 - self.weight_2
+            record.qty_done = abs(self.weight_1 - self.weight_2)
 
 
     def get_weight_1(self):
@@ -208,7 +211,8 @@ class StockPicking(models.Model):
                 self.is_get_weight_1 = False
 
             for record in self.move_line_ids_without_package:
-                record.qty_done = self.weight_1 - self.weight_2
+                # record.qty_done = self.weight_1 - self.weight_2
+                record.qty_done = abs(self.weight_1 - self.weight_2)
 
             client.close()
             
@@ -235,7 +239,8 @@ class StockPicking(models.Model):
                 self.is_get_weight_2 = False
 
             for record in self.move_line_ids_without_package:
-                record.qty_done = self.weight_1 - self.weight_2
+                # record.qty_done = self.weight_1 - self.weight_2
+                record.qty_done = abs(self.weight_1 - self.weight_2)
 
             client.close()
 
@@ -247,7 +252,8 @@ class StockPicking(models.Model):
     def onchange_weight(self):
         if self.weight_1 != 0.0 or self.weight_2 != 0.0:
             for record in self.move_line_ids_without_package:
-                record.qty_done = self.weight_1 - self.weight_2
+                # record.qty_done = self.weight_1 - self.weight_2
+                record.qty_done = abs(self.weight_1 - self.weight_2)
 
 
     def action_generate_lots_name(self):
@@ -291,7 +297,8 @@ class StockPicking(models.Model):
                     record.discount = self.rejected
 
             for record in self.move_line_ids_without_package:
-                record.qty_done = self.weight_1 - self.weight_2
+                # record.qty_done = self.weight_1 - self.weight_2
+                record.qty_done = abs(self.weight_1 - self.weight_2)
 
             if self.is_dawar_picking:
                 self.close_dawar_ticket()
