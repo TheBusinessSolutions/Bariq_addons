@@ -2,12 +2,62 @@
 
 from odoo.http import request, Response, route
 from odoo import http
+import datetime
 import json
+import jwt
+
+
+def verify_jwt_token(token):
+    secret_key = request.env['ir.config_parameter'].sudo().get_param('database.secret')
+    try:
+        payload = jwt.decode(token, secret_key, algorithms=['HS256'])
+        return payload['user_id']
+    except (jwt.ExpiredSignatureError, jwt.InvalidTokenError) as e:
+        return None
+
 
 class BariqAPI(http.Controller):
 
+
+    @http.route('/api/authenticate', type='json', auth='none', methods=['POST'], csrf=False)
+    def authenticate(self, **kwargs):
+        data = json.loads(request.httprequest.data)
+        
+        username = data.get('username')
+        password = data.get('password')
+
+        if not username or not password:
+            response = {"code": 400, "message": "Missing username or password", "data": {}}
+            return response
+
+        uid = request.session.authenticate(request.env.cr.dbname, username, password)
+
+        if uid:
+            secret_key = request.env['ir.config_parameter'].sudo().get_param('database.secret')
+            payload = {'user_id': uid, 'exp': datetime.datetime.utcnow() + datetime.timedelta(days=1)}
+            token   = jwt.encode(payload, secret_key, algorithm='HS256')
+
+            response = {"code": 200, "message": "Token Generated Successfully", "data": {'token': token}}
+            return response
+        else:
+            response = {"code": 400, "message": "Invalid username or password", "data": {}}
+            return response
+
+
     @route('/create/purchase/order', type='json', auth='public', methods=['POST'], sitemap=False, csrf=False)
     def create_purchase_order(self, **kw):
+        token = request.httprequest.headers.get('Authorization')
+
+        if not token:
+            response = {"code": 200, "message": "Missing token", "data": {}}
+            return response
+
+        user_id = verify_jwt_token(token)
+        
+        if not user_id:
+            response = {"code": 400, "message": "Invalid or expired token", "data": {}}
+            return response
+
         data  = json.loads(request.httprequest.data)
         lines = []
 
