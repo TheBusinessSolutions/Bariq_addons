@@ -71,9 +71,9 @@ class BariqAPI(http.Controller):
             return response
 
         for line in data.get('lines').values():
-            product_id = request.env['product.product'].sudo().search([('material_code', '=', line['product_code'])], limit=1)
+            product_id = request.env['product.product'].sudo().search([('default_code', '=', line['product_code'])], limit=1)
             if not product_id:
-                response = {"code": 400, "message": "Product Code is not Found", "data": {'material_code': line['product_code']}}
+                response = {"code": 400, "message": "Product Code is not Found", "data": {'default_code': line['product_code']}}
                 return response
 
             lines.append((0, 6, {
