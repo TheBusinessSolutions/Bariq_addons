@@ -70,6 +70,7 @@
                 </xpath>
 
                 <xpath expr="//notebook/page[@name='operations']/field[@name='move_ids_without_package']/tree/field[@name='quantity_done']" position="before">
+                    <field name="bariq_lot_id" invisible="1"/>
                     <field name="bales_number"/>
                 </xpath>
 
