@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_bulk_cancel_picking_form" model="ir.ui.view">
+        <field name="name">view.bulk.cancel.picking.form</field>
+        <field name="model">bulk.cancel.picking</field>
+        <field name="arch" type="xml">
+            <form string="Bulk Cancel">
+                <strong>Are you sure to Cancel?</strong>
+                <footer>
+                    <button name="bulk_cancel_picking" string="Cancel Picking" type="object" class="btn-primary"/>
+                    <button string="Cancel" class="btn-default" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <act_window id ="action_bulk_cancel_picking"
+        name="Bulk Cancel Picking"
+        res_model="bulk.cancel.picking"
+        binding_model="stock.picking"
+        view_mode="form"
+        target="new"/>
+    
+    <act_window id ="action_bulk_cancel_sale"
+        name="Bulk Cancel Sale"
+        res_model="bulk.cancel.picking"
+        binding_model="sale.order"
+        view_mode="form"
+        target="new"/>
+        
+    <act_window id ="action_bulk_purchase_cancel"
+        name="Bulk Cancel Purchas Order"
+        res_model="bulk.cancel.picking"
+        binding_model="purchase.order"
+        view_mode="form"
+        target="new"
+        />
+    
+    <act_window id ="action_bulk_inv_cancel"
+        name="Bulk Cancel Invoice"
+        res_model="bulk.cancel.picking"
+        binding_model="account.move"
+        view_mode="form"
+        target="new"
+        />
+</odoo>

@@ -1,0 +1,23 @@
+{
+    'name': "Mass Cancel Picking",
+    'summary': """ This module allows to Cancel or Set to Draft Picking.""",
+    'author': "Laxicon Solution",
+    'website': "www.laxicon.in",
+    'sequence': 101,
+    'support': 'info@laxicon.in',
+    'category': 'Stock',
+    'version': '15.0.1',
+    'license': 'LGPL-3',
+    'description': """ This module allows to Cancel or Set to Draft Picking.""",
+    'depends': ['stock', 'sale_stock'],
+    'data': [
+        'security/ir.model.access.csv',
+        'views/stock_picking_view.xml',
+        "wizard/bulk_cancel_picking_views.xml",
+        "wizard/bulk_set_to_draft.xml",
+    ],
+    'images':  ["static/description/banner.png"],
+    'installable': True,
+    'auto_install': False,
+    'application': True,
+}

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_bulk_set_draft_form" model="ir.ui.view">
+        <field name="name">view.bulk.set.draft.form</field>
+        <field name="model">bulk.set.draft</field>
+        <field name="arch" type="xml">
+            <form string="Bulk Draft Set">
+                <strong>Are you sure to set Draft?</strong>
+                <footer>
+                    <button name="bulk_draft_set" string="Set To Draft" type="object" class="btn-primary"/>
+                    <button string="Cancel" class="btn-default" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <act_window id ="action_picking_draft"
+        name="Bulk Picking Set To Draft "
+        res_model="bulk.set.draft"
+        binding_model="stock.picking"
+        view_mode="form"
+        target="new"/>
+    
+    <act_window id ="action_sale_order_draft"
+        name="Bulk Sale Order Set To Draft "
+        res_model="bulk.set.draft"
+        binding_model="sale.order"
+        view_mode="form"
+        target="new"/>
+    <act_window id ="action_journal_ent_draft"
+        name="Bulk Invoice Set To Draft "
+        res_model="bulk.set.draft"
+        binding_model="account.move"
+        view_mode="form"
+        target="new"/>
+    <act_window id ="action_purchas_order_draft"
+        name="Bulk Purchase Order Set To Draft "
+        res_model="bulk.set.draft"
+        binding_model="purchase.order"
+        view_mode="form"
+        target="new"/>
+</odoo>

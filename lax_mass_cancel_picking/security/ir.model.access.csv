@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_bulk_cancel_picking,bulk.cancel.picking,model_bulk_cancel_picking,,1,1,1,1
+access_bulk_set_draft,bulk.set.draft,model_bulk_set_draft,,1,1,1,1
