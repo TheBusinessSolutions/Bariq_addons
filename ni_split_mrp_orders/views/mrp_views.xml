@@ -1,0 +1,32 @@
+<odoo>
+    <data>
+
+        <record id="mrp_order_inherit_form" model="ir.ui.view">
+            <field name="name">mrp_order_inherit_form</field>
+            <field name="model">mrp.production</field>
+            <field name="inherit_id" ref="mrp.mrp_production_form_view"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//header/button[@name='button_unbuild']" position="before">
+                    <button name="btn_split_mo" string="Split MO" type="object" class="btn-primary"
+                            attrs="{'invisible': [('state', '!=', 'confirmed')]}"
+                            groups="ni_split_mrp_orders.allow_split_mo"/>
+                </xpath>
+
+                <div name="button_box" position="inside">
+                    <button name="list_split_orders"
+                            class="oe_stat_button"
+                            icon="fa-code-fork"
+                            type="object"
+                            attrs="{'invisible': [('split_mo_count', '=', 0)]}">
+                        <field name="split_mo_count" string="Split Orders" widget="statinfo"/>
+                    </button>
+                </div>
+
+
+            </field>
+        </record>
+
+
+    </data>
+</odoo>

@@ -1,0 +1,24 @@
+<odoo>
+    <data>
+
+        <record id='split_mo_wizard_view_form' model='ir.ui.view'>
+            <field name="name">split_mo_wizard_view_form</field>
+            <field name="model">split.mo.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Split MO">
+                    <p>Choose the split based on No of Qty/Split, that qty reduced/divided on main MO.</p>
+                    <group col="4">
+                        <field name="split_mo_by"/>
+                        <field name="split_mo_no"/>
+                    </group>
+                    <footer>
+                        <button name="btn_split" type="object" string="Split" class="btn-primary"/>
+                        <button string="Cancel" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+
+    </data>
+</odoo>
