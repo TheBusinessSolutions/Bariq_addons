@@ -57,10 +57,18 @@ class MrpProduction(models.Model):
     def write(self, vals):
         if 'state' in vals and vals['state'] == 'done':
             for production in self:
+                product_tracking = production.product_id.tracking
                 inspections = production.qc_inspections_ids.filtered(
                     lambda i: i.state in ('draft', 'ready', 'waiting')
                 )
-                if inspections:
+                #check if the product has a tracking and if there are no inspections
+                #stop mark the MO as done
+                if product_tracking != 'none' and not production.qc_inspections_ids:
+                    raise UserError(
+                        "You cannot mark the MO as done because no inspection test has been created for the product with tracking."
+                    )
+                #check if there are inspections in the MO but the state is not done
+                #stop mark the MO as done                if inspections:
                     raise UserError(
                         "You cannot mark the MO as done because there are inspection tests in draft, ready, or waiting state."
                     )
