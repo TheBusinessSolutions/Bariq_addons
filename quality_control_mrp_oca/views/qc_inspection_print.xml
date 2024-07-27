@@ -38,27 +38,27 @@
                                     <tr>
                                         <td class="col-xs-3">><span t-esc="line.name"/></td>
                                         <td class="col-xs-3"><span t-esc="line.question_type"/></td>
-                                        <!-- <td class="col-xs-3"><span t-esc="line.qualitative_value"/></td>
-                                        <td class="col-xs-3"><span t-esc="line.quantitative_value"/></td> -->
+                                        
+
                                         <td class="col-xs-3">
                                             <t t-if="line.qualitative_value">
-                                                    <span t-esc="line.qualitative_value"/>
-                                                </t>
-                                                <t t-else="">
-                                                    <!-- Render an empty span if the value is None -->
-                                                    <span/>
-                                                </t>
+                                                <span t-esc="line.qualitative_value"/>
                                             </t>
+                                            <t t-else="">
+                                                <!-- Render an empty span if the value is None -->
+                                                <span/>
+                                            </t>
+                                            
                                         </td>
                                         <td class="col-xs-3">
                                             <t t-if="line.quantitative_value">
-                                                    <span t-esc="line.quantitative_value"/>
-                                                </t>
-                                                <t t-else="">
-                                                    <!-- Render an empty span if the value is None -->
-                                                    <span/>
-                                                </t>
+                                                <span t-esc="line.quantitative_value"/>
                                             </t>
+                                            <t t-else="">
+                                            <!-- Render an empty span if the value is None -->
+                                                <span/>
+                                            </t>
+                                            
                                         </td>
 
                                         <td class="col-xs-3"><span t-esc="line.valid_values"/></td>
