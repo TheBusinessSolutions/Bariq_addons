@@ -41,7 +41,7 @@
                                     </tr>    
                                     <tr>
                                         <td class="col-xs-3"><strong>Test Date:</strong></td>
-                                        <td class="col-xs-3"><strong><span t-esc="doc.start"/></strong></td>
+                                        <td class="col-xs-3"><strong><span t-esc="doc.date"/></strong></td>
                                     </tr>
                                     <tr>
                                         <td class="col-xs-3"><strong>Test Status:</strong></td>
