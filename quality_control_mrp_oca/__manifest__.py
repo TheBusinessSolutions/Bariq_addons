@@ -18,6 +18,7 @@
         "data/quality_control_mrp_data.xml",
         "views/qc_inspection_view.xml",
         "views/mrp_production_view.xml",
+        "views/qc_inspection_print.xml",
     ],
     "installable": True,
     "auto_install": True,

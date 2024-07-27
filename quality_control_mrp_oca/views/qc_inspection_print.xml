@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- Define the QWeb template for the report -->
+    <template id="report_qc_inspection_document">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="web.internal_layout">   
+                    <div class="page">
+                        <div class="oe_structure"/>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <h3>Inspection Report</h3>
+                            </div><br/>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <p><strong>Test:</strong> <span t-esc="doc.name"/></p>
+                                <p><strong>User:</strong> <span t-esc="doc.create_uid.name"/></p>
+                                <p><strong>Quantity:</strong> <span t-esc="doc.qty"/></p>
+                                <p><strong>Lot ID:</strong> <span t-esc="doc.lot_id.name"/></p>
+                            </div>
+                        </div>
+                        
+                            <h3>Inspection Lines</h3>
+                            <table class="table table-condensed">
+                            <thead>
+                                <tr>
+                                    <td class="col-xs-3"><strong>Test</strong></td>
+                                    <td class="col-xs-3"><strong>Test Type</strong></td>
+                                    <td class="col-xs-3"><strong>Qualititive Value</strong></td>
+                                    <td class="col-xs-3"><strong>Quantities Value</strong></td>
+                                    <td class="col-xs-3"><strong>Range</strong></td>
+                                    <td class="col-xs-3"><strong>Passed</strong></td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="doc.inspection_lines" t-as="line">
+                                    <tr>
+                                        <td class="col-xs-3">><span t-esc="line.name"/></td>
+                                        <td class="col-xs-3"><span t-esc="line.question_type"/></td>
+                                        <!-- <td class="col-xs-3"><span t-esc="line.qualitative_value"/></td>
+                                        <td class="col-xs-3"><span t-esc="line.quantitative_value"/></td> -->
+                                        <td class="col-xs-3">
+                                            <t t-if="line.qualitative_value">
+                                                    <span t-esc="line.qualitative_value"/>
+                                                </t>
+                                                <t t-else="">
+                                                    <!-- Render an empty span if the value is None -->
+                                                    <span/>
+                                                </t>
+                                            </t>
+                                        </td>
+                                        <td class="col-xs-3">
+                                            <t t-if="line.quantitative_value">
+                                                    <span t-esc="line.quantitative_value"/>
+                                                </t>
+                                                <t t-else="">
+                                                    <!-- Render an empty span if the value is None -->
+                                                    <span/>
+                                                </t>
+                                            </t>
+                                        </td>
+
+                                        <td class="col-xs-3"><span t-esc="line.valid_values"/></td>
+                                        <td class="col-xs-3"><span t-esc="line.success"/></td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+
+                            <!-- <table class="table table-sm">
+                                <thead>
+                                    <tr>
+                                        <th>Test</th>
+                                        <th>Result</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="doc.inspection_lines" t-as="line">
+                                        <tr>
+                                            <td><span t-esc="line.name"/></td>
+                                            <td><span t-esc="line.success"/></td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table> -->
+                    </div><!--end of div /page -->
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <!-- Define the report action -->
+    <record id="action_report_qc_inspection" model="ir.actions.report">
+        <field name="name">QC Inspection Report</field>
+        <field name="model">qc.inspection</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">quality_control_mrp_oca.report_qc_inspection_document</field>
+        <field name="report_file">quality_control_mrp_oca.report_qc_inspection_document</field>
+        <field name="binding_model_id" ref="model_qc_inspection"/>
+    </record>
+</odoo>

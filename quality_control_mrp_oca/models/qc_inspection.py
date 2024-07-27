@@ -17,6 +17,9 @@ class QcInspection(models.Model):
             res["lot_id"] = object_ref.lot_producing_id
         return res
 
+    #the print action:
+    def action_print_inspection_report(self):
+        return self.env.ref('quality_control_mrp_oca.action_report_qc_inspection').report_action(self)
     @api.depends("object_id")
     def _compute_production_id(self):
         for inspection in self:

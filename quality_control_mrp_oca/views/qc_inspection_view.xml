@@ -11,8 +11,17 @@
             <field name="product_id" position="after">
                 <field name="production_id" />
             </field>
+ <!-- Add this button inside the form view -->
+            <header>
+                <button name="action_print_inspection_report"
+                        type="object"
+                        string="Print Report"
+                        class="btn-primary"/>
+            </header>
         </field>
     </record>
+
+    <!-- The rest of your existing view records -->   
     <record model="ir.ui.view" id="qc_inspection_tree_view_production">
         <field name="name">qc.inspection.tree.view.production</field>
         <field name="model">qc.inspection</field>
