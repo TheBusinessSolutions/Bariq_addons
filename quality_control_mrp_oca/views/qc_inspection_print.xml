@@ -12,15 +12,67 @@
                                 <h3>Inspection Report</h3>
                             </div><br/>
                         </div>
-                        <div class="row">
+                        <!-- <div class="row">
                             <div class="col-xs-12">
                                 <p><strong>Test:</strong> <span t-esc="doc.name"/></p>
                                 <p><strong>User:</strong> <span t-esc="doc.create_uid.name"/></p>
                                 <p><strong>Quantity:</strong> <span t-esc="doc.qty"/></p>
                             </div>
+                        </div> -->
+                        <div >
+                            
+                            <table class="table table-condensed">
+                                <thead>
+                                    <tr>
+                                        <td class="col-xs-3"><strong>Test Number:</strong></td>
+                                        <td class="col-xs-3"><strong><span t-esc="doc.name"/></strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="col-xs-3"><strong>Product:</strong></td>
+                                        <td class="col-xs-3"><strong><span t-esc="doc.product_id.name"/></strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="col-xs-3"><strong>Batch Number:</strong></td>
+                                        <td class="col-xs-3"><strong><span t-esc="doc.lot_id"/></strong></td>
+                                    </tr>
+                                    <tr>    
+                                        <td class="col-xs-3"><strong>Quantity: </strong></td>
+                                        <td class="col-xs-3"><strong><span t-esc="doc.qty"/></strong></td>
+                                    </tr>    
+                                    <tr>
+                                        <td class="col-xs-3"><strong>Test Date:</strong></td>
+                                        <td class="col-xs-3"><strong><span t-esc="doc.start"/></strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="col-xs-3"><strong>Test Status:</strong></td>
+                                        <td class="col-xs-3">
+                                            <strong>
+                                                <t-if doc.success == "TRUE">
+                                                    <span "Passed"/>
+                                                <t-else>
+                                                    <span "Failed"/>
+                                                </t-if>
+                                            </strong>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="col-xs-3"><strong>Reference:</strong></td>
+                                        <td class="col-xs-3">
+                                            <strong>
+                                                <t t-if="doc.production_id">
+                                                    <span t-esc="doc.production_id.name"/>
+                                                </t>
+                                                <t t-if="doc.picking_id.name">
+                                                    <span t-esc="doc.picking_id.name"/>
+                                                </t>
+                                            </strong>
+                                        </td>
+                                </thead>
+                            </table>
+                            
                         </div>
                         
-                            <h3>Inspection Lines</h3>
+                            <h3 style="text-align:center">Inspection Lines</h3>
                             <table class="table table-condensed">
                             <thead>
                                 <tr>
@@ -41,8 +93,7 @@
 
                                         <td class="col-xs-3">
                                             <t t-if="line.qualitative_value">
-                                                ID: <span t-esc="line.qualitative_value.id"/>
-                                                Name: <span t-esc="line.qualitative_value.name"/>
+                                                <span t-esc="line.qualitative_value.name"/>
                                             </t>
                                             <t t-else="">
                                                 <!-- Render an empty span if the value is None -->
@@ -68,22 +119,7 @@
                             </tbody>
                         </table>
 
-                            <!-- <table class="table table-sm">
-                                <thead>
-                                    <tr>
-                                        <th>Test</th>
-                                        <th>Result</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <t t-foreach="doc.inspection_lines" t-as="line">
-                                        <tr>
-                                            <td><span t-esc="line.name"/></td>
-                                            <td><span t-esc="line.success"/></td>
-                                        </tr>
-                                    </t>
-                                </tbody>
-                            </table> -->
+                           
                     </div><!--end of div /page -->
                 </t>
             </t>
