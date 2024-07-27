@@ -47,11 +47,11 @@
                                         <td class="col-xs-3"><strong>Test Status:</strong></td>
                                         <td class="col-xs-3">
                                             <strong>
-                                                <t-if ="doc.success">
+                                                <t t-if ="doc.success">
                                                     <span "Passed"/>
-                                                <t-else>
+                                                </t>
                                                     <span "Failed"/>
-                                                </t-if>
+                                                
                                             </strong>
                                         </td>
                                     </tr>
