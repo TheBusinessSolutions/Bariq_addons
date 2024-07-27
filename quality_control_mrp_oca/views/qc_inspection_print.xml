@@ -43,7 +43,6 @@
                                             <t t-if="line.qualitative_value">
                                                 ID: <span t-esc="line.qualitative_value.id"/>
                                                 Name: <span t-esc="line.qualitative_value.name"/>
-                                                name+id: <span t-esc="line.qualitative_value.id.name"/>
                                             </t>
                                             <t t-else="">
                                                 <!-- Render an empty span if the value is None -->
