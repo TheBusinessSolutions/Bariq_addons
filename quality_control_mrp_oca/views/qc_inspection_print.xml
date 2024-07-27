@@ -48,9 +48,9 @@
                                         <td class="col-xs-3">
                                             <strong>
                                                 <t t-if ="doc.success">
-                                                    <span "Passed"/>
+                                                     "Passed"
                                                 </t>
-                                                    <span "Failed"/>
+                                                    "Failed"
                                                 
                                             </strong>
                                         </td>
