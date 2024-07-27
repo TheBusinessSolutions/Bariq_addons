@@ -33,7 +33,7 @@
                                     </tr>
                                     <tr>
                                         <td class="col-xs-3"><strong>Batch Number:</strong></td>
-                                        <td class="col-xs-3"><strong><span t-esc="doc.lot_id"/></strong></td>
+                                        <td class="col-xs-3"><strong><span t-esc="doc.lot_id.name"/></strong></td>
                                     </tr>
                                     <tr>    
                                         <td class="col-xs-3"><strong>Quantity: </strong></td>
@@ -49,9 +49,9 @@
                                             <strong>
                                                 <t t-if ="doc.success">
                                                      "Passed"
-                                                </t>
+                                                <t t-else="">
                                                     "Failed"
-                                                
+                                                </t>                                                
                                             </strong>
                                         </td>
                                     </tr>
