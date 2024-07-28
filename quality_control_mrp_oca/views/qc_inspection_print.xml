@@ -36,9 +36,9 @@
                                         <td class="col-xs-3">
                                             <strong>
                                                 <span t-esc="doc.lot_id.name"/>
-                                                <span>
+                                                <!-- <span>
                                                     <img t-att-src="'/report/barcode/?type=Code128&value=%s&width=600&height=100' % doc.lot_id.name" ; style="width:200px;height:40px;"/>
-                                                </span>
+                                                </span> -->
                                             </strong>
                                         </td>
                                     </tr>
