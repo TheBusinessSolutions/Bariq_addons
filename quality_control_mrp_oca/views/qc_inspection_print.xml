@@ -47,14 +47,16 @@
                                         <td class="col-xs-3"><strong>Test Status:</strong></td>
                                         <td class="col-xs-3">
                                             <strong>
-                                                <t t-if ="doc.success">
-                                                     "Passed"
+                                                <t t-if="doc.success">
+                                                    <t t-esc="'Passed'"/>
+                                                </t>
                                                 <t t-else="">
-                                                    "Failed"
+                                                    <t t-esc="'Failed'"/>
                                                 </t>                                                
                                             </strong>
                                         </td>
                                     </tr>
+
                                     <tr>
                                         <td class="col-xs-3"><strong>Reference:</strong></td>
                                         <td class="col-xs-3">
