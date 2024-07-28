@@ -33,7 +33,15 @@
                                     </tr>
                                     <tr>
                                         <td class="col-xs-3"><strong>Batch Number:</strong></td>
-                                        <td class="col-xs-3"><strong><span t-esc="doc.lot_id.name"/></strong></td>
+                                        <td class="col-xs-3">
+                                            <strong>
+                                                <span t-esc="doc.lot_id.name"/>
+                                                <span>
+                                                    <img t-att-src="'/report/barcode/?type=Code128&value=%s&width=600&height=100' % doc.lot_id.name" 
+                                                    style="width:200px;height:40px;"/>
+                                                </span>
+                                            </strong>
+                                        </td>
                                     </tr>
                                     <tr>    
                                         <td class="col-xs-3"><strong>Quantity: </strong></td>
