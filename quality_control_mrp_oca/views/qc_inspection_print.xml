@@ -123,6 +123,7 @@
                                         </td>
 
                                         <td class="col-xs-3"><span t-esc="line.valid_values"/></td>
+                                        <!--correct the value to show Success or Failed according to the test reslut-->
                                         <td class="col-xs-3"><span t-esc="line.success"/></td>
                                     </tr>
                                 </t>

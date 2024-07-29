@@ -40,7 +40,7 @@ class BariqAPI(http.Controller):
             response = {"code": 200, "message": "Token Generated Successfully", "data": {'token': token}}
             return response
         else:
-            response = {"code": 400, "message": "Invalid username or password", "data": {}}
+            response = {"code": 403, "message": "Invalid username or password", "data": {}}
             return response
 
 
