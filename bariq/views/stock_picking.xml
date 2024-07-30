@@ -100,7 +100,7 @@
             <field name="arch" type="xml">
                 <xpath expr="//filter[@name='date']" position="after">
                     <!-- Add a filter for dawar_ticket -->
-                    <filter string="Dawar Ticket" name="dawar_ticket_filter" domain="[('dawar_ticket', '=', self)]"/>
+                    <filter string="Dawar Ticket" name="dawar_ticket" domain="[('dawar_ticket', '=', self)]"/>
                 </xpath>
             </field>
         </record>
