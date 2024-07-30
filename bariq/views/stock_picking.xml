@@ -91,17 +91,18 @@
             </field>
         </record>
 
-    </data>
-
-            <!-- Extend the search view of stock.picking -->
+<!-- Extend the search view of stock.picking -->
         <record id="stock_picking_search_view_custom" model="ir.ui.view">
             <field name="name">stock.picking.search.custom</field>
             <field name="model">stock.picking</field>
-            <field name="inherit_id" ref="stock.view_picking_in_search"/>
+            <field name="inherit_id" ref="stock.view_picking_search"/>
             <field name="arch" type="xml">
                 <xpath expr="//search" position="inside">
                     <filter string="Dawar Ticket" name="dawar_ticket" domain="[('dawar_ticket', 'ilike', self)]"/>
                 </xpath>
             </field>
         </record>
+
+
+    </data>
 </odoo>
