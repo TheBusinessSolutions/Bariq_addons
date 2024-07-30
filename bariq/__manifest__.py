@@ -24,6 +24,6 @@
         'views/stock_weight.xml',
         'views/shift_weight.xml',
         'views/res_company.xml',
-        # 'views/search_by_fields.xml',
+        'views/search_by_fields.xml',
     ],
 }
