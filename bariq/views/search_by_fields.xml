@@ -1,27 +1,14 @@
 <odoo>
     <data>
-        <!-- Extend the stock.picking list view to include dawar_ticket field -->
+        <!-- Inherit the stock.picking list view to include dawar_ticket field -->
         <record id="view_stock_picking_list_inherit" model="ir.ui.view">
             <field name="name">stock.picking.list.inherit</field>
-            <field name="model">stock.picking.tree</field>
+            <field name="model">stock.picking</field>
             <field name="inherit_id" ref="stock.view_picking_list"/>
             <field name="arch" type="xml">
                 <xpath expr="//tree" position="inside">
                     <!-- Add the dawar_ticket field to the list view -->
                     <field name="dawar_ticket"/>
-                </xpath>
-            </field>
-        </record>
-
-        <!-- Extend the stock.picking search view to include dawar_ticket field -->
-        <record id="view_stock_picking_search_inherit" model="ir.ui.view">
-            <field name="name">stock.picking.search.inherit</field>
-            <field name="model">stock.picking</field>
-            <field name="inherit_id" ref="stock.view_picking_search"/>
-            <field name="arch" type="xml">
-                <xpath expr="//filter[@name='date']" position="after">
-                    <!-- Add a filter for dawar_ticket -->
-                    <filter string="Dawar Ticket" name="dawar_ticket_filter" domain="[('dawar_ticket', 'ilike', self)]"/>
                 </xpath>
             </field>
         </record>
