@@ -7,11 +7,12 @@ and add the ISO paragraph to the warehouse delivery-->
         
         <xpath expr="//div[@class='row mt32 mb32']" position="after">
             <div class="custom-fields" dir="rtl">
-                <table style="width: 100%;">
+                <table style="width: 100%; table-layout: fixed">
                     <tr>
-                        <td class="text-left">
+                        <td class="text-left" style="word-break: break-all">
+                            رقم السياره:<br/>
                             Truck Number:
-                            <span>رقم السياره</span>
+                            
                         </td>
                         <td class="text-left"><span t-esc="o.truck_number"/></td>
                     
