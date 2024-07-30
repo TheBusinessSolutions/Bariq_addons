@@ -33,14 +33,14 @@ and add the ISO paragraph to the warehouse delivery-->
                     </tr>
                     <tr>
                         <td class="text-right">الوزن 1:</td>
-                        <td class="text-left"><span t-esc="o.weight_1"/></td>
+                        <td class="text-right" style="text-align: right; direction: rtl !important;"><span t-esc="o.weight_1"/></td>
 
                         <td class="text-right">رقم دوًر:</td>
                         <td class="text-right"><span t-esc="o.dawar_ticket"/></td>
                     </tr>
                     <tr>
                         <td class="text-right">وزن 2</td>
-                        <td class="text-left"><span t-esc="o.weight_2"/></td>
+                        <td class="text-right"><span t-esc="o.weight_2"/></td>
                     </tr>
                     <tr>
                         <td class="text-right">نسبه الخصم %</td>
