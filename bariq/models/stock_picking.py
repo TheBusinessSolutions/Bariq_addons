@@ -12,11 +12,11 @@ from odoo import models, api, fields, _
 class StockPicking(models.Model):
     _inherit = 'stock.picking'
 
-    driver_name    = fields.Char(string="Driver Name",    compute='compute_ticket_details')
-    driver_license = fields.Char(string="Driver License", compute='compute_ticket_details')
-    truck_number   = fields.Char(string="Truck Number",   compute='compute_ticket_details')
-    trailer_number = fields.Char(string="Trailer Number", compute='compute_ticket_details')
-    dawar_ticket   = fields.Char(string="Dawar Ticket",   compute='compute_ticket_details')
+    driver_name    = fields.Char(string="Driver Name",    compute='compute_ticket_details', store=True)
+    driver_license = fields.Char(string="Driver License", compute='compute_ticket_details', store=True)
+    truck_number   = fields.Char(string="Truck Number",   compute='compute_ticket_details', store=True)
+    trailer_number = fields.Char(string="Trailer Number", compute='compute_ticket_details', store=True)
+    dawar_ticket   = fields.Char(string="Dawar Ticket",   compute='compute_ticket_details', store=True)
 
     weight_ticket_number = fields.Char(string="Ticket Number", compute='compute_weight_ticket_number', store=True)
     available_weight_ids = fields.Many2many('stock.weight', string='Available Weight', compute='compute_available_weight')
@@ -28,7 +28,7 @@ class StockPicking(models.Model):
     weight_2  = fields.Float(string="Weight 2")
     rejected  = fields.Float(string="Rejected (%)")
 
-    is_dawar_picking = fields.Boolean(compute='compute_is_dawar_picking')
+    is_dawar_picking = fields.Boolean(compute='compute_is_dawar_picking', store=True)
     is_generate_lots = fields.Boolean()
 
     barcode = fields.Char(string='Barcode')
@@ -126,7 +126,6 @@ class StockPicking(models.Model):
             payload  = {
                 'grant_type'  : 'client_credentials',
                 'weighBridgeId': self.weight_ticket_number,
-                # 'netWeight'   : (self.weight_1 - self.weight_2) * (self.rejected / 100),
                 'netweight'   : abs((self.weight_1 - self.weight_2) * (self.rejected / 100)),
                 'firstWeight' : self.weight_1,
                 'secondWeight': self.weight_2,
@@ -158,7 +157,8 @@ class StockPicking(models.Model):
         for record in self:
             record.available_weight_ids = self.env['stock.weight'].search([]).filtered(lambda weight: record.env.user.id in weight.user_ids.ids)
 
-    
+
+    @api.depends('purchase_id')
     def compute_ticket_details(self):
         for record in self:
             purcahse_id = self.env['purchase.order'].search([('id', '=', record.purchase_id.id), ('is_dawar_purchase', '=', True)])
@@ -170,6 +170,7 @@ class StockPicking(models.Model):
             record.dawar_ticket   = purcahse_id.partner_ref    if purcahse_id else ''
 
 
+    @api.depends('purchase_id')
     def compute_is_dawar_picking(self):
         for record in self:
             purcahse_id = self.env['purchase.order'].search([('id', '=', record.purchase_id.id), ('is_dawar_purchase', '=', True)])
@@ -180,7 +181,6 @@ class StockPicking(models.Model):
         self.weight_1 = 0.0
         self.is_get_weight_1 = False
         for record in self.move_line_ids_without_package:
-            # record.qty_done = self.weight_1 - self.weight_2
             record.qty_done = abs(self.weight_1 - self.weight_2)
 
 
@@ -188,7 +188,6 @@ class StockPicking(models.Model):
         self.weight_2 = 0.0
         self.is_get_weight_2 = False
         for record in self.move_line_ids_without_package:
-            # record.qty_done = self.weight_1 - self.weight_2
             record.qty_done = abs(self.weight_1 - self.weight_2)
 
 
@@ -211,7 +210,6 @@ class StockPicking(models.Model):
                 self.is_get_weight_1 = False
 
             for record in self.move_line_ids_without_package:
-                # record.qty_done = self.weight_1 - self.weight_2
                 record.qty_done = abs(self.weight_1 - self.weight_2)
 
             client.close()
@@ -239,7 +237,6 @@ class StockPicking(models.Model):
                 self.is_get_weight_2 = False
 
             for record in self.move_line_ids_without_package:
-                # record.qty_done = self.weight_1 - self.weight_2
                 record.qty_done = abs(self.weight_1 - self.weight_2)
 
             client.close()
@@ -252,7 +249,6 @@ class StockPicking(models.Model):
     def onchange_weight(self):
         if self.weight_1 != 0.0 or self.weight_2 != 0.0:
             for record in self.move_line_ids_without_package:
-                # record.qty_done = self.weight_1 - self.weight_2
                 record.qty_done = abs(self.weight_1 - self.weight_2)
 
 
@@ -297,7 +293,6 @@ class StockPicking(models.Model):
                     record.discount = self.rejected
 
             for record in self.move_line_ids_without_package:
-                # record.qty_done = self.weight_1 - self.weight_2
                 record.qty_done = abs(self.weight_1 - self.weight_2)
 
             if self.is_dawar_picking:

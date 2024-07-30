@@ -91,6 +91,20 @@
             </field>
         </record>
 
+        <record id="view_stock_picking_inherit_dawar" model="ir.ui.view">
+            <field name="name">view_stock_picking_inherit_dawar</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_internal_search"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='product_id']" position="after">
+                    <field name="dawar_ticket"/>
+                </xpath>
 
+                <xpath expr="//filter[@name='activities_exception']" position="after">
+                    <separator/>
+                    <filter string="Dawar Picking" name="dawar_picking" domain="[('is_dawar_picking', '=', True)]"/>
+                </xpath>
+            </field>
+        </record>
     </data>
 </odoo>
