@@ -18,7 +18,7 @@ and add the ISO paragraph to the warehouse delivery-->
                         <td class="text-right"><span t-esc="o.trailer_number"/></td>
                     </tr>
                     <tr>
-                        <td class="text-right">اسم السائق:</td></td>
+                        <td class="text-right">اسم السائق:</td>
                         <td class="text-right"><span t-esc="o.driver_name"/></td>
                     
                         <td class="text-right">رخصه السائق:</td>
