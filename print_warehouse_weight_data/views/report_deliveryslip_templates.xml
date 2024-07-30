@@ -87,5 +87,24 @@ and add the ISO paragraph to the warehouse delivery-->
         </xpath>
     </template>
 
-
+<!--print the ISO paragraph-->
+    <template id="report_deliveryslip_document_custom" inherit_id="stock.report_delivery_document">
+        <xpath expr="//div[@name='signature']" position="after">
+            <div>
+                <p>
+                  <div dir="rtl" style="text-align: center; text-decoration: underline">
+                  تنوية هام
+                  </div>
+                </p>
+                <p>
+                  <div dir="rtl" style="text-align: right;">
+                    يحتوي هذا الكارت علي بيانات ذات قيمه تعد ملكيه خاصه لشركه بريق، ولا يجوز افشائها او استغلالها باي شكل من الاشكال
+                    <br/>
+                    مباشرة او غير مباشرة الا  لمن صرح له كتابيا من شركة بريق
+                    و في حال المخالفه يعد ذلك تعد علي ملكيه الشركه و يعرضك للمسائلة القانونيه ضد من تعدي علي ملكيتها
+                  </div>
+                </p>
+            </div>
+        </xpath>
+    </template>
 </odoo>
