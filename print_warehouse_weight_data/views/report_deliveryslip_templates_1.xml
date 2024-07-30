@@ -1,32 +1,40 @@
-<odoo>
-    <!-- Custom print module to print extra data in the picking report -->
+<!-- print_warehouse_weight_data/views/report_deliveryslip_templates.xml
+this version to translate the print of the ticket into arabic
+and add the ISO paragraph to the warehouse delivery-->
 
-    <!-- Adding custom fields to the delivery slip -->
+<odoo>
     <template id="report_deliveryslip_document_custom" inherit_id="stock.report_delivery_document">
+        
         <xpath expr="//div[@class='row mt32 mb32']" position="after">
             <div class="custom-fields" dir="rtl">
                 <table style="width: 100%; table-layout: fixed">
                     <tr>
-                        <td class="text-right">رقم السياره:</td>
+                        <td class="text-right">
+                            رقم السياره:                           
+                        </td>
                         <td class="text-right"><span t-esc="o.truck_number"/></td>
+                    
                         <td class="text-right">المقطورة:</td>
                         <td class="text-right"><span t-esc="o.trailer_number"/></td>
                     </tr>
                     <tr>
                         <td class="text-right">اسم السائق:</td>
                         <td class="text-right"><span t-esc="o.driver_name"/></td>
+                    
                         <td class="text-right">رخصه السائق:</td>
                         <td class="text-right"><span t-esc="o.driver_license"/></td>
                     </tr>
                     <tr>
                         <td class="text-right">الميزان:</td>
                         <td class="text-right"><span t-esc="o.weight_id.name"/></td>
+                    
                         <td class="text-right">كارته الميزان:</td>
                         <td class="text-right"><span t-esc="o.weight_ticket_number"/></td>
                     </tr>
                     <tr>
                         <td class="text-right">الوزن 1:</td>
                         <td class="text-right" style="text-align: right; direction: rtl !important;"><span t-esc="o.weight_1"/></td>
+
                         <td class="text-right">رقم دوًر:</td>
                         <td class="text-right"><span t-esc="o.dawar_ticket"/></td>
                     </tr>
@@ -38,24 +46,31 @@
                         <td class="text-right">نسبه الخصم %</td>
                         <td class="text-right"><span t-esc="o.rejected"/></td>
                     </tr>
+
                 </table>
             </div>
         </xpath>
 
-        <!-- Adding 'Bales' value in the move line table before the quantity done -->
+                <!-- Adding 'Bales' value in the move line table before the quantity done -->
+        
         <xpath expr="//table[@name='stock_move_table']/thead/tr/th[3]" position="before">
+
             <th><strong>Number of Bales</strong></th>
         </xpath>
-
+        
         <xpath expr="//table[@name='stock_move_table']/tbody/tr/td[3]" position="before">
             <td class="text-center">
                 <span t-field="move.bales_number"/>
             </td>
         </xpath>
+
     </template>
 
-    <!-- Adding 'Bales' header before 'Delivered' header in move line table -->
+
+
+<!-- Adding 'Bales' header before 'Delivered' header in move line table -->
     <template id="stock_report_delivery_document_custom" inherit_id="stock.report_delivery_document">
+        
         <xpath expr="//table[@name='stock_move_line_table']/thead/tr/th[@name='th_sml_quantity']" position="before">
             <th name="th_sml_bales" class="text-center">
                 <strong>عدد البالات</strong>
@@ -63,7 +78,7 @@
         </xpath>
     </template>
 
-    <!-- Include the bale number in the move line if the move has serial number -->
+<!--include the bale number in the move line if the move has serial number-->
     <template id="stock_report_delivery_has_serial_move_line_custom" inherit_id="stock.stock_report_delivery_has_serial_move_line">
         <xpath expr="//td[@class='text-center' and @name='move_line_lot_qty_done']" position="before">
             <td>
@@ -72,8 +87,8 @@
         </xpath>
     </template>
 
-    <!-- Print the ISO paragraph -->
-    <template id="report_deliveryslip_iso_paragraph" inherit_id="stock.report_delivery_document">
+<!--print the ISO paragraph-->
+    <template id="report_deliveryslip_document_custom" inherit_id="stock.report_delivery_document">
         <xpath expr="//div[@name='signature']" position="before">
             <div>
                 <p>
