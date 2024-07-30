@@ -91,20 +91,6 @@
             </field>
         </record>
 
-<!-- Ensure dawar_ticket field is present in the search view -->
-        <!-- Extend the stock.picking list view -->
-        <record id="view_stock_picking_filter_custom" model="ir.ui.view">
-            <field name="name">stock.picking.filter.custom</field>
-            <field name="model">stock.picking</field>
-            <field name="inherit_id" ref="stock.view_picking_filter"/>
-            <field name="arch" type="xml">
-                
-                    <!-- Add a filter for dawar_ticket -->
-                    <filter string="Dawar Ticket" name="dawar_ticket" domain="[('dawar_ticket', '=', self)]"/>
-               
-            </field>
-        </record>
-
 
     </data>
 </odoo>
