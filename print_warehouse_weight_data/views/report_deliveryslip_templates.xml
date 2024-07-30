@@ -87,9 +87,9 @@ and add the ISO paragraph to the warehouse delivery-->
         </xpath>
     </template>
 
-<!--print the ISO paragraph
+<!--print the ISO paragraph-->
     <template id="report_deliveryslip_document_custom" inherit_id="stock.report_delivery_document">
-        <xpath expr="//div[@name='signature']" position="after">
+        <xpath expr="//div[@name='signature']" position="before">
             <div>
                 <p>
                   <div dir="rtl" style="text-align: center; text-decoration: underline">
@@ -106,5 +106,5 @@ and add the ISO paragraph to the warehouse delivery-->
                 </p>
             </div>
         </xpath>
-    </template-->
+    </template>
 </odoo>
