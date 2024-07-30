@@ -91,7 +91,9 @@
             </field>
         </record>
 
-        <!-- Extend the search view of stock.picking -->
+    </data>
+
+            <!-- Extend the search view of stock.picking -->
         <record id="stock_picking_search_view_custom" model="ir.ui.view">
             <field name="name">stock.picking.search.custom</field>
             <field name="model">stock.picking</field>
@@ -102,6 +104,4 @@
                 </xpath>
             </field>
         </record>
-
-    </data>
 </odoo>
