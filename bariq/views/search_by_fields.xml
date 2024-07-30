@@ -9,10 +9,10 @@
             <field name="model">stock.picking</field>
             <field name="inherit_id" ref="stock.view_picking_search"/>
             <field name="arch" type="xml">
-                <xpath expr="//filter[@name='date']" position="after">
+                <!-- <xpath expr="//filter[@name='date']" position="after"> -->
                     <!-- Add a filter for dawar_ticket -->
                     <filter string="Dawar Ticket" name="dawar_ticket_filter" domain="[('dawar_ticket', 'ilike', self)]"/>
-                </xpath>
+                <!-- </xpath> -->
             </field>
         </record>
     </data>
