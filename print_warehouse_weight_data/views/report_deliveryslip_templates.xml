@@ -54,7 +54,7 @@ and add the ISO paragraph to the warehouse delivery-->
                 <!-- Adding 'Bales' value in the move line table before the quantity done -->
         <xpath expr="//table[@name='stock_move_table']/tbody/tr/td[3]" position="before">
             <td class="text-center">
-                <span t-field="move_line.bales_number"/>
+                <span t-field="move.bales_number"/>
             </td>
         </xpath>
 
