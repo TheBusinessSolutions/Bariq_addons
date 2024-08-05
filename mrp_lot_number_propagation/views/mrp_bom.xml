@@ -11,16 +11,16 @@
       <field name="company_id" position="after">
         <field name="display_lot_number_propagation" invisible="0" />
         <field
-                    name="lot_number_propagation"
-                    attrs="{'invisible': [('display_lot_number_propagation', '=', False)]}"
-                />
+                    name="lot_number_propagation"/>
+                    <!-- attrs="{'invisible': [('display_lot_number_propagation', '=', False)]}"
+                /> -->
       </field>
       <xpath expr="//field[@name='bom_line_ids']/tree" position="inside">
         <field name="display_propagate_lot_number" invisible="0" />
         <field
-                    name="propagate_lot_number"
-                    attrs="{'column_invisible': ['|', ('parent.display_lot_number_propagation', '=', False), ('parent.lot_number_propagation', '=', False)]}"
-                />
+                    name="propagate_lot_number"/>
+                    <!-- attrs="{'column_invisible': ['|', ('parent.display_lot_number_propagation', '=', False), ('parent.lot_number_propagation', '=', False)]}"
+                /> -->
       </xpath>
     </field>
   </record>
