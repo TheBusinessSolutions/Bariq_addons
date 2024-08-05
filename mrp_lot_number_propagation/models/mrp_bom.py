@@ -42,7 +42,7 @@ class MrpBom(models.Model):
         for bom in self:
             bom.display_lot_number_propagation = (
                 bom.type in self._get_lot_number_propagation_bom_types()
-                and bom.product_tmpl_id.tracking == "serial"
+                and bom.product_tmpl_id.tracking == "lot"
                 and tools.float_compare(
                     bom.product_qty, 1, precision_rounding=bom.product_uom_id.rounding
                 )
@@ -59,7 +59,7 @@ class MrpBom(models.Model):
         uom_unit = self.env.ref("uom.product_uom_unit")
         for line in self.bom_line_ids:
             if (
-                line.product_id.tracking == "serial"
+                line.product_id.tracking == "lot"
                 and tools.float_compare(
                     line.product_qty, 1, precision_rounding=line.product_uom_id.rounding
                 )
