@@ -21,7 +21,7 @@ class MrpProduction(models.Model):
         default=False,
         readonly=True,
         help=(
-            "Lot/serial number is propagated "
+            "Lot/lot number is propagated "
             "from a component to the finished product."
         ),
     )
@@ -46,7 +46,7 @@ class MrpProduction(models.Model):
             line_with_sn = move_with_lot.move_line_ids.filtered(
                 lambda l: (
                     l.lot_id
-                    and l.product_id.tracking == "serial"
+                    and l.product_id.tracking == "lot"
                     and tools.float_compare(
                         l.qty_done, 1, precision_rounding=l.product_uom_id.rounding
                     )
@@ -123,7 +123,7 @@ class MrpProduction(models.Model):
                 if lot.quant_ids:
                     raise UserError(
                         _(
-                            "Lot/Serial number %s already exists and has been used. "
+                            "Lot/lot number %s already exists and has been used. "
                             "Unable to propagate it."
                         )
                     )
@@ -146,7 +146,7 @@ class MrpProduction(models.Model):
             ):
                 raise UserError(
                     _(
-                        "Lot/Serial number is propagated from a component, "
+                        "Lot/lot number is propagated from a component, "
                         "you are not allowed to change it."
                     )
                 )
@@ -155,8 +155,8 @@ class MrpProduction(models.Model):
     def fields_view_get(
         self, view_id=None, view_type="form", toolbar=False, submenu=False
     ):
-        # Override to hide the "lot_producing_id" field + "action_generate_serial"
-        # button if the MO is configured to propagate a serial number
+        # Override to hide the "lot_producing_id" field + "action_generate_lot"
+        # button if the MO is configured to propagate a lot number
         result = super().fields_view_get(
             view_id=view_id, view_type=view_type, toolbar=toolbar, submenu=submenu
         )
