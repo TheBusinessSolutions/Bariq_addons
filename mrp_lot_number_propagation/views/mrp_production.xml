@@ -1,69 +1,25 @@
-<!--<?xml version="1.0" encoding="utf-8" ?>-->
-<!--&lt;!&ndash; Copyright 2022 Camptocamp SA-->
-<!--     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). &ndash;&gt;-->
-<!--<odoo>-->
-
-<!--    <record id="mrp_production_form_view" model="ir.ui.view">-->
-<!--        <field name="name">mrp.production.form.inherit</field>-->
-<!--        <field name="model">mrp.production</field>-->
-<!--        <field name="inherit_id" ref="mrp.mrp_production_form_view"/>-->
-<!--        <field name="arch" type="xml">-->
-<!--            &lt;!&ndash; Place new fields in the first group while being compatible with OE  &ndash;&gt;-->
-<!--            <xpath expr="//field[@name='id']/.." position="inside">-->
-<!--                <field name="is_lot_number_propagated" force_save="1"/>-->
-<!--                <field name="weight_id"/>-->
-<!--                <field name="weight_1"/>-->
-<!--            </xpath>-->
-<!--            <label for="lot_producing_id" position="before">-->
-<!--                <field-->
-<!--                        name="propagated_lot_producing"-->
-<!--                        string="Lot/Serial Number"-->
-<!--                        attrs="{'invisible': [('is_lot_number_propagated', '=', False)]}"-->
-<!--                />-->
-<!--            </label>-->
-<!--        </field>-->
-<!--    </record>-->
-
-<!--</odoo>-->
-
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2022 Camptocamp SA
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
 <odoo>
-    <record id="mrp_production_form_view" model="ir.ui.view">
-        <field name="name">mrp.production.form.inherit</field>
-        <field name="model">mrp.production</field>
-        <field name="inherit_id" ref="mrp.mrp_production_form_view"/>
-        <field name="arch" type="xml">
-            <!-- Adding the fields and button inside the first group -->
-            <xpath expr="//field[@name='id']/.." position="inside">
 
-                <field name="is_lot_number_propagated" force_save="1"/>
-                <field name="weight_id" attrs="{'invisible': [('state', '=', 'draft')]}"/>
-                <field name="weight_ticket_number" attrs="{'invisible': [('state', '=', 'draft')]}"/>
-                <field name="is_generate_lots" invisible="1"/> <!-- Add this field to the view -->
-                <label for="weight_1"/>
-                <div class="o_row">
-                    <field name="weight_1" attrs="{'invisible': [('state', '=', 'draft')]}"/>
-                    <button name="get_weight_1" type="object" icon="fa-gear"
-                            attrs="{'invisible': [('state', '=', 'draft')]}"/>
-                </div>
-            </xpath>
-            <xpath expr="//label[@for='lot_producing_id']" position="before">
-                <field
-                        name="propagated_lot_producing"
-                        string="Lot/Serial Number"
-                        attrs="{'invisible': [('is_lot_number_propagated', '=', False), ('weight_ticket_number', '=', False)]}"
+  <record id="mrp_production_form_view" model="ir.ui.view">
+    <field name="name">mrp.production.form.inherit</field>
+    <field name="model">mrp.production</field>
+    <field name="inherit_id" ref="mrp.mrp_production_form_view" />
+    <field name="arch" type="xml">
+      <!-- Place new fields in the first group while being compatible with OE  -->
+      <xpath expr="//field[@name='id']/.." position="inside">
+        <field name="is_lot_number_propagated" force_save="1" />
+      </xpath>
+      <label for="lot_producing_id" position="before">
+        <field
+                    name="propagated_lot_producing"
+                    string="Lot/Serial Number"
+                    attrs="{'invisible': [('is_lot_number_propagated', '=', False)]}"
                 />
-            </xpath>
-            <xpath expr="//header" position="inside">
-                <button name="action_generate_lots_name" string="Generate Lots" type="object" class="oe_highlight"
-                        attrs="{'invisible': ['|',  ('state', '!=', 'progress'), ('is_generate_lots', '=', True)]}"/>
+      </label>
+    </field>
+  </record>
 
-            </xpath>
-            <!-- Locate the original button and override its attributes -->
-            <xpath expr="//button[@name='action_generate_serial']" position="attributes">
-                <attribute name="attrs">{'invisible': ['|', '|', ('product_tracking', 'in', ('none', False)),
-                    ('lot_producing_id', '!=', False), ('weight_ticket_number', '=', False)]}
-                </attribute>
-            </xpath>
-        </field>
-    </record>
 </odoo>
