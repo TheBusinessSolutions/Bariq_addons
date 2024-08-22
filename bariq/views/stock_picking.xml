@@ -11,7 +11,8 @@
                     <field name="lot_name" groups="stock.group_production_lot" attrs="{'column_invisible': [('parent.show_lots_text', '=', False)], 'invisible': [('lots_visible', '=', False)], 'readonly': [('is_dawar_picking', '=', True)]}" context="{'default_product_id': product_id}"/>
                 </xpath>
                 <xpath expr="//field[@name='qty_done']" position="before">
-                    <field name="bales_number" readonly="1" force_save="1"/>
+                    <field name="bales_number" readonly="" force_save="1"/>
+                    <!-- <field name="bales_number" readonly="1" force_save="1"/> -->
                 </xpath>
                 <xpath expr="//field[@name='qty_done']" position="replace">
                     <field name="is_dawar_picking" invisible="1"/>
