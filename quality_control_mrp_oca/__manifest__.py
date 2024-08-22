@@ -19,7 +19,7 @@
         "views/qc_inspection_view.xml",
         "views/mrp_production_view.xml",
         "views/qc_inspection_print.xml",
-        #"views/skip_quality_option.xml",
+        "views/skip_quality_option.xml",
     ],
     "installable": True,
     "auto_install": True,
