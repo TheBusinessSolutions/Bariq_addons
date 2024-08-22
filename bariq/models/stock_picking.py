@@ -279,7 +279,6 @@ class StockPicking(models.Model):
         self.weight_ticket_number = day + month + code + ticket + sequence
         self.is_generate_lots = True
 
-
     def button_validate(self):
         if self.picking_type_id.code == 'incoming':
             if not self.is_generate_lots and self.is_dawar_picking:
@@ -292,16 +291,22 @@ class StockPicking(models.Model):
                 for record in self.purchase_id.order_line:
                     record.discount = self.rejected
 
-            for record in self.move_line_ids_without_package:
-                record.qty_done = abs(self.weight_1 - self.weight_2)
+            self.action_calculate_done_qty()
 
             if self.is_dawar_picking:
                 self.close_dawar_ticket()
 
-
         if self.picking_type_id.code in ['outgoing', 'internal']:
             for record in self.move_ids_without_package:
                 for line in record.move_line_ids:
-                    line.lot_id = int(record.bariq_lot_id) if record.bariq_lot_id else False
+                    if not line.lot_id and record.bariq_lot_id:
+                        line.lot_id = record.bariq_lot_id.id
+
+        # # Additional check to ensure that no error is raised if lot_id is already present
+        # pickings_without_lots = self.filtered(
+        #     lambda p: not p.move_line_ids.filtered(lambda l: l.product_id.tracking != 'none' and not l.lot_id))
+        #
+        # if pickings_without_lots:
+        #     raise UserError(_('You need to supply a Lot/Serial number for products.'))
 
         return super(StockPicking, self).button_validate()
