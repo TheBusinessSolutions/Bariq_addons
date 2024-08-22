@@ -5,10 +5,26 @@
         <field name="model">mrp.bom</field>
         <field name="inherit_id" ref="mrp.mrp_bom_form_view"/>
         <field name="arch" type="xml">
+            <!-- Locate the 'type' field to add the new field after it -->
+            <xpath expr="//field[@name='type']" position="after">
+                <field name="skip_quality_inspection"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>
+
+
+<!-- <?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_mrp_bom_form_skip_quality_inspection" model="ir.ui.view">
+        <field name="name">mrp.bom.form.skip.quality.inspection</field>
+        <field name="model">mrp.bom</field>
+        <field name="inherit_id" ref="mrp.mrp_bom_form_view"/>
+        <field name="arch" type="xml">
             <!-- Insert the skip_quality_inspection field after the type field -->
             <field name="type" position="after">
                 <field name="skip_quality_inspection"/>
             </field>
         </field>
     </record>
-</odoo>
+</odoo> -->
