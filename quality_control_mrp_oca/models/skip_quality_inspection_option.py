@@ -1,4 +1,4 @@
-from odoo import fields, models
+from odoo import models, fields
 
 class MrpBom(models.Model):
     _inherit = "mrp.bom"
