@@ -3,3 +3,5 @@
 from . import qc_inspection
 from . import mrp_production
 #from . import mrp_bom  # Ensure this file is imported
+from . import mrp_bom
+from . import mrp_bom_line
