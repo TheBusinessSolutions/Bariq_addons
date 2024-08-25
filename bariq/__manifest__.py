@@ -21,6 +21,7 @@
         'views/product_template.xml',
         'views/purchase_order.xml',
         'views/stock_picking.xml',
+        'views/stock_picking_type.xml',
         'views/stock_weight.xml',
         'views/shift_weight.xml',
         'views/res_company.xml',
