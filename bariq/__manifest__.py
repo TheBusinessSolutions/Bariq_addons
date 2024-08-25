@@ -24,6 +24,7 @@
         'views/stock_weight.xml',
         'views/shift_weight.xml',
         'views/res_company.xml',
+        'views/show_dawar_ticket_on_tree.xml',
         # 'views/search_by_fields.xml',
     ],
 }
