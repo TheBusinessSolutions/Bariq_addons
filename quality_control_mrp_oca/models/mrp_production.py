@@ -6,6 +6,9 @@ from odoo.exceptions import UserError
 
 from odoo.addons.quality_control_oca.models.qc_trigger_line import _filter_trigger_lines
 
+
+
+
 class MrpProduction(models.Model):
     _inherit = "mrp.production"
 
