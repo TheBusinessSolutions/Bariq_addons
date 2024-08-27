@@ -111,6 +111,24 @@
                             <field name="rejected" attrs="{'readonly': [('state', 'in', ['done', 'cancel'])]}"/>
                         </group>
                     </group>
+
+
+
+                    <!-- try to view the new internal transfer -->
+                    <field name="weight_id" attrs="{'invisible': [('material_transfer_r', '=', False)]}"/>
+                    <label for="weight_1" attrs="{'invisible': [('material_transfer_r', '=', False)]}"/>
+                    <div class="o_row">
+                        <!-- Ensure weight_1 and button are on the same row -->
+                        <field name="weight_1" attrs="{'invisible': [('material_transfer_r', '=', False)]}"/>
+                        <button name="get_weight_1" type="object" icon="fa-gear"
+                                attrs="{'invisible': [('material_transfer_r', '=', False)]}"/>
+                    </div>
+
+
+
+
+
+
                 </xpath>
 
                 <xpath expr="//notebook/page[@name='operations']/field[@name='move_ids_without_package']/tree/field[@name='quantity_done']" position="before">
