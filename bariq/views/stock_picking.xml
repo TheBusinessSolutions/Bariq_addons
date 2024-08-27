@@ -114,34 +114,7 @@
 
 
 
-                    <!-- try to view the new internal transfer -->
-                    <record id="view_stock_picking_form_inherit" model="ir.ui.view">
-                        <field name="name">stock.picking.form.inherit</field>
-                        <field name="model">stock.picking</field>
-                        <field name="inherit_id" ref="stock.view_picking_form"/>
-                        <field name="arch" type="xml">
-                            <!-- Correctly add the material_transfer_r field to make it available in the view -->
-                            <xpath expr="//sheet" position="inside">
-                                <field name="material_transfer_r" invisible="1"/>
-                            </xpath>
-
-                            <!-- Add custom fields inside the ID's parent element -->
-                            <xpath expr="//field[@name='location_dest_id']" position="after">
-                                <field name="barcode"
-                                    attrs="{'invisible': [('picking_type_code', 'not in', ['outgoing', 'internal'])]}"/>
-
-                                <field name="weight_id" attrs="{'invisible': [('material_transfer_r', '=', False)]}"/>
-                                <label for="weight_1" attrs="{'invisible': [('material_transfer_r', '=', False)]}"/>
-                                <div class="o_row">
-                                    <!-- Ensure weight_1 and button are on the same row -->
-                                    <field name="weight_1" attrs="{'invisible': [('material_transfer_r', '=', False)]}"/>
-                                    <button name="get_weight_1" type="object" icon="fa-gear"
-                                            attrs="{'invisible': [('material_transfer_r', '=', False)]}"/>
-                                </div>
-                            </xpath>
-                        </field>
-                    </record>
-
+                    
 
 
 
