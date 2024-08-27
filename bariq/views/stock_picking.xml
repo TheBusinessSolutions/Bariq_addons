@@ -182,7 +182,32 @@
         </record>
 
 
-        
+        <!-- Combined Code: Scenario 2 -->
+        <record id="view_stock_picking_form_inherit_scenario_2" model="ir.ui.view">
+            <field name="name">stock.picking.form.inherit.scenario.2</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_form"/>
+            <field name="arch" type="xml">
+                <!-- Scenario 2: If Scenario 1 is false and material_transfer is true -->
+                <xpath expr="//sheet" position="inside">
+                    <field name="material_transfer_r" invisible="1"/>
+                </xpath>
+
+                <xpath expr="//field[@name='location_dest_id']" position="after">
+                    <field name="barcode"
+                           attrs="{'invisible': [('picking_type_code', 'not in', ['outgoing', 'internal']), ('material_transfer_r', '=', False)]}"/>
+
+                    <field name="weight_id" attrs="{'invisible': [('material_transfer_r', '=', False)]}"/>
+                    <label for="weight_1" attrs="{'invisible': [('material_transfer_r', '=', False)]}"/>
+                    <div class="o_row">
+                        <!-- Ensure weight_1 and button are on the same row -->
+                        <field name="weight_1" attrs="{'invisible': [('material_transfer_r', '=', False)]}"/>
+                        <button name="get_weight_1" type="object" icon="fa-gear"
+                                attrs="{'invisible': [('material_transfer_r', '=', False)]}"/>
+                    </div>
+                </xpath>
+            </field>
+        </record>
     </data>
 </odoo>
 
