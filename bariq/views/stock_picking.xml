@@ -168,19 +168,22 @@
                 </xpath>
             </field>
         </record>
-        <record id="view_stock_picking_form_inherit_scenario_2" model="ir.ui.view">
-            <field name="name">stock.picking.form.inherit.scenario.2</field>
+
+        <!-- Inherit and modify the picking form view -->
+        <record id="view_stock_picking_form_inherit" model="ir.ui.view">
+            <field name="name">stock.picking.form.inherit</field>
             <field name="model">stock.picking</field>
             <field name="inherit_id" ref="stock.view_picking_form"/>
             <field name="arch" type="xml">
-                <!-- Scenario 2: If Scenario 1 is false and material_transfer is true -->
+                <!-- Correctly add the material_transfer_r field to make it available in the view -->
                 <xpath expr="//sheet" position="inside">
                     <field name="material_transfer_r" invisible="1"/>
                 </xpath>
 
+                <!-- Add custom fields inside the ID's parent element -->
                 <xpath expr="//field[@name='location_dest_id']" position="after">
                     <field name="barcode"
-                           attrs="{'invisible': [('picking_type_code', 'not in', ['outgoing', 'internal']), ('material_transfer_r', '=', False)]}"/>
+                           attrs="{'invisible': [('picking_type_code', 'not in', ['outgoing', 'internal'])]}"/>
 
                     <field name="weight_id" attrs="{'invisible': [('material_transfer_r', '=', False)]}"/>
                     <label for="weight_1" attrs="{'invisible': [('material_transfer_r', '=', False)]}"/>
@@ -193,6 +196,10 @@
                 </xpath>
             </field>
         </record>
+
+
+
+
     </data>
 </odoo>
 
