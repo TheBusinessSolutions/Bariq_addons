@@ -1,6 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
+        <!-- MRP Production View Inheritance -->
+        <record id="mrp_production_form_view" model="ir.ui.view">
+            <field name="name">mrp.production.form.inherit</field>
+            <field name="model">mrp.production</field>
+            <field name="inherit_id" ref="mrp.mrp_production_form_view"/>
+            <field name="arch" type="xml">
+                <!-- Add weight_ticket_number field after user_id -->
+                <xpath expr="//field[@name='user_id']" position="after">
+                    <field name="weight_ticket_number" attrs="{'invisible': [('state', '=', 'draft')]}"/>
+                </xpath>
+
+                <!-- Add custom fields inside the ID's parent element -->
+                <xpath expr="//field[@name='id']/.." position="inside">
+                    <field name="is_lot_number_propagated" force_save="1"/>
+                    <field name="weight_id" attrs="{'invisible': [('state', '=', 'draft')]}"/>
+                    <field name="is_generate_lots" invisible="1"/>
+                    <field name="lot_producing_id" invisible="1"/> <!-- Make lot_producing_id invisible -->
+                    <label for="weight_1"/>
+                    <div class="o_row">
+                        <field name="weight_1" attrs="{'invisible': [('state', '=', 'draft')]}"/>
+                        <button name="get_weight_1" type="object" icon="fa-gear"
+                                attrs="{'invisible': [('state', '=', 'draft')]}"/>
+                    </div>
+                </xpath>
+
+                <!-- Add propagated_lot_producing field before lot_producing_id label -->
+                <xpath expr="//label[@for='lot_producing_id']" position="before">
+                    <field
+                            name="propagated_lot_producing"
+                            string="Lot/Serial Number"
+                    />
+                </xpath>
+
+                <!-- Modify header to include Generate Lots button with conditions -->
+                <xpath expr="//header" position="inside">
+                    <button name="action_generate_lots_name" string="Generate Lots" type="object" class="oe_highlight"
+                            attrs="{'invisible': ['|', ('weight_id', '=', False), ('is_generate_lots', '=', True)]}"/>
+                </xpath>
+
+                <!-- Make the action_generate_serial button invisible -->
+                <xpath expr="//button[@name='action_generate_serial']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- Stock Picking View Inheritance -->
         <record id="view_stock_move_line_detailed_operation_tree_inherit_bales" model="ir.ui.view">
             <field name="name">view_stock_move_line_detailed_operation_tree_inherit_bales</field>
             <field name="model">stock.move.line</field>
@@ -11,8 +58,7 @@
                     <field name="lot_name" groups="stock.group_production_lot" attrs="{'column_invisible': [('parent.show_lots_text', '=', False)], 'invisible': [('lots_visible', '=', False)], 'readonly': [('is_dawar_picking', '=', True)]}" context="{'default_product_id': product_id}"/>
                 </xpath>
                 <xpath expr="//field[@name='qty_done']" position="before">
-                    <field name="bales_number"  force_save="1"/>
-                    <!-- <field name="bales_number" readonly="1" force_save="1"/> -->
+                    <field name="bales_number" readonly="1" force_save="1"/>
                 </xpath>
                 <xpath expr="//field[@name='qty_done']" position="replace">
                     <field name="is_dawar_picking" invisible="1"/>
@@ -20,7 +66,6 @@
                 </xpath>
             </field>
         </record>
-
 
         <record id="view_stock_picking_form_inherit" model="ir.ui.view">
             <field name="name">view_stock_picking_form_inherit</field>
@@ -38,7 +83,6 @@
 
                 <xpath expr="//field[@name='origin']" position="after">
                     <field name="picking_type_code" invisible="1"/>
-                    <field name="barcode" attrs="{'invisible': [('picking_type_code', 'not in', ['outgoing', 'internal'])]}"/>
                 </xpath>
 
                 <xpath expr="//notebook" position="before">
@@ -63,7 +107,6 @@
                             </div>
                         </group>
                         <group>
-                            <field name="weight_ticket_number" readonly="1" force_save="1"/>
                             <field name="dawar_ticket" readonly="1" force_save="1"/>
                             <field name="rejected" attrs="{'readonly': [('state', 'in', ['done', 'cancel'])]}"/>
                         </group>
@@ -109,3 +152,118 @@
         </record>
     </data>
 </odoo>
+
+
+
+
+
+<!--<?xml version="1.0" encoding="utf-8"?>-->
+<!--<odoo>-->
+<!--    <data>-->
+<!--        <record id="view_stock_move_line_detailed_operation_tree_inherit_bales" model="ir.ui.view">-->
+<!--            <field name="name">view_stock_move_line_detailed_operation_tree_inherit_bales</field>-->
+<!--            <field name="model">stock.move.line</field>-->
+<!--            <field name="inherit_id" ref="stock.view_stock_move_line_detailed_operation_tree"/>-->
+<!--            <field name="arch" type="xml">-->
+<!--                <xpath expr="//field[@name='lot_name']" position="replace">-->
+<!--                    <field name="is_dawar_picking" invisible="1"/>-->
+<!--                    <field name="lot_name" groups="stock.group_production_lot" attrs="{'column_invisible': [('parent.show_lots_text', '=', False)], 'invisible': [('lots_visible', '=', False)], 'readonly': [('is_dawar_picking', '=', True)]}" context="{'default_product_id': product_id}"/>-->
+<!--                </xpath>-->
+<!--                <xpath expr="//field[@name='qty_done']" position="before">-->
+<!--                    <field name="bales_number" readonly="1" force_save="1"/>-->
+<!--                </xpath>-->
+<!--                <xpath expr="//field[@name='qty_done']" position="replace">-->
+<!--                    <field name="is_dawar_picking" invisible="1"/>-->
+<!--                    <field name="qty_done" attrs="{'readonly': ['|', ('state', 'in', ('done', 'cancel')), ('is_dawar_picking', '=', True)]}" force_save="1"/>-->
+<!--                </xpath>-->
+<!--            </field>-->
+<!--        </record>-->
+
+
+<!--        <record id="view_stock_picking_form_inherit" model="ir.ui.view">-->
+<!--            <field name="name">view_stock_picking_form_inherit</field>-->
+<!--            <field name="model">stock.picking</field>-->
+<!--            <field name="inherit_id" ref="stock.view_picking_form"/>-->
+<!--            <field name="arch" type="xml">-->
+<!--                <xpath expr="//header/button" position="before">-->
+<!--                    <field  name="available_weight_ids" invisible="1"/>-->
+<!--                    <field  name="is_dawar_picking" invisible="1"/>-->
+<!--                    <field  name="is_manual" invisible="1"/>-->
+<!--                    <field  name="is_generate_lots" invisible="1"/>-->
+<!--                    <button name="action_generate_lots_name" string="Generate Lots" type="object" class="oe_highlight" attrs="{'invisible': ['|', '|', '|', '|', ('is_get_weight_1', '=', False), ('is_get_weight_2', '=', False), ('state', 'in', ['done', 'cancel']), ('is_dawar_picking', '=', False), ('is_generate_lots', '=', True)]}"/>-->
+<!--                    <button name="close_dawar_ticket" string="Close Ticket" type="object" class="oe_highlight" invisible="1"/>-->
+<!--                </xpath>-->
+
+<!--                <xpath expr="//field[@name='origin']" position="after">-->
+<!--                    <field name="picking_type_code" invisible="1"/>-->
+<!--&lt;!&ndash;                    <field name="barcode" attrs="{'invisible': [('picking_type_code', 'not in', ['outgoing', 'internal'])]}"/>&ndash;&gt;-->
+<!--                </xpath>-->
+
+<!--                <xpath expr="//notebook" position="before">-->
+<!--                    <group attrs="{'invisible': [('is_dawar_picking', '=', False)]}">-->
+<!--                        <group>-->
+<!--                            <field name="weight_id" domain="[('id', 'in', available_weight_ids)]" attrs="{'readonly': ['|', ('state', 'in', ['done', 'cancel']), ('is_generate_lots', '=', True)]}" options="{'no_quick_create': True, 'no_create_edit' : True}"/>-->
+
+<!--                            <label for="weight_1"/>-->
+<!--                            <div class="o_row">-->
+<!--                                <field  name="weight_1" force_save="1" attrs="{'readonly': ['|', '|', ('is_manual', '=', False), ('state', 'in', ['done', 'cancel']), ('is_generate_lots', '=', True)]}"/>-->
+<!--                                <field  name="is_get_weight_1" invisible="1"/>-->
+<!--                                <button name="get_weight_1"    type="object" icon="fa-gear"  attrs="{'invisible': ['|', '|', '|', ('is_get_weight_1', '=', True), ('is_manual', '=', True), ('state', 'in', ['done', 'cancel']), ('is_generate_lots', '=', True)]}"/>-->
+<!--                                <button name="reset_weight_1"  type="object" icon="fa-trash" attrs="{'invisible': ['|', '|', '|', ('is_get_weight_1', '=', False), ('is_manual', '=', True), ('state', 'in', ['done', 'cancel']), ('is_generate_lots', '=', True)]}"/>-->
+<!--                            </div>-->
+
+<!--                            <label for="weight_2"/>-->
+<!--                            <div class="o_row">-->
+<!--                                <field  name="weight_2" force_save="1" attrs="{'readonly': ['|', '|', ('is_manual', '=', False), ('state', 'in', ['done', 'cancel']), ('is_generate_lots', '=', True)]}"/>-->
+<!--                                <field  name="is_get_weight_2" invisible="1"/>-->
+<!--                                <button name="get_weight_2"    type="object" icon="fa-gear"  attrs="{'invisible': ['|', '|', '|', ('is_get_weight_2', '=', True), ('is_manual', '=', True), ('state', 'in', ['done', 'cancel']), ('is_generate_lots', '=', True)]}"/>-->
+<!--                                <button name="reset_weight_2"  type="object" icon="fa-trash" attrs="{'invisible': ['|', '|', '|', ('is_get_weight_2', '=', False), ('is_manual', '=', True), ('state', 'in', ['done', 'cancel']), ('is_generate_lots', '=', True)]}"/>-->
+<!--                            </div>-->
+<!--                        </group>-->
+<!--                        <group>-->
+<!--&lt;!&ndash;                            <field name="weight_ticket_number" readonly="1" force_save="1"/>&ndash;&gt;-->
+<!--                            <field name="dawar_ticket" readonly="1" force_save="1"/>-->
+<!--                            <field name="rejected" attrs="{'readonly': [('state', 'in', ['done', 'cancel'])]}"/>-->
+<!--                        </group>-->
+<!--                    </group>-->
+<!--                </xpath>-->
+
+<!--                <xpath expr="//notebook/page[@name='operations']/field[@name='move_ids_without_package']/tree/field[@name='quantity_done']" position="before">-->
+<!--                    <field name="bariq_lot_id" invisible="1"/>-->
+<!--                    <field name="bales_number"/>-->
+<!--                </xpath>-->
+
+<!--                <xpath expr="//notebook/page[@name='extra']" position="before">-->
+<!--                    <page string="Truck Details" attrs="{'invisible': [('is_dawar_picking', '=', False)]}">-->
+<!--                        <group>-->
+<!--                            <group>-->
+<!--                                <field name="driver_name"/>-->
+<!--                                <field name="driver_license"/>-->
+<!--                            </group>-->
+<!--                            <group>-->
+<!--                                <field name="truck_number"/>-->
+<!--                                <field name="trailer_number"/>-->
+<!--                            </group>-->
+<!--                        </group>-->
+<!--                    </page>-->
+<!--                </xpath>-->
+<!--            </field>-->
+<!--        </record>-->
+
+<!--        <record id="view_stock_picking_inherit_dawar" model="ir.ui.view">-->
+<!--            <field name="name">view_stock_picking_inherit_dawar</field>-->
+<!--            <field name="model">stock.picking</field>-->
+<!--            <field name="inherit_id" ref="stock.view_picking_internal_search"/>-->
+<!--            <field name="arch" type="xml">-->
+<!--                <xpath expr="//field[@name='product_id']" position="after">-->
+<!--                    <field name="dawar_ticket"/>-->
+<!--                </xpath>-->
+
+<!--                <xpath expr="//filter[@name='activities_exception']" position="after">-->
+<!--                    <separator/>-->
+<!--                    <filter string="Dawar Picking" name="dawar_picking" domain="[('is_dawar_picking', '=', True)]"/>-->
+<!--                </xpath>-->
+<!--            </field>-->
+<!--        </record>-->
+<!--    </data>-->
+<!--</odoo>-->

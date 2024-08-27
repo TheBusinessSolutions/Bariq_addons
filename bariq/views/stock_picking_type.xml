@@ -26,6 +26,9 @@
 
                 <!-- Add custom fields inside the ID's parent element -->
                 <xpath expr="//field[@name='location_dest_id']" position="after">
+                    <field name="barcode"
+                           attrs="{'invisible': [('picking_type_code', 'not in', ['outgoing', 'internal'])]}"/>
+
                     <field name="weight_id" attrs="{'invisible': [('material_transfer_r', '=', False)]}"/>
                     <label for="weight_1" attrs="{'invisible': [('material_transfer_r', '=', False)]}"/>
                     <div class="o_row">
@@ -37,5 +40,7 @@
                 </xpath>
             </field>
         </record>
+
+        
     </data>
 </odoo>
