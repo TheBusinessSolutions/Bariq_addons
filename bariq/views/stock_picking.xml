@@ -217,7 +217,7 @@
                                 attrs="{'invisible': [('material_transfer_r', '=', False)]}"/>
                     </div>
                 </xpath> -->
-            </field>
+            <!-- </field> -->
         </record>
 
 
