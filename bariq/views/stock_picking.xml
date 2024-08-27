@@ -85,6 +85,7 @@
                     <field name="picking_type_code" invisible="1"/>
                 </xpath>
 
+                <!-- Original code to show the Dawar picking weight -->
                 <xpath expr="//notebook" position="before">
                     <group attrs="{'invisible': [('is_dawar_picking', '=', False)]}">
                         <group>
@@ -112,16 +113,35 @@
                         </group>
                     </group>
 
-
-
-                    
-
-
-
-
-
-
                 </xpath>
+
+                <!-- Scenario 2: Show new_code if is_dawar_picking is false -->
+                <xpath expr="//sheet" position="inside">
+                    <group attrs="{'invisible': [('is_dawar_picking', '=', True)]}">
+                        <field name="material_transfer_r" invisible="1"/>
+
+                        <!-- Add custom fields inside the ID's parent element -->
+                        <xpath expr="//field[@name='location_dest_id']" position="after">
+                            <field name="barcode"
+                                   attrs="{'invisible': [('picking_type_code', 'not in', ['outgoing', 'internal'])]}"/>
+
+                            <field name="weight_id" 
+                                   attrs="{'invisible': [('material_transfer_r', '=', False)]}"/>
+                            <label for="weight_1" 
+                                   attrs="{'invisible': [('material_transfer_r', '=', False)]}"/>
+                            <div class="o_row">
+                                <!-- Ensure weight_1 and button are on the same row -->
+                                <field name="weight_1" 
+                                       attrs="{'invisible': [('material_transfer_r', '=', False)]}"/>
+                                <button name="get_weight_1" type="object" icon="fa-gear" 
+                                        attrs="{'invisible': [('material_transfer_r', '=', False)]}"/>
+                            </div>
+                        </xpath>
+                    </group>
+                </xpath> 
+                <!-- end of scenario 2 -->
+
+
 
                 <xpath expr="//notebook/page[@name='operations']/field[@name='move_ids_without_package']/tree/field[@name='quantity_done']" position="before">
                     <field name="bariq_lot_id" invisible="1"/>
