@@ -183,6 +183,17 @@
 
 
         <!-- Combined Code: Scenario 2 -->
+        <record id="view_picking_type_form_inherit" model="ir.ui.view">
+            <field name="name">stock.picking.type.form.inherit</field>
+            <field name="model">stock.picking.type</field>
+            <field name="inherit_id" ref="stock.view_picking_type_form"/>
+            <field name="arch" type="xml">
+                <!-- Adding material_transfer inside an existing group -->
+                <xpath expr="//group[@name='stock_picking_type_lot']" position="inside">
+                    <field name="material_transfers"/>
+                </xpath>
+            </field>
+        </record>
         <record id="view_stock_picking_form_inherit_scenario_2" model="ir.ui.view">
             <field name="name">stock.picking.form.inherit.scenario.2</field>
             <field name="model">stock.picking</field>
