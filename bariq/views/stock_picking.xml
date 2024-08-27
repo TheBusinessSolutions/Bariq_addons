@@ -1,7 +1,3 @@
-<!-- this is the combined working code
-but still the condtion is not working in scerano 1 of dawar ticket
- -->
-
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
