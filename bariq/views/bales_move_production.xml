@@ -8,5 +8,6 @@
                 <xpath expr="//field[@name='user_id']" position="after">
                     <field name="bales_number"/>
                 </xpath>
+            </field>
     </record>
 </odoo>
