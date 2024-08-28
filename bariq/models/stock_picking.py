@@ -77,7 +77,7 @@ class MrpProduction(models.Model):
 
                 order.propagated_lot_producing = lot_name
 
-    def action_generate_lots_name(self):
+    def action_generate_mrp_lots_name(self):
         if not self.weight_id:
             raise UserError(_('Weight ID is missing. Please configure the Weight ID before generating lots.'))
 
