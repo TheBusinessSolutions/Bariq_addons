@@ -113,26 +113,28 @@
                             <field name="rejected" attrs="{'readonly': [('state', 'in', ['done', 'cancel'])]}"/>
                         </group>
                     </group>
-                    <!-- material transfer fields -->
+                <!-- material transfer fields -->
                     <group attrs="{'invisible': [('is_dawar_picking', '=', True), ('material_transfer_r', '=', False)]}">
                         <xpath expr="//sheet" position="inside">
                             <field name="material_transfer_r" invisible="1"/>
                             </xpath>
 
-                             <!-- Add custom fields inside the ID's parent element -->
+                        <!-- Add custom fields inside the ID's parent element -->
+                        <group>    
                             <xpath expr="//field[@name='location_dest_id']" position="after">
                                 <field name="barcode"
-                                     attrs="{'invisible': [('picking_type_code', 'not in', ['outgoing', 'internal'])]}"/>
+                                        attrs="{'invisible': [('picking_type_code', 'not in', ['outgoing', 'internal'])]}"/>
 
-                            <field name="weight_id" attrs="{'invisible': [('material_transfer_r', '=', False)]}"/>
-                            <label for="weight_1" attrs="{'invisible': [('material_transfer_r', '=', False)]}"/>
+                                <field name="weight_id" attrs="{'invisible': [('material_transfer_r', '=', False)]}"/>
+                                <label for="weight_1" attrs="{'invisible': [('material_transfer_r', '=', False)]}"/>
                                     <div class="o_row">
-                                      <!-- Ensure weight_1 and button are on the same row -->
-                                         <field name="weight_1" attrs="{'invisible': [('material_transfer_r', '=', False)]}"/>
-                                         <button name="get_weight_1" type="object" icon="fa-gear"
-                                            attrs="{'invisible': [('material_transfer_r', '=', False)]}"/>
+                                        <!-- Ensure weight_1 and button are on the same row -->
+                                            <field name="weight_1" attrs="{'invisible': [('material_transfer_r', '=', False)]}"/>
+                                            <button name="get_weight_1" type="object" icon="fa-gear"
+                                                attrs="{'invisible': [('material_transfer_r', '=', False)]}"/>
                                     </div>
-                        </xpath>
+                            </xpath>
+                        </group>
                         
                     </group>
 
