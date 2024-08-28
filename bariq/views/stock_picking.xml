@@ -12,7 +12,7 @@
                 </xpath>
 
                 <!-- Add custom fields inside the ID's parent element -->
-                <xpath expr="//field[@name='id']/.." position="inside">
+                <xpath expr="//field[@name='id']/.." position="after">
                     <!-- Group to ensure vertical stacking -->
                     <group>
                         <field name="is_lot_number_propagated" force_save="1"/>
