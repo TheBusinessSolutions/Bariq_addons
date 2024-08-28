@@ -7,6 +7,7 @@ from odoo import _, api, fields, models, tools
 from odoo.exceptions import UserError
 from odoo.osv import expression
 from odoo.tools.safe_eval import safe_eval
+from datetime import datetime
 
 from odoo.addons.base.models.ir_ui_view import (
     transfer_modifiers_to_node,
@@ -17,11 +18,12 @@ from odoo.addons.base.models.ir_ui_view import (
 class MrpProduction(models.Model):
     _inherit = "mrp.production"
 
+
     is_lot_number_propagated = fields.Boolean(
         default=False,
         readonly=True,
         help=(
-            "Lot/lot number is propagated "
+            "Lot/serial number is propagated "
             "from a component to the finished product."
         ),
     )
@@ -45,12 +47,12 @@ class MrpProduction(models.Model):
             move_with_lot = order._get_propagating_component_move()
             line_with_sn = move_with_lot.move_line_ids.filtered(
                 lambda l: (
-                    l.lot_id
-                    and l.product_id.tracking == "lot"
-                    and tools.float_compare(
-                        l.qty_done, 1, precision_rounding=l.product_uom_id.rounding
-                    )
-                    == 0
+                        l.lot_id
+                        and l.product_id.tracking == "lot"
+                        and tools.float_compare(
+                    l.qty_done, 1, precision_rounding=l.product_uom_id.rounding
+                )
+                        == 0
                 )
             )
             if len(line_with_sn) == 1:
@@ -108,7 +110,7 @@ class MrpProduction(models.Model):
                 continue
             finish_moves = order.move_finished_ids.filtered(
                 lambda m: m.product_id == order.product_id
-                and m.state not in ("done", "cancel")
+                          and m.state not in ("done", "cancel")
             )
             if finish_moves and not finish_moves.quantity_done:
                 lot_model = self.env["stock.production.lot"]
@@ -120,13 +122,13 @@ class MrpProduction(models.Model):
                     ],
                     limit=1,
                 )
-                if lot.quant_ids:
-                    raise UserError(
-                        _(
-                            "Lot/lot number %s already exists and has been used. "
-                            "Unable to propagate it."
-                        )
-                    )
+                # if lot.quant_ids:
+                #   raise UserError(
+                #      _(
+                #         "Lot/Serial number %s already exists and has been used. "
+                #        "Unable to propagate it."
+                #   )
+                # )
                 if not lot:
                     lot = self.env["stock.production.lot"].create(
                         {
@@ -140,23 +142,23 @@ class MrpProduction(models.Model):
     def write(self, vals):
         for order in self:
             if (
-                order.is_lot_number_propagated
-                and "lot_producing_id" in vals
-                and not self.env.context.get("lot_propagation")
+                    order.is_lot_number_propagated
+                    and "lot_producing_id" in vals
+                    and not self.env.context.get("lot_propagation")
             ):
                 raise UserError(
                     _(
-                        "Lot/lot number is propagated from a component, "
+                        "Lot/Serial number is propagated from a component, "
                         "you are not allowed to change it."
                     )
                 )
         return super().write(vals)
 
     def fields_view_get(
-        self, view_id=None, view_type="form", toolbar=False, submenu=False
+            self, view_id=None, view_type="form", toolbar=False, submenu=False
     ):
-        # Override to hide the "lot_producing_id" field + "action_generate_lot"
-        # button if the MO is configured to propagate a lot number
+        # Override to hide the "lot_producing_id" field + "action_generate_serial"
+        # button if the MO is configured to propagate a serial number
         result = super().fields_view_get(
             view_id=view_id, view_type=view_type, toolbar=toolbar, submenu=submenu
         )
@@ -175,20 +177,19 @@ class MrpProduction(models.Model):
             "//label[@for='lot_producing_id']",
             "//field[@name='lot_producing_id']/..",  # parent <div>
         )
-    def _fields_view_get_adapt_lot_tags_attrs(self, view):
-        """Hide elements related to lot if it is automatically propagated."""
-        doc = etree.XML(view["arch"])
-        tags = (
-            "//label[@for='lot_producing_id']",
-            "//field[@name='lot_producing_id']/..",  # parent <div>
-        )
         for xpath_expr in tags:
+            attrs_key = "invisible"
             nodes = doc.xpath(xpath_expr)
             for field in nodes:
-                # Directly apply your modifications without checking for 'invisible'
-                field.set("attrs", "{'invisible': [('is_lot_number_propagated', '=', True)]}")
+                attrs = safe_eval(field.attrib.get("attrs", "{}"))
+                if not attrs[attrs_key]:
+                    continue
+                invisible_domain = expression.OR(
+                    [attrs[attrs_key], [("is_lot_number_propagated", "=", True)]]
+                )
+                attrs[attrs_key] = invisible_domain
+                field.set("attrs", str(attrs))
                 modifiers = {}
                 transfer_node_to_modifiers(field, modifiers, self.env.context)
                 transfer_modifiers_to_node(modifiers, field)
         return etree.tostring(doc, encoding="unicode")
-
