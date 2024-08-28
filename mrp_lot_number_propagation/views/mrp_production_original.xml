@@ -1,10 +1,10 @@
+
 <odoo>
     <record id="mrp_production_form_view" model="ir.ui.view">
         <field name="name">mrp.production.form.inherit</field>
         <field name="model">mrp.production</field>
         <field name="inherit_id" ref="mrp.mrp_production_form_view"/>
         <field name="arch" type="xml">
-
             <!-- Add weight_ticket_number field after user_id -->
             <xpath expr="//field[@name='user_id']" position="after">
                 <field name="weight_ticket_number" attrs="{'invisible': [('state', '=', 'draft')]}"/>
@@ -12,23 +12,24 @@
 
             <!-- Add custom fields inside the ID's parent element -->
             <xpath expr="//field[@name='id']/.." position="inside">
-                <!-- LOT Propagation Fields -->
-                <group attrs="{'invisible': [('is_lot_number_propagated', '=', False)]}">
-                    <field name="is_lot_number_propagated" force_save="1"/>
-                    <field name="is_generate_lots" invisible="1"/>
-                    <field name="lot_producing_id" invisible="1"/>
-                    <field name="propagated_lot_producing" string="Lot/Serial Number"/>
-                </group>
+                <field name="is_lot_number_propagated" force_save="1"/>
+                <field name="weight_id" attrs="{'invisible': [('state', '=', 'draft')]}"/>
+                <field name="is_generate_lots" invisible="1"/>
+                <field name="lot_producing_id" invisible="1"/> <!-- Make lot_producing_id invisible -->
+                <label for="weight_1"/>
+                <div class="o_row">
+                    <field name="weight_1" attrs="{'invisible': [('state', '=', 'draft')]}"/>
+                    <button name="get_weight_1" type="object" icon="fa-gear"
+                            attrs="{'invisible': [('state', '=', 'draft')]}"/>
+                </div>
+            </xpath>
 
-                <!-- Weight Fields -->
-                <group attrs="{'invisible': [('state', '=', 'draft')]}">
-                    <field name="weight_id"/>
-                    <label for="weight_1"/>
-                    <div class="o_row">
-                        <field name="weight_1"/>
-                        <button name="get_weight_1" type="object" icon="fa-gear"/>
-                    </div>
-                </group>
+            <!-- Add propagated_lot_producing field before lot_producing_id label -->
+            <xpath expr="//label[@for='lot_producing_id']" position="before">
+                <field
+                        name="propagated_lot_producing"
+                        string="Lot/Serial Number"
+                />
             </xpath>
 
             <!-- Modify header to include Generate Lots button with conditions -->
@@ -41,7 +42,6 @@
             <xpath expr="//button[@name='action_generate_serial']" position="attributes">
                 <attribute name="invisible">1</attribute>
             </xpath>
-
         </field>
     </record>
 </odoo>
