@@ -122,6 +122,7 @@
                                 attrs="{'invisible': [('picking_type_code', 'not in', ['outgoing', 'internal'])]}"/>
                             <field name="weight_id" 
                                 attrs="{'invisible': [('material_transfer_r', '=', False)]}"/>
+                            <label for="weight_1"/>
                             <div class="o_row">
                                 <field name="weight_1" 
                                     attrs="{'invisible': [('material_transfer_r', '=', False)]}"/>
