@@ -176,12 +176,18 @@ class MrpProduction(models.Model):
             "//field[@name='lot_producing_id']/..",  # parent <div>
         )
         for xpath_expr in tags:
+            attrs_key = "invisible"
             nodes = doc.xpath(xpath_expr)
             for field in nodes:
-                # Directly apply your modifications without checking for 'invisible'
-                field.set("attrs", "{'invisible': [('is_lot_number_propagated', '=', True)]}")
+                attrs = safe_eval(field.attrib.get("attrs", "{}"))
+                if not attrs[attrs_key]:
+                    continue
+                invisible_domain = expression.OR(
+                    [attrs[attrs_key], [("is_lot_number_propagated", "=", True)]]
+                )
+                attrs[attrs_key] = invisible_domain
+                field.set("attrs", str(attrs))
                 modifiers = {}
                 transfer_node_to_modifiers(field, modifiers, self.env.context)
                 transfer_modifiers_to_node(modifiers, field)
         return etree.tostring(doc, encoding="unicode")
-
