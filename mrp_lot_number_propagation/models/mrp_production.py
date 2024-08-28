@@ -175,19 +175,20 @@ class MrpProduction(models.Model):
             "//label[@for='lot_producing_id']",
             "//field[@name='lot_producing_id']/..",  # parent <div>
         )
+    def _fields_view_get_adapt_lot_tags_attrs(self, view):
+        """Hide elements related to lot if it is automatically propagated."""
+        doc = etree.XML(view["arch"])
+        tags = (
+            "//label[@for='lot_producing_id']",
+            "//field[@name='lot_producing_id']/..",  # parent <div>
+        )
         for xpath_expr in tags:
-            attrs_key = "invisible"
             nodes = doc.xpath(xpath_expr)
             for field in nodes:
-                attrs = safe_eval(field.attrib.get("attrs", "{}"))
-                if not attrs[attrs_key]:
-                    continue
-                invisible_domain = expression.OR(
-                    [attrs[attrs_key], [("is_lot_number_propagated", "=", True)]]
-                )
-                attrs[attrs_key] = invisible_domain
-                field.set("attrs", str(attrs))
+                # Directly apply your modifications without checking for 'invisible'
+                field.set("attrs", "{'invisible': [('is_lot_number_propagated', '=', True)]}")
                 modifiers = {}
                 transfer_node_to_modifiers(field, modifiers, self.env.context)
                 transfer_modifiers_to_node(modifiers, field)
         return etree.tostring(doc, encoding="unicode")
+
