@@ -6,17 +6,13 @@
     <field name="arch" type="xml">
       <field name="company_id" position="after">
         <field name="display_lot_number_propagation"/>
-        <field
-          name="lot_number_propagation"
-          attrs="{'invisible': [('display_lot_number_propagation', '=', False)]}"
-        />
+        <field name="lot_number_propagation"/>
       </field>
 
       <xpath expr="//field[@name='bom_line_ids']/tree" position="inside">
         <field name="display_propagate_lot_number"/>
         <field
           name="propagate_lot_number"
-          attrs="{'column_invisible': ['|', ('parent.display_lot_number_propagation', '=', False), ('parent.lot_number_propagation', '=', False)]}"
         />
       </xpath>
     </field>
