@@ -235,7 +235,7 @@ class StockPicking(models.Model):
     is_generate_lots = fields.Boolean()
 
     barcode = fields.Char(string='Barcode')
-
+    weight_ticket_number = fields.Char(readonly=True, string="Ticket Number")
     def action_open_label_layout(self):
         view = self.env.ref('stock.product_label_layout_form_picking')
         bales = 0
