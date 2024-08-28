@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-        <!-- MRP Production View Inheritance -->
         <record id="mrp_production_form_view" model="ir.ui.view">
             <field name="name">mrp.production.form.inherit</field>
             <field name="model">mrp.production</field>
@@ -14,24 +13,26 @@
 
                 <!-- Add custom fields inside the ID's parent element -->
                 <xpath expr="//field[@name='id']/.." position="inside">
-                    <field name="is_lot_number_propagated" force_save="1"/>
-                    <field name="weight_id" attrs="{'invisible': [('state', '=', 'draft')]}"/>
-                    <field name="is_generate_lots" invisible="1"/>
-                    <field name="lot_producing_id" invisible="1"/> <!-- Make lot_producing_id invisible -->
-                    <label for="weight_1"/>
-                    <div class="o_row">
-                        <field name="weight_1" attrs="{'invisible': [('state', '=', 'draft')]}"/>
-                        <button name="get_weight_1" type="object" icon="fa-gear"
-                                attrs="{'invisible': [('state', '=', 'draft')]}"/>
-                    </div>
+                    <!-- Group to ensure vertical stacking -->
+                    <group>
+                        <field name="is_lot_number_propagated" force_save="1"/>
+                        <field name="weight_id" attrs="{'invisible': [('state', '=', 'draft')]}"/>
+                        <field name="is_generate_lots" invisible="1"/>
+                        <field name="lot_producing_id" invisible="1"/> <!-- Make lot_producing_id invisible -->
+
+                        <!-- Row for weight fields, displayed vertically -->
+                        <div class="o_row">
+                            <label for="weight_1"/>
+                            <field name="weight_1" attrs="{'invisible': [('state', '=', 'draft')]}"/>
+                            <button name="get_weight_1" type="object" icon="fa-gear"
+                                    attrs="{'invisible': [('state', '=', 'draft')]}"/>
+                        </div>
+                    </group>
                 </xpath>
 
                 <!-- Add propagated_lot_producing field before lot_producing_id label -->
                 <xpath expr="//label[@for='lot_producing_id']" position="before">
-                    <field
-                            name="propagated_lot_producing"
-                            string="Lot/Serial Number"
-                    />
+                    <field name="propagated_lot_producing" string="Lot/Serial Number"/>
                 </xpath>
 
                 <!-- Modify header to include Generate Lots button with conditions -->
