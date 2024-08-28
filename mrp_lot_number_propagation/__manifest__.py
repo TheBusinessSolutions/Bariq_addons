@@ -3,7 +3,7 @@
 {
     "name": "MRP Serial Number Propagation",
     "version": "15.0.0.3.0",
-    "development_status": "Alpha",
+    "development_status": "Beta",
     "license": "AGPL-3",
     "author": "Camptocamp, Odoo Community Association (OCA)",
     "maintainers": ["sebalix"],
@@ -12,10 +12,8 @@
     "category": "Manufacturing",
     "depends": ["mrp"],
     "data": [
-        "security/lot_number_seq_secuirty.xml",
         "views/mrp_bom.xml",
         "views/mrp_production.xml",
-        "views/mrp_production_seq.xml",
     ],
     "installable": True,
     "application": False,

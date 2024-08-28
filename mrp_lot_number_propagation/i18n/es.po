@@ -6,10 +6,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 15.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2023-11-21 16:35+0000\n"
-"Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
+"PO-Revision-Date: 2023-10-29 08:29+0000\n"
+"Last-Translator: Ivorra78 <informatica@totmaterial.es>\n"
 "Language-Team: none\n"
-"Language: it\n"
+"Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
@@ -20,10 +20,11 @@ msgstr ""
 #: code:addons/mrp_lot_number_propagation/models/product_template.py:0
 #, python-format
 msgid ""
-"A BoM propagating serial numbers requires this product to be tracked as such."
+"A BoM propagating serial numbers requires this product to be tracked as "
+"such."
 msgstr ""
-"Una distinta base che propaga i numeri di serie richiede che questo prodotto "
-"sia tracciato come tale."
+"Una BoM que propague números de serie requiere que este producto sea "
+"rastreado como tal."
 
 #. module: mrp_lot_number_propagation
 #: model:ir.model.fields,help:mrp_lot_number_propagation.field_mrp_bom__lot_number_propagation
@@ -31,18 +32,18 @@ msgid ""
 "Allow to propagate the lot/serial number from a component to the finished "
 "product."
 msgstr ""
-"Consente di propagare il numero di lotto/matricola da un componente al "
-"prodotto finito."
+"Permite propagar el número de lote/serie de un componente al producto "
+"acabado."
 
 #. module: mrp_lot_number_propagation
 #: model:ir.model,name:mrp_lot_number_propagation.model_mrp_bom
 msgid "Bill of Material"
-msgstr "Distinta base"
+msgstr "Lista de Material"
 
 #. module: mrp_lot_number_propagation
 #: model:ir.model,name:mrp_lot_number_propagation.model_mrp_bom_line
 msgid "Bill of Material Line"
-msgstr "Riga distinta base"
+msgstr "Línea de la factura de materiales"
 
 #. module: mrp_lot_number_propagation
 #: code:addons/mrp_lot_number_propagation/models/mrp_production.py:0
@@ -51,9 +52,9 @@ msgid ""
 "Bill of material is marked for lot number propagation, but there are "
 "multiple components propagating lot number. Please check BOM configuration."
 msgstr ""
-"La distinta base è impostata per la propagazione del numero di lotto, ma ci "
-"sono più componenti che propagano il numero di lotto. Verificare la "
-"configurazione della DB."
+"La lista de materiales está marcada para la propagación del número de lote, "
+"pero hay varios componentes que propagan el número de lote. Compruebe la "
+"configuración de la lista de materiales."
 
 #. module: mrp_lot_number_propagation
 #: code:addons/mrp_lot_number_propagation/models/mrp_production.py:0
@@ -62,34 +63,34 @@ msgid ""
 "Bill of material is marked for lot number propagation, but there are no "
 "components propagating lot number. Please check BOM configuration."
 msgstr ""
-"La distinta base è impostata per la propagazione del numero di lotto, ma non "
-"ci sono componenti che propagano il numero di lotto. Verificare la "
-"configurazione della DB."
+"La lista de materiales está marcada para la propagación del número de lote, "
+"pero no hay componentes que propaguen el número de lote. Compruebe la "
+"configuración de la lista de materiales."
 
 #. module: mrp_lot_number_propagation
 #: model:ir.model.fields,field_description:mrp_lot_number_propagation.field_mrp_bom__display_lot_number_propagation
 msgid "Display Lot Number Propagation"
-msgstr "Visualizza propagazione numero di lotto"
+msgstr "Mostrar Número de Lote Propagación"
 
 #. module: mrp_lot_number_propagation
 #: model:ir.model.fields,field_description:mrp_lot_number_propagation.field_mrp_bom_line__display_propagate_lot_number
 msgid "Display Propagate Lot Number"
-msgstr "Visualizza il numero di lotto propagato"
+msgstr "Mostrar Propagación Número de Lote"
 
 #. module: mrp_lot_number_propagation
 #: model:ir.model.fields,field_description:mrp_lot_number_propagation.field_mrp_production__is_lot_number_propagated
 msgid "Is Lot Number Propagated"
-msgstr "Il numero di lotto è propagato"
+msgstr "Es el Número de Lote Propagado"
 
 #. module: mrp_lot_number_propagation
 #: model:ir.model.fields,field_description:mrp_lot_number_propagation.field_mrp_bom__lot_number_propagation
 msgid "Lot Number Propagation"
-msgstr "Propagazione numero di lotto"
+msgstr "Propagación del Número de Lote"
 
 #. module: mrp_lot_number_propagation
 #: model_terms:ir.ui.view,arch_db:mrp_lot_number_propagation.mrp_production_form_view
 msgid "Lot/Serial Number"
-msgstr "Numero di lotto/serie"
+msgstr "Lote/Número de serie"
 
 #. module: mrp_lot_number_propagation
 #: code:addons/mrp_lot_number_propagation/models/mrp_production.py:0
@@ -98,7 +99,8 @@ msgid ""
 "Lot/Serial number %s already exists and has been used. Unable to propagate "
 "it."
 msgstr ""
-"Il lotto/seriale %s esiste ed è stato usato. Non è possibile propagarlo."
+"El lote/número de serie %s ya existe y ha sido utilizado. No se ha podido "
+"propagar."
 
 #. module: mrp_lot_number_propagation
 #: code:addons/mrp_lot_number_propagation/models/mrp_production.py:0
@@ -107,77 +109,77 @@ msgid ""
 "Lot/Serial number is propagated from a component, you are not allowed to "
 "change it."
 msgstr ""
-"Il numero di lotto/matricola è propagato da un componente, non è consentito "
-"modificarlo."
+"El número de lote/serie se propaga desde un componente, usted no está "
+"autorizado a modificarlo."
 
 #. module: mrp_lot_number_propagation
 #: model:ir.model.fields,help:mrp_lot_number_propagation.field_mrp_production__is_lot_number_propagated
 msgid ""
 "Lot/serial number is propagated from a component to the finished product."
 msgstr ""
-"Il numero di lotto/matricola è propagato da un componente al prodotto finito."
+"El número de lote/serie se propaga de un componente al producto acabado."
 
 #. module: mrp_lot_number_propagation
 #: code:addons/mrp_lot_number_propagation/models/mrp_bom_line.py:0
 #, python-format
 msgid ""
-"Only components tracked by serial number can propagate its lot/serial number "
-"to the finished product."
+"Only components tracked by serial number can propagate its lot/serial number"
+" to the finished product."
 msgstr ""
-"Solo i componenti tracciati da una matricola possono propagare il loro "
-"numero di lotto/matricola al prodotto finito."
+"Sólo los componentes rastreados por número de serie pueden propagar su "
+"número de lote/serie al producto acabado."
 
 #. module: mrp_lot_number_propagation
 #: model:ir.model,name:mrp_lot_number_propagation.model_product_product
 msgid "Product"
-msgstr "Prodotto"
+msgstr "Producto"
 
 #. module: mrp_lot_number_propagation
 #: model:ir.model,name:mrp_lot_number_propagation.model_product_template
 msgid "Product Template"
-msgstr "Modello prodotto"
+msgstr "Plantilla del Producto"
 
 #. module: mrp_lot_number_propagation
 #: model:ir.model,name:mrp_lot_number_propagation.model_mrp_production
 msgid "Production Order"
-msgstr "Ordine di produzione"
+msgstr "Orden de Producción"
 
 #. module: mrp_lot_number_propagation
 #: model:ir.model.fields,field_description:mrp_lot_number_propagation.field_mrp_bom_line__propagate_lot_number
 #: model:ir.model.fields,field_description:mrp_lot_number_propagation.field_stock_move__propagate_lot_number
 msgid "Propagate Lot Number"
-msgstr "Propaga numero di lotto"
+msgstr "Propagar el Número de Lote"
 
 #. module: mrp_lot_number_propagation
 #: model:ir.model.fields,field_description:mrp_lot_number_propagation.field_mrp_production__propagated_lot_producing
 msgid "Propagated Lot Producing"
-msgstr "Produzione lotto propagato"
+msgstr "Producción de Lotes Propagados"
 
 #. module: mrp_lot_number_propagation
 #: model:ir.model,name:mrp_lot_number_propagation.model_stock_move
 msgid "Stock Move"
-msgstr "Movimento di magazzino"
+msgstr "Movimiento de Existencias"
 
 #. module: mrp_lot_number_propagation
 #: model:ir.model.fields,help:mrp_lot_number_propagation.field_mrp_production__propagated_lot_producing
 msgid ""
-"The BoM used on this manufacturing order is set to propagate lot number from "
-"one of its components. The value will be computed once the corresponding "
+"The BoM used on this manufacturing order is set to propagate lot number from"
+" one of its components. The value will be computed once the corresponding "
 "component is selected."
 msgstr ""
-"La DiBa utilizzata in questo ordine di produzione è impostata per propagare "
-"il nomero di lotto da uno dei suoi componenti. Il valore verrà calcolato una "
-"volta che il componente corrispondente sarà selezionato."
+"La lista de materiales utilizada en esta orden de producción está "
+"configurada para propagar el número de lote desde uno de sus componentes. El "
+"valor se calculará una vez seleccionado el componente correspondiente."
 
 #. module: mrp_lot_number_propagation
 #: code:addons/mrp_lot_number_propagation/models/product_template.py:0
 #, python-format
 msgid ""
-"This component is configured to propagate its serial number in the following "
-"Bill of Materials:{boms}'"
+"This component is configured to propagate its serial number in the following"
+" Bill of Materials:{boms}'"
 msgstr ""
-"Questo componente è configurato per propagare la sua matricola nella "
-"seguente DiBa: {boms}'"
+"Este componente está configurado para propagar su número de serie en la "
+"siguiente lista de materiales:{boms}'"
 
 #. module: mrp_lot_number_propagation
 #: code:addons/mrp_lot_number_propagation/models/mrp_bom.py:0
@@ -186,13 +188,5 @@ msgid ""
 "With 'Lot Number Propagation' enabled, a line has to be configured with the "
 "'Propagate Lot Number' option."
 msgstr ""
-"Con 'Propagazione numero di lotto' abilitata, una riga deve essere "
-"configurata con l'opzione 'Propaga numero di lotto'."
-
-#, python-format
-#~ msgid ""
-#~ "Only one BoM line can propagate its lot/serial number to the finished "
-#~ "product."
-#~ msgstr ""
-#~ "Solo una riga di DiBa può propagare il suo numero di lotto/matricola al "
-#~ "prodotto finito."
+"Con la \"Propagación del número de lote\" activada, debe configurarse una "
+"línea con la opción \"Propagar número de lote\"."

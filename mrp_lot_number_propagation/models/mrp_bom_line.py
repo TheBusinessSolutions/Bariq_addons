@@ -42,7 +42,7 @@ class MrpBomLine(models.Model):
             if line.propagate_lot_number and line.product_id.tracking != "lot":
                 raise ValidationError(
                     _(
-                        "Only components tracked by Lot number can propagate "
+                        "Only components tracked by serial number can propagate "
                         "its lot/serial number to the finished product."
                     )
                 )

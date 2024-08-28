@@ -1,5 +1,0 @@
-<odoo>
-     <record id="lot_number_group" model="res.groups">
-            <field name="name"> Edit Product MRP Sequence</field>
-     </record>
-</odoo>
