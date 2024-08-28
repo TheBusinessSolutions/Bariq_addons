@@ -11,9 +11,9 @@
             <xpath expr="//field[@name='id']/.." position="inside">
                 <!-- LOT Propagation Fields -->
                 <group attrs="{'invisible': [('is_lot_number_propagated', '=', False)]}">
-                    <field name="is_lot_number_propagated" force_save="1"/>
-                    <field name="is_generate_lots" invisible="1"/>
-                    <field name="lot_producing_id" invisible="1"/>
+                    <field name="is_lot_number_propagated" force_save="0"/>
+                    <field name="is_generate_lots" invisible="0"/>
+                    <field name="lot_producing_id" invisible="0"/>
                     <field name="propagated_lot_producing" string="Lot/Serial Number"/>
                 </group>
             </xpath>
