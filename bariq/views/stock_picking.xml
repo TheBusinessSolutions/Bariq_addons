@@ -7,10 +7,10 @@
             <field name="inherit_id" ref="mrp.mrp_production_form_view"/>
             <field name="arch" type="xml">
                 <record id="mrp_production_form_view" model="ir.ui.view">
-        <field name="name">mrp.production.form.inherit</field>
-        <field name="model">mrp.production</field>
-        <field name="inherit_id" ref="mrp.mrp_production_form_view"/>
-        <field name="arch" type="xml">
+            <field name="name">mrp.production.form.inherit</field>
+            <field name="model">mrp.production</field>
+            <field name="inherit_id" ref="mrp.mrp_production_form_view"/>
+            <field name="arch" type="xml">
             <!-- Add weight_ticket_number field after user_id -->
             <xpath expr="//field[@name='user_id']" position="inside">
                 <field name="weight_ticket_number" attrs="{'invisible': [('state', '=', 'draft')]}"/>
@@ -47,9 +47,8 @@
             <xpath expr="//button[@name='action_generate_serial']" position="attributes">
                 <attribute name="invisible">1</attribute>
             </xpath>
-        </field>
-    </record>
-            </field>
+        
+            
         </record>
 
         <!-- Stock Picking View Inheritance -->
