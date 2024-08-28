@@ -21,8 +21,8 @@
                         <field name="lot_producing_id" invisible="1"/> <!-- Make lot_producing_id invisible -->
 
                         <!-- Row for weight fields, displayed vertically -->
+                        <label for="weight_1"/>
                         <div class="o_row">
-                            <label for="weight_1"/>
                             <field name="weight_1" attrs="{'invisible': [('state', '=', 'draft')]}"/>
                             <button name="get_weight_1" type="object" icon="fa-gear"
                                     attrs="{'invisible': [('state', '=', 'draft')]}"/>
