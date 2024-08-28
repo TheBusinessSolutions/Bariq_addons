@@ -26,6 +26,6 @@
         'views/shift_weight.xml',
         'views/res_company.xml',
         # 'views/search_by_fields.xml',
-        'views/bales_move_production.xml',
+        #'views/bales_move_production.xml',
     ],
 }
