@@ -31,9 +31,9 @@
                 </xpath>
 
                 <!-- Add propagated_lot_producing field before lot_producing_id label -->
-                <xpath expr="//label[@for='lot_producing_id']" position="before">
+                <!-- <xpath expr="//label[@for='lot_producing_id']" position="before">
                     <field name="propagated_lot_producing" string="Lot/Serial Number"/>
-                </xpath>
+                </xpath> -->
 
                 <!-- Modify header to include Generate Lots button with conditions -->
                 <xpath expr="//header" position="inside">
