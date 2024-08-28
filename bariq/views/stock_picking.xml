@@ -37,7 +37,8 @@
 
                 <!-- Modify header to include Generate Lots button with conditions -->
                 <xpath expr="//header" position="inside">
-                    <button name="action_generate_lots_name" string="Generate Lots" type="object" class="oe_highlight"
+                    <!-- <button name="action_generate_lots_name" string="Generate Lots" type="object" class="oe_highlight" -->
+                    <button name="action_generate_mrp_lots_name" string="Generate Lots" type="object" class="oe_highlight"
                             attrs="{'invisible': ['|', ('weight_id', '=', False), ('is_generate_lots', '=', True)]}"/>
                 </xpath>
 
