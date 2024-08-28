@@ -7,7 +7,7 @@
             <field name="inherit_id" ref="mrp.mrp_production_form_view"/>
             <field name="arch" type="xml">
                 <!-- Add weight_ticket_number field after user_id -->
-                <xpath expr="//field[@name='user_id']" position="after">
+                <xpath expr="//field[@name='user_id']" position="inside">
                     <field name="weight_ticket_number" attrs="{'invisible': [('state', '=', 'draft')]}"/>
                 </xpath>
 
