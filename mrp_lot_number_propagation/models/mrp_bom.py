@@ -11,7 +11,7 @@ class MrpBom(models.Model):
     lot_number_propagation = fields.Boolean(
         default=False,
         help=(
-            "Allow to propagate the lot/serial number "
+            "Allow to propagate the lot/lot number "
             "from a component to the finished product."
         ),
     )
@@ -33,9 +33,9 @@ class MrpBom(models.Model):
 
         A lot number can be propagated from a component to the finished product if:
         - the type of the BoM is normal (Manufacture this product)
-        - the finished product is tracked by serial number
+        - the finished product is tracked by lot number
         - the quantity of the finished product is 1 and its UoM is unit
-        - there is at least one bom line, with a component tracked by serial,
+        - there is at least one bom line, with a component tracked by lot,
           having a quantity of 1 and its UoM is unit
         """
         uom_unit = self.env.ref("uom.product_uom_unit")
