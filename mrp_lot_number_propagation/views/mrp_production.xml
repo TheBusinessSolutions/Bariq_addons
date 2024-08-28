@@ -5,10 +5,7 @@
         <field name="inherit_id" ref="mrp.mrp_production_form_view"/>
         <field name="arch" type="xml">
 
-            <!-- Add weight_ticket_number field after user_id -->
-            <xpath expr="//field[@name='user_id']" position="after">
-                <field name="weight_ticket_number" attrs="{'invisible': [('state', '=', 'draft')]}"/>
-            </xpath>
+           
 
             <!-- Add custom fields inside the ID's parent element -->
             <xpath expr="//field[@name='id']/.." position="inside">
@@ -20,27 +17,8 @@
                     <field name="propagated_lot_producing" string="Lot/Serial Number"/>
                 </group>
 
-                <!-- Weight Fields -->
-                <group attrs="{'invisible': [('state', '=', 'draft')]}">
-                    <field name="weight_id"/>
-                    <label for="weight_1"/>
-                    <div class="o_row">
-                        <field name="weight_1"/>
-                        <button name="get_weight_1" type="object" icon="fa-gear"/>
-                    </div>
-                </group>
-            </xpath>
 
-            <!-- Modify header to include Generate Lots button with conditions -->
-            <xpath expr="//header" position="inside">
-                <button name="action_generate_lots_name" string="Generate Lots" type="object" class="oe_highlight"
-                        attrs="{'invisible': ['|', ('weight_id', '=', False), ('is_generate_lots', '=', True)]}"/>
-            </xpath>
 
-            <!-- Make the action_generate_serial button invisible -->
-            <xpath expr="//button[@name='action_generate_serial']" position="attributes">
-                <attribute name="invisible">1</attribute>
-            </xpath>
 
         </field>
     </record>
