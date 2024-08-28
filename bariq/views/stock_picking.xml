@@ -116,7 +116,7 @@
                 <!-- material transfer fields -->
                     <group attrs="{'invisible': [('is_dawar_picking', '=', True), ('material_transfer_r', '=', False)]}">
                         <!-- Single group for all fields to align them vertically -->
-                        <group colspan="">
+                        <group>
                             <field name="material_transfer_r" invisible="1"/>
                             <field name="barcode"
                                 attrs="{'invisible': [('picking_type_code', 'not in', ['outgoing', 'internal'])]}"/>
