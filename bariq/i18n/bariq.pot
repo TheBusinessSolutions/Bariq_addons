@@ -1,0 +1,417 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* bariq
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 15.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-09-01 09:04+0000\n"
+"PO-Revision-Date: 2024-09-01 09:04+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: bariq
+#: model:ir.model.fields.selection,name:bariq.selection__shift_weight__end_type__am
+#: model:ir.model.fields.selection,name:bariq.selection__shift_weight__start_type__am
+msgid "AM"
+msgstr ""
+
+#. module: bariq
+#: model:ir.model.fields,field_description:bariq.field_stock_weight__user_ids
+msgid "Access Users"
+msgstr ""
+
+#. module: bariq
+#: model:ir.model.fields,field_description:bariq.field_stock_picking__available_weight_ids
+msgid "Available Weight"
+msgstr ""
+
+#. module: bariq
+#: model:ir.model.fields,field_description:bariq.field_purchase_order_line__bales_number
+#: model:ir.model.fields,field_description:bariq.field_stock_move__bales_number
+#: model:ir.model.fields,field_description:bariq.field_stock_move_line__bales_number
+msgid "Bales"
+msgstr ""
+
+#. module: bariq
+#: model:ir.model.fields,field_description:bariq.field_stock_picking__barcode
+msgid "Barcode"
+msgstr ""
+
+#. module: bariq
+#: model:ir.model.fields,field_description:bariq.field_stock_move__bariq_lot_id
+msgid "Bariq Lot ID"
+msgstr ""
+
+#. module: bariq
+#: model_terms:ir.ui.view,arch_db:bariq.view_stock_picking_form_inherit
+msgid "Close Ticket"
+msgstr ""
+
+#. module: bariq
+#: model:ir.model.fields,field_description:bariq.field_shift_weight__code
+#: model:ir.model.fields,field_description:bariq.field_stock_weight__code
+msgid "Code"
+msgstr ""
+
+#. module: bariq
+#: model:ir.model,name:bariq.model_res_company
+msgid "Companies"
+msgstr ""
+
+#. module: bariq
+#: model:ir.model.fields,field_description:bariq.field_shift_weight__create_uid
+#: model:ir.model.fields,field_description:bariq.field_stock_weight__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: bariq
+#: model:ir.model.fields,field_description:bariq.field_shift_weight__create_date
+#: model:ir.model.fields,field_description:bariq.field_stock_weight__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: bariq
+#: model_terms:ir.ui.view,arch_db:bariq.view_res_company_form_inherit_dawar
+msgid "Dawar Configuration"
+msgstr ""
+
+#. module: bariq
+#: model_terms:ir.ui.view,arch_db:bariq.view_stock_picking_inherit_dawar
+msgid "Dawar Picking"
+msgstr ""
+
+#. module: bariq
+#: model:ir.model.fields,field_description:bariq.field_stock_picking__dawar_ticket
+#: model_terms:ir.ui.view,arch_db:bariq.view_purchase_order_form_inherit
+msgid "Dawar Ticket"
+msgstr ""
+
+#. module: bariq
+#: model:ir.model.fields,field_description:bariq.field_shift_weight__display_name
+#: model:ir.model.fields,field_description:bariq.field_stock_weight__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: bariq
+#: model:ir.model.fields,field_description:bariq.field_purchase_order__driver_license
+#: model:ir.model.fields,field_description:bariq.field_stock_picking__driver_license
+msgid "Driver License"
+msgstr ""
+
+#. module: bariq
+#: model:ir.model.fields,field_description:bariq.field_purchase_order__driver_name
+#: model:ir.model.fields,field_description:bariq.field_stock_picking__driver_name
+msgid "Driver Name"
+msgstr ""
+
+#. module: bariq
+#: model:ir.model.fields,field_description:bariq.field_shift_weight__end_hour
+msgid "End Hour"
+msgstr ""
+
+#. module: bariq
+#: model:ir.model.fields,field_description:bariq.field_shift_weight__end_minute
+msgid "End Minute"
+msgstr ""
+
+#. module: bariq
+#: model:ir.model.fields,field_description:bariq.field_shift_weight__end_type
+msgid "End Type"
+msgstr ""
+
+#. module: bariq
+#: model_terms:ir.ui.view,arch_db:bariq.mrp_production_form_view
+#: model_terms:ir.ui.view,arch_db:bariq.view_stock_picking_form_inherit
+msgid "Generate Lots"
+msgstr ""
+
+#. module: bariq
+#: model:ir.model.fields,field_description:bariq.field_shift_weight__id
+#: model:ir.model.fields,field_description:bariq.field_stock_weight__id
+msgid "ID"
+msgstr ""
+
+#. module: bariq
+#: model:ir.model.fields,field_description:bariq.field_stock_weight__ip_addr
+msgid "IP Address"
+msgstr ""
+
+#. module: bariq
+#: model:ir.model.fields,field_description:bariq.field_stock_move_line__is_dawar_picking
+#: model:ir.model.fields,field_description:bariq.field_stock_picking__is_dawar_picking
+msgid "Is Dawar Picking"
+msgstr ""
+
+#. module: bariq
+#: model:ir.model.fields,field_description:bariq.field_purchase_order__is_dawar_purchase
+msgid "Is Dawar Purchase"
+msgstr ""
+
+#. module: bariq
+#: model:ir.model.fields,field_description:bariq.field_mrp_production__is_generate_lots
+#: model:ir.model.fields,field_description:bariq.field_stock_picking__is_generate_lots
+msgid "Is Generate Lots"
+msgstr ""
+
+#. module: bariq
+#: model:ir.model.fields,field_description:bariq.field_mrp_production__is_get_weight_1
+msgid "Is Get Weight"
+msgstr ""
+
+#. module: bariq
+#: model:ir.model.fields,field_description:bariq.field_stock_picking__is_get_weight_1
+msgid "Is Get Weight 1"
+msgstr ""
+
+#. module: bariq
+#: model:ir.model.fields,field_description:bariq.field_stock_picking__is_get_weight_2
+msgid "Is Get Weight 2"
+msgstr ""
+
+#. module: bariq
+#: model:ir.model.fields,field_description:bariq.field_mrp_production__is_lot_number_propagated
+msgid "Is Lot Number Propagated"
+msgstr ""
+
+#. module: bariq
+#: model:ir.model.fields,field_description:bariq.field_shift_weight____last_update
+#: model:ir.model.fields,field_description:bariq.field_stock_weight____last_update
+msgid "Last Modified on"
+msgstr ""
+
+#. module: bariq
+#: model:ir.model.fields,field_description:bariq.field_shift_weight__write_uid
+#: model:ir.model.fields,field_description:bariq.field_stock_weight__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: bariq
+#: model:ir.model.fields,field_description:bariq.field_shift_weight__write_date
+#: model:ir.model.fields,field_description:bariq.field_stock_weight__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: bariq
+#: model:ir.model.fields,field_description:bariq.field_res_company__link
+msgid "Link"
+msgstr ""
+
+#. module: bariq
+#: model:ir.model.fields,field_description:bariq.field_mrp_production__lot_producing_id
+#: model_terms:ir.ui.view,arch_db:bariq.mrp_production_form_view
+msgid "Lot/Serial Number"
+msgstr ""
+
+#. module: bariq
+#: model:ir.model.fields,help:bariq.field_mrp_production__is_lot_number_propagated
+msgid ""
+"Lot/Serial number is propagated from a component to the finished product."
+msgstr ""
+
+#. module: bariq
+#: model:ir.model.fields,field_description:bariq.field_stock_picking__is_manual
+#: model:ir.model.fields,field_description:bariq.field_stock_weight__is_manual
+msgid "Manual"
+msgstr ""
+
+#. module: bariq
+#: model:ir.model.fields,field_description:bariq.field_product_product__material_code
+#: model:ir.model.fields,field_description:bariq.field_product_template__material_code
+msgid "Material Code"
+msgstr ""
+
+#. module: bariq
+#: model:ir.actions.act_window,name:bariq.material_purchasing_action
+#: model:ir.ui.menu,name:bariq.material_purchasing_menu
+msgid "Material Purchasing"
+msgstr ""
+
+#. module: bariq
+#: model:ir.model.fields,field_description:bariq.field_stock_picking__material_transfer_r
+#: model:ir.model.fields,field_description:bariq.field_stock_picking_type__material_transfers
+msgid "Material Transfer"
+msgstr ""
+
+#. module: bariq
+#: model:ir.model.fields,field_description:bariq.field_shift_weight__name
+#: model:ir.model.fields,field_description:bariq.field_stock_weight__name
+msgid "Name"
+msgstr ""
+
+#. module: bariq
+#: model:ir.model.fields.selection,name:bariq.selection__shift_weight__end_type__pm
+#: model:ir.model.fields.selection,name:bariq.selection__shift_weight__start_type__pm
+msgid "PM"
+msgstr ""
+
+#. module: bariq
+#: model:ir.model.fields,field_description:bariq.field_res_company__password
+msgid "Password"
+msgstr ""
+
+#. module: bariq
+#: model:ir.model,name:bariq.model_stock_picking_type
+msgid "Picking Type"
+msgstr ""
+
+#. module: bariq
+#: model:ir.model.fields,field_description:bariq.field_stock_weight__port
+msgid "Port Number"
+msgstr ""
+
+#. module: bariq
+#: model:ir.model,name:bariq.model_stock_move_line
+msgid "Product Moves (Stock Move Line)"
+msgstr ""
+
+#. module: bariq
+#: model:ir.model,name:bariq.model_product_template
+msgid "Product Template"
+msgstr ""
+
+#. module: bariq
+#: model:ir.model,name:bariq.model_mrp_production
+msgid "Production Order"
+msgstr ""
+
+#. module: bariq
+#: model:ir.model.fields,field_description:bariq.field_mrp_production__propagated_lot_producing
+msgid "Propagated Lot Producing"
+msgstr ""
+
+#. module: bariq
+#: model:ir.model,name:bariq.model_purchase_order
+msgid "Purchase Order"
+msgstr ""
+
+#. module: bariq
+#: model:ir.model,name:bariq.model_purchase_order_line
+msgid "Purchase Order Line"
+msgstr ""
+
+#. module: bariq
+#: model:ir.model.fields,field_description:bariq.field_stock_picking__rejected
+#: model_terms:ir.ui.view,arch_db:bariq.view_purchase_line_discount_form_inherit
+msgid "Rejected (%)"
+msgstr ""
+
+#. module: bariq
+#: model:ir.model.fields,field_description:bariq.field_stock_weight__sequence_id
+msgid "Sequence"
+msgstr ""
+
+#. module: bariq
+#: model:ir.actions.act_window,name:bariq.shift_weight_action
+#: model:ir.ui.menu,name:bariq.shift_weight_menu
+msgid "Shifts"
+msgstr ""
+
+#. module: bariq
+#: model:ir.model.fields,field_description:bariq.field_shift_weight__start_hour
+msgid "Start Hour"
+msgstr ""
+
+#. module: bariq
+#: model:ir.model.fields,field_description:bariq.field_shift_weight__start_minute
+msgid "Start Minute"
+msgstr ""
+
+#. module: bariq
+#: model:ir.model.fields,field_description:bariq.field_shift_weight__start_type
+msgid "Start Type"
+msgstr ""
+
+#. module: bariq
+#: model:ir.model,name:bariq.model_stock_move
+msgid "Stock Move"
+msgstr ""
+
+#. module: bariq
+#: model:ir.actions.act_window,name:bariq.stock_weight_action
+#: model:ir.ui.menu,name:bariq.stock_weight_menu_parent
+msgid "Stock Weights"
+msgstr ""
+
+#. module: bariq
+#: model:ir.model.fields,help:bariq.field_mrp_production__propagated_lot_producing
+msgid ""
+"The lot/serial number for the finished product is automatically generated "
+"based on the material code and the weight ticket number."
+msgstr ""
+
+#. module: bariq
+#: model_terms:ir.ui.view,arch_db:bariq.view_purchase_order_form_inherit
+msgid "Ticket Date"
+msgstr ""
+
+#. module: bariq
+#: model:ir.model.fields,field_description:bariq.field_mrp_production__weight_ticket_number
+#: model:ir.model.fields,field_description:bariq.field_stock_picking__weight_ticket_number
+msgid "Ticket Number"
+msgstr ""
+
+#. module: bariq
+#: model:ir.model.fields,field_description:bariq.field_purchase_order__trailer_number
+#: model:ir.model.fields,field_description:bariq.field_stock_picking__trailer_number
+msgid "Trailer Number"
+msgstr ""
+
+#. module: bariq
+#: model:ir.model,name:bariq.model_stock_picking
+msgid "Transfer"
+msgstr ""
+
+#. module: bariq
+#: model_terms:ir.ui.view,arch_db:bariq.view_purchase_order_form_inherit
+#: model_terms:ir.ui.view,arch_db:bariq.view_stock_picking_form_inherit
+msgid "Truck Details"
+msgstr ""
+
+#. module: bariq
+#: model:ir.model.fields,field_description:bariq.field_purchase_order__truck_number
+#: model:ir.model.fields,field_description:bariq.field_stock_picking__truck_number
+msgid "Truck Number"
+msgstr ""
+
+#. module: bariq
+#: model:ir.model.fields,field_description:bariq.field_res_company__username
+msgid "Username"
+msgstr ""
+
+#. module: bariq
+#: model:ir.model.fields,field_description:bariq.field_mrp_production__weight_1
+#: model:ir.model.fields,field_description:bariq.field_stock_picking__weight_1
+#: model:ir.model.fields,field_description:bariq.field_stock_picking__weight_2
+msgid "Weight"
+msgstr ""
+
+#. module: bariq
+#: model:ir.model.fields,field_description:bariq.field_stock_picking__weight_id
+msgid "Weight Type"
+msgstr ""
+
+#. module: bariq
+#: model:ir.model.fields,field_description:bariq.field_mrp_production__weight_id
+msgid "Weight type"
+msgstr ""
+
+#. module: bariq
+#: model:ir.ui.menu,name:bariq.stock_weight_menu
+msgid "Weights"
+msgstr ""
+
+#. module: bariq
+#: model:ir.model,name:bariq.model_shift_weight
+msgid "shift.weight"
+msgstr ""
+
+#. module: bariq
+#: model:ir.model,name:bariq.model_stock_weight
+msgid "stock.weight"
+msgstr ""
