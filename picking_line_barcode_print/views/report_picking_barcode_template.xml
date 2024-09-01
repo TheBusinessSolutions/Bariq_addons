@@ -4,49 +4,6 @@
         <template id="report_picking_barcode_template">
             <t t-call="web.basic_layout">
                 <t t-foreach="docs" t-as="o">
-                    <!-- Check if bales_number is greater than 0 -->
-                    <t t-if="o.bales_number >= 0">
-                        <t t-foreach="range(o.bales_number)" t-as="bale">
-                            <div class="page">
-                                <div style="padding: 5px!important; margin: 5px!important">
-                                    <center>
-                                        <t t-if="o.lot_id or o.lot_name">
-                                            <img t-att-src="'/report/barcode/?type=Code128&amp;value=%s' % o.lot_id.name" style="width: 200px!important; margin-top: -15px!important; margin-left: -15px!important"/>
-                                            <p style="font-size: 10px">Lot Barcode: <t t-esc="o.lot_name"/></p>
-                                        </t>
-                                    </center>
-                                </div>
-                            </div>
-                        </t>
-                    </t>
-
-
-                </t>
-            </t>
-        </template>
-
-        <record id="action_report_barcode" model="ir.actions.report">
-            <field name="name">Barcode Report</field>
-            <field name="model">stock.move.line</field>
-            <field name="report_type">qweb-pdf</field>
-            <field name="report_name">picking_line_barcode_print.report_picking_barcode_template</field>
-            <field name="report_file">picking_line_barcode_print.report_picking_barcode_template</field>
-            <field name="print_report_name">'Barcode'</field>
-            <field name="paperformat_id" ref="product.paperformat_label_sheet_dymo"/>
-            <field name="binding_model_id" ref="model_stock_move_line"/>
-        </record>
-    </data>
-</odoo>
-
-
-
-<!-- original code -->
-<!-- <?xml version="1.0" encoding="UTF-8"?>
-<odoo>
-    <data>
-        <template id="report_picking_barcode_template">
-            <t t-call="web.basic_layout">
-                <t t-foreach="docs" t-as="o">
                     <t t-foreach="range(o.bales_number)" t-as="bale">
                         <div class="page">
                             <div style="padding: 5px!important; margin: 5px!important">
@@ -81,4 +38,4 @@
             <field name="binding_model_id" ref="model_stock_move_line"/>
         </record>
     </data>
-</odoo> -->
+</odoo>
