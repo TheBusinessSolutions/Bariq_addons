@@ -5,7 +5,7 @@
             <t t-call="web.basic_layout">
                 <t t-foreach="docs" t-as="o">
                     <!-- Check if bales_number is greater than 0 -->
-                    <t t-if="o.bales_number > 0">
+                    <t t-if="o.bales_number >= 0">
                         <t t-foreach="range(o.bales_number)" t-as="bale">
                             <div class="page">
                                 <div style="padding: 5px!important; margin: 5px!important">
@@ -20,19 +20,7 @@
                         </t>
                     </t>
 
-                    <!-- Handle case when bales_number is 0 -->
-                    <t t-elif="o.bales_number == 0">
-                        <div class="page">
-                            <div style="padding: 5px!important; margin: 5px!important">
-                                <center>
-                                    <t t-if="o.lot_id or o.lot_name">
-                                        <img t-att-src="'/report/barcode/?type=Code128&amp;value=%s' % o.lot_id.name" style="width: 200px!important; margin-top: -15px!important; margin-left: -15px!important"/>
-                                        <p style="font-size: 10px">Lot Barcode: <t t-esc="o.lot_name"/></p>
-                                    </t>
-                                </center>
-                            </div>
-                        </div>
-                    </t>
+
                 </t>
             </t>
         </template>
