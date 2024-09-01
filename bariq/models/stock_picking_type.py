@@ -24,7 +24,7 @@ class StockPicking(models.Model):
             for move in self.move_ids_without_package:
                 move.quantity_done = self.weight_1
 
-     @api.onchange('weight_2')
+    @api.onchange('weight_2')
     def _onchange_weight_1(self):
         if self.weight_2:
             for move in self.move_ids_without_package:
