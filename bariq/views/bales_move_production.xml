@@ -3,24 +3,17 @@
 <odoo>
     <data>
         <record id="mrp_production_form_view" model="ir.ui.view">
-                    <field name="name">mrp.production.form.inherit</field>
-                    <field name="model">mrp.production</field>
-                    <field name="inherit_id" ref="mrp.mrp_production_form_view"/>
-                    <field name="arch" type="xml">
-
-                        <!-- Add custom fields inside the ID's parent element -->
-                        <xpath expr="//field[@name='id']/.." position="after">
-                            <!-- Group to ensure vertical stacking -->
-                            <group>
-                                
-                                <!-- Row for weight fields, displayed vertically -->
-                                <label for="received_bales_number"/>
-                                <div class="o_row">
-                                    <field name="received_bales_number" attrs="{'invisible': [('state', '=', 'draft')]}"/>
-                                </div>
-                            </group>
-                        </xpath>
-                    </field>
+            <field name="name">mrp.production.form.inherit</field>
+            <field name="model">mrp.production</field>
+            <field name="inherit_id" ref="mrp.mrp_production_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='id']/.." position="after">
+                    <group>
+                        <field name="received_bales_number"/>
+                    </group>
+                </xpath>
+            </field>
         </record>
+
     </data>
 </odoo>
