@@ -10,6 +10,7 @@ class StockPicking(models.Model):
 
     weight_id = fields.Many2one('stock.weight', string='Weight Type')
     weight_1 = fields.Float(string="Weight")
+    weight_2 = fields.Float(string="Weight")
     material_transfer_r = fields.Boolean(string='Material Transfer', compute='_compute_material_transfer', store=True)
 
     @api.depends('picking_type_id.material_transfers')
