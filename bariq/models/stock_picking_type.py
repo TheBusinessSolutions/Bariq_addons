@@ -34,7 +34,7 @@ class StockPicking(models.Model):
     def action_calculate_done_qty(self):
         for record in self.move_line_ids_without_package:
             record.qty_done = abs(self.weight_1 - self.weight_2)
-            
+
     def get_weight_1(self):
         if not self.weight_id:
             raise exceptions.UserError("Weight configuration is missing. Please ensure that a valid Weight ID is set.")
@@ -53,6 +53,30 @@ class StockPicking(models.Model):
                 self.weight_1 = float(response)
             except ValueError:
                 self.weight_1 = 0.0
+
+            client.close()
+
+        except Exception as e:
+            raise exceptions.UserError("We Can't Process Request: (%s)" % e)
+
+    def get_weight_2(self):
+        if not self.weight_id:
+            raise exceptions.UserError("Weight configuration is missing. Please ensure that a valid Weight ID is set.")
+        try:
+            import socket
+            client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            client.connect((self.weight_id.ip_addr, int(self.weight_id.port)))
+
+            response = client.recv(1024)
+            response = response.decode("utf-8")
+
+            if not response.isdigit():
+                raise exceptions.UserError("Invalid Return Response %s" % response)
+
+            try:
+                self.weight_2 = float(response)
+            except ValueError:
+                self.weight_2 = 0.0
 
             client.close()
 
