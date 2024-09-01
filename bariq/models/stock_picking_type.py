@@ -18,24 +18,35 @@ class StockPicking(models.Model):
         for record in self:
             record.material_transfer_r = record.picking_type_id.material_transfers
 
+    # @api.onchange('weight_1', 'weight_2')
+    # def action_calculate_done_qty(self):
+    #     for record in self.move_line_ids_without_package:
+    #         # record.qty_done = abs(self.weight_1 - self.weight_2)
+    #         record.quantity_done = abs(self.weight_1 - self.weight_2)
+    # @api.onchange('weight_1')
+    # def _onchange_weight_1(self):
+    #     if self.weight_1:
+    #         for move in self.move_ids_without_package:
+    #             move.quantity_done = self.weight_1
+
+    # @api.onchange('weight_2')
+    # def _onchange_weight_1(self):
+    #     if self.weight_2:
+    #         for move in self.move_ids_without_package:
+    #             move.quantity_done = self.weight_2
+
+#  the update 2 weights in internal transfers
     @api.onchange('weight_1', 'weight_2')
-    def action_calculate_done_qty(self):
-        for record in self.move_line_ids_without_package:
-            # record.qty_done = abs(self.weight_1 - self.weight_2)
-            record.quantity_done = abs(self.weight_1 - self.weight_2)
-    @api.onchange('weight_1')
-    def _onchange_weight_1(self):
+    def _onchange_weights(self):
         if self.weight_1:
+            # Set the quantity_done to weight_1 when weight_1 is updated
             for move in self.move_ids_without_package:
                 move.quantity_done = self.weight_1
-
-    @api.onchange('weight_2')
-    def _onchange_weight_1(self):
         if self.weight_2:
+            # Calculate the difference between weight_2 and weight_1 and update quantity_done
+            difference = abs(self.weight_2 - self.weight_1)
             for move in self.move_ids_without_package:
-                move.quantity_done = self.weight_2
-
-
+                move.quantity_done = difference
 
     def get_weight_1(self):
         if not self.weight_id:
