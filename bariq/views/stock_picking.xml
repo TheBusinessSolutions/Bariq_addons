@@ -130,6 +130,12 @@
                                     attrs="{'invisible': [('material_transfer_r', '=', False)]}"/>
                                 <button name="get_weight_1" type="object" icon="fa-gear"
                                         attrs="{'invisible': [('material_transfer_r', '=', False)]}"/>
+
+                                <field name="weight_2" 
+                                    attrs="{'invisible': [('material_transfer_r', '=', False)]}"/>
+                                <button name="get_weight_1" type="object" icon="fa-gear"
+                                        attrs="{'invisible': [('material_transfer_r', '=', False)]}"/>
+
                             </div>
                         </group>
                     </group>
