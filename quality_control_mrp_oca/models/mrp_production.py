@@ -64,17 +64,22 @@ class MrpProduction(models.Model):
                 inspections = production.qc_inspections_ids.filtered(
                     lambda i: i.state in ('draft', 'ready', 'waiting')
                 )
+                
+                #check first if the order is marked to skip inspection, then skip the error
+                
+                if not production.skip_quality_inspection:
+
                 #check if the product has a tracking and if there are no inspections
-                #stop mark the MO as done
-                if product_tracking != 'none' and not production.qc_inspections_ids:
-                    raise UserError(
-                        "You cannot mark the MO as done because no inspection test has been created for the product with tracking."
-                    )
-                #check if there are inspections in the MO but the state is not done
-                #stop mark the MO as done                if inspections:
-                    raise UserError(
-                        "You cannot mark the MO as done because there are inspection tests in draft, ready, or waiting state."
-                    )
+                 #stop mark the MO as done
+                    if product_tracking != 'none' and not production.qc_inspections_ids:
+                        raise UserError(
+                            "You cannot mark the MO as done because no inspection test has been created for the product with tracking."
+                        )
+                    #check if there are inspections in the MO but the state is not done
+                    #stop mark the MO as done                if inspections:
+                        raise UserError(
+                            "You cannot mark the MO as done because there are inspection tests in draft, ready, or waiting state."
+                        )
         res = super(MrpProduction, self).write(vals)
         # if 'state' in vals and vals['state'] == 'confirmed':
         if 'state' in vals and vals['state'] == 'progress':
