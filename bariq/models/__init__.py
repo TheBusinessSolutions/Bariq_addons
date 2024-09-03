@@ -11,3 +11,4 @@ from . import stock_move_line
 from . import product_template
 from . import purchase_order_line
 from . import bales_production
+from . import weight_in_production
