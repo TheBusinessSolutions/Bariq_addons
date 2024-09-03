@@ -25,6 +25,11 @@
                             <button name="get_weight_1" type="object" icon="fa-gear"
                                     attrs="{'invisible': [('state', '=', 'draft')]}"/>
                         </div>
+
+                        <label for="weight_ticket_number"/>
+                        <div class="o_row">
+                            <field name="weight_ticket_number" attrs="{'invisible': [('state', '=', 'draft')]}"/>
+                        </div>
                     </group>
                 </xpath>
 
