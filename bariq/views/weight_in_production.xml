@@ -16,10 +16,10 @@
                     <!-- Group to ensure vertical stacking -->
                     <group>
                         <!-- <field name="is_lot_number_propagated" force_save="1"/>
-                        <field name="is_generate_lots" invisible="1"/>
+                        
                         <field name="lot_producing_id" invisible="1"/> Make lot_producing_id invisible -->
                         <field name="weight_id" attrs="{'invisible': [('state', '=', 'draft')]}"/>
-
+                        <field name="is_generate_lots" invisible="1"/>
                         <!-- Row for weight fields, displayed vertically -->
                         <label for="weight_1"/>
                         <div class="o_row">
