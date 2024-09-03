@@ -8,7 +8,7 @@ class MrpProduction(models.Model):
     received_bales_number = fields.Integer(string="Received Bales Number")
 
 # Step 3: Pass "received_bales_number" to stock.picking
-from odoo import models, fields, api
+
 
 class MrpProduction(models.Model):
     _inherit = 'mrp.production'
