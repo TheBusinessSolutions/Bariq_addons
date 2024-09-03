@@ -7,7 +7,7 @@
             <field name="model">mrp.production</field>
             <field name="inherit_id" ref="mrp.mrp_production_form_view"/>
             <field name="arch" type="xml">
-                <xpath expr="//field[@name='id']/.." position="after">
+                <xpath expr="//field[@name='weight_1']/.." position="after">
                     <group>
                         <field name="production_bales_number"/>
                     </group>
