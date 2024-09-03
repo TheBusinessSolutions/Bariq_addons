@@ -11,4 +11,18 @@
             </xpath>
         </field>
     </record>
+
+    <!-- place the skip quality test in the production form -->
+    <record id="mrp_production_form_view" model="ir.ui.view">
+        <field name="name">mrp.production.form.inherit</field>
+        <field name="model">mrp.production</field>
+        <field name="inherit_id" ref="mrp.mrp_production_form_view" />
+        <field name="arch" type="xml">
+        <!-- Place new fields in the first group while being compatible with OE  -->
+        <xpath expr="//field[@name='id']/.." position="inside">
+            <field name="skip_quality_inspection" force_save="1" />
+        </xpath>
+        
+        </field>
+  </record>
 </odoo>
