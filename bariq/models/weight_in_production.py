@@ -32,50 +32,50 @@ class MrpProduction(models.Model):
         readonly=True,
     )
 
-    is_lot_number_propagated = fields.Boolean(
-        default=False,
-        readonly=True,
-        help=(
-            "Lot/Serial number is propagated "
-            "from a component to the finished product."
-        ),
-    )
-    propagated_lot_producing = fields.Char(
-        compute="_compute_propagated_lot_producing",
-        store=True,
-        help=(
-            "The lot/serial number for the finished product is automatically generated "
-            "based on the material code and the weight ticket number."
-        ),
-    )
+    # is_lot_number_propagated = fields.Boolean(
+    #     default=False,
+    #     readonly=True,
+    #     help=(
+    #         "Lot/Serial number is propagated "
+    #         "from a component to the finished product."
+    #     ),
+    # )
+    # propagated_lot_producing = fields.Char(
+    #     compute="_compute_propagated_lot_producing",
+    #     store=True,
+    #     help=(
+    #         "The lot/serial number for the finished product is automatically generated "
+    #         "based on the material code and the weight ticket number."
+    #     ),
+    # )
 
-    @api.depends("weight_ticket_number", "product_id")
-    def _compute_propagated_lot_producing(self):
-        for order in self:
-            if order.weight_ticket_number and order.product_id:
-                material_code = order.product_id.product_tmpl_id.material_code if hasattr(
-                    order.product_id.product_tmpl_id, 'material_code') else ""
-                lot_name = f"{material_code}{order.weight_ticket_number}"
+    # @api.depends("weight_ticket_number", "product_id")
+    # def _compute_propagated_lot_producing(self):
+    #     for order in self:
+    #         if order.weight_ticket_number and order.product_id:
+    #             material_code = order.product_id.product_tmpl_id.material_code if hasattr(
+    #                 order.product_id.product_tmpl_id, 'material_code') else ""
+    #             lot_name = f"{material_code}{order.weight_ticket_number}"
 
-                # Check if the lot/serial number already exists
-                existing_lot = self.env['stock.production.lot'].search([
-                    ('product_id', '=', order.product_id.id),
-                    ('company_id', '=', order.company_id.id),
-                    ('name', '=', lot_name),
-                ], limit=1)
+    #             # Check if the lot/serial number already exists
+    #             existing_lot = self.env['stock.production.lot'].search([
+    #                 ('product_id', '=', order.product_id.id),
+    #                 ('company_id', '=', order.company_id.id),
+    #                 ('name', '=', lot_name),
+    #             ], limit=1)
 
-                if existing_lot:
-                    order.lot_producing_id = existing_lot
-                else:
-                    # Create a new lot/serial number if it doesn't exist
-                    lot = self.env['stock.production.lot'].create({
-                        'product_id': order.product_id.id,
-                        'company_id': order.company_id.id,
-                        'name': lot_name,
-                    })
-                    order.lot_producing_id = lot
+    #             if existing_lot:
+    #                 order.lot_producing_id = existing_lot
+    #             else:
+    #                 # Create a new lot/serial number if it doesn't exist
+    #                 lot = self.env['stock.production.lot'].create({
+    #                     'product_id': order.product_id.id,
+    #                     'company_id': order.company_id.id,
+    #                     'name': lot_name,
+    #                 })
+    #                 order.lot_producing_id = lot
 
-                order.propagated_lot_producing = lot_name
+    #             order.propagated_lot_producing = lot_name
 
     def action_generate_mrp_lots_name(self):
         if not self.weight_id:
