@@ -16,9 +16,9 @@
         <field
                     name="propagated_lot_producing"
                     string="Lot Number"
-                />
-                    <!-- attrs="{'invisible': [('is_lot_number_propagated', '=', False)]}"
-                /> -->
+                
+                    attrs="{'invisible': [('is_lot_number_propagated', '=', False)]}"
+                /> 
       </label>
     </field>
   </record>
