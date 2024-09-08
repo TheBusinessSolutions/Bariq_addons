@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <odoo>
     <data>
         <record id="mrp_production_form_view" model="ir.ui.view">
@@ -14,6 +13,5 @@
                 </xpath>
             </field>
         </record>
-
     </data>
 </odoo>
