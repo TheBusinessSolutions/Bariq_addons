@@ -13,5 +13,18 @@
                 </xpath>
             </field>
         </record>
+
+        <!-- Stock Picking View Inheritance -->
+        <record id="view_stock_move_line_detailed_operation_tree_inherit_bales" model="ir.ui.view">
+            <field name="name">view_stock_move_line_detailed_operation_tree_inherit_bales</field>
+            <field name="model">stock.move.line</field>
+            <field name="inherit_id" ref="stock.view_stock_move_line_detailed_operation_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='qty_done']" position="before">
+                    <field name="production_bales_number" force_save="1"/>
+                </xpath>
+            </field>
+        </record>
+
     </data>
 </odoo>
