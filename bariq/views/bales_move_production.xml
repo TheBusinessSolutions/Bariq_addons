@@ -12,9 +12,9 @@
                     <field name="production_bales_number"/>
                 </xpath>
 
-                <xpath expr="//notebook/page[@name='detailed_operations']/field[@name='move_ids_without_package']/tree/field[@name='qty_done']" position="before">
+                <!-- <xpath expr="//notebook/page[@name='detailed_operations']/field[@name='move_ids_without_package']/tree/field[@name='qty_done']" position="before">
                     <field name="production_bales_number"/>
-                </xpath>
+                </xpath> -->
 
                 
             </field>
