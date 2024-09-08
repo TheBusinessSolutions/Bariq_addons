@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-        <!-- Inherit the existing stock move form view -->
-        <record id="view_stock_move_form_inherit" model="ir.ui.view">
-            <field name="name">stock.move.form.inherit</field>
-            <field name="model">stock.move</field>
-            <field name="inherit_id" ref="stock.view_move_form"/> <!-- Update to correct XML ID -->
+        <!-- Inherit the existing stock picking form view -->
+        <record id="view_stock_picking_form_inherit" model="ir.ui.view">
+            <field name="name">stock.picking.form.inherit</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_form"/> <!-- Ensure this is the correct XML ID -->
             <field name="arch" type="xml">
-                <xpath expr="//field[@name='product_id']" position="after">
-                    <!-- Add the production_bales_number field here -->
+                <!-- Add production_bales_number field before qty_done in move_ids_without_package -->
+                <xpath expr="//field[@name='move_ids_without_package']//field[@name='qty_done']" position="before">
                     <field name="production_bales_number"/>
                 </xpath>
             </field>
