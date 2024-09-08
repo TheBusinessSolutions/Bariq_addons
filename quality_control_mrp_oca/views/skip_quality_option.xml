@@ -20,7 +20,7 @@
         <field name="arch" type="xml">
         <!-- Place new fields in the first group while being compatible with OE  -->
         <xpath expr="//field[@name='id']/.." position="inside">
-            <field name="skip_quality_inspection" force_save="1" />
+            <field name="skip_quality_inspection" force_save="1" readonly="1"/>
         </xpath>
         
         </field>
