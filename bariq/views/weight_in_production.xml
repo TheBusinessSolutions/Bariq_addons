@@ -27,6 +27,11 @@
                         <div class="o_row">
                             <field name="weight_ticket_number" attrs="{'invisible': [('state', '=', 'draft')]}"/>
                         </div>
+                        <label for ="production_bales_number"/>
+                        <div class="o_row">
+                            <field name="production_bales_number" attrs="{'invisible': [('state', '=', 'draft')]}"/>
+                        </div>
+
                     </group>
                 </xpath>
 
