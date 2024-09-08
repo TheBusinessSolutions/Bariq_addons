@@ -50,7 +50,7 @@
             </field>
         </record>
 
-        <?xml version="1.0" encoding="utf-8"?>
+
 
         <!-- Inherit the existing stock move form view -->
         <record id="view_stock_move_form_inherit" model="ir.ui.view">
