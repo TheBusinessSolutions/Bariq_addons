@@ -8,7 +8,7 @@
             <field name="inherit_id" ref="stock.view_picking_form"/> <!-- Ensure this is the correct XML ID -->
             <field name="arch" type="xml">
                 <!-- Add production_bales_number field before qty_done in move_ids_without_package -->
-                <xpath expr="//field[@name='move_ids_without_package']//field[@name='qty_done']" position="before">
+                <xpath expr="//notebook/page[@name='operations']/field[@name='move_ids_without_package']/tree/field[@name='quantity_done']" position="before">
                     <field name="production_bales_number"/>
                 </xpath>
             </field>
