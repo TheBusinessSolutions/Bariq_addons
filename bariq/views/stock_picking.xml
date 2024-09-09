@@ -167,6 +167,18 @@
             </field>
         </record>
 
+        <!-- show the bales_number in the lot form -->
+        <record id="view_production_lot_form" model="ir.ui.view">
+            <field name="name">stock.production.lot.form.inherit</field>
+            <field name="model">stock.production.lot</field>
+            <field name="inherit_id" ref="stock.view_production_lot_form"/>
+            <field name="arch" type="xml">
+                <!-- Insert bales_number field after product_qty field -->
+                <xpath expr="//field[@name='product_qty']" position="after">
+                    <field name="bales_number"/>
+                </xpath>
+            </field>
+        </record>
 
 
 
