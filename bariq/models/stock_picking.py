@@ -94,12 +94,23 @@ class StockPicking(models.Model):
                     raise UserError("This Barcode Not Found In Products & Lots")
             else:
                 product_id = stock_lot_id.product_id
-               # Check if the line with the same product_id and lot_id already exists
-            existing_line = self.move_ids_without_package.filtered(lambda line: 
-                                line.product_id.id == product_id.id and 
-                                    (line.lot_id == stock_lot_id if stock_lot_id else True))
+               
+            # Check if 'lot_id' exists on the stock.move model
+            has_lot_id = 'lot_id' in self.env['stock.move']._fields
 
-            
+            # Check if the line with the same product_id and lot_id already exists
+            if has_lot_id:
+                existing_line = self.move_ids_without_package.filtered(lambda line:
+                    line.product_id.id == product_id.id and
+                    (line.lot_id.id == stock_lot_id.id if stock_lot_id else not line.lot_id)
+                )
+            else:
+                existing_line = self.move_ids_without_package.filtered(lambda line:
+                    line.product_id.id == product_id.id
+                )
+   
+
+            # original code to make the searh if the baroce alreay in the product
             if not existing_line:
                 # If no existing line, create a new one
                 self.move_ids_without_package = [(0, 0, {
