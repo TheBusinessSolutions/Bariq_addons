@@ -7,8 +7,14 @@
         <field name="inherit_id" ref="stock.view_production_lot_form"/>
         <field name="arch" type="xml">
             <!-- Insert bales_number field after product_qty field -->
-            <xpath expr="//field[@name='product_qty']" position="after">
-                <field name="bales_number"/>
+            <xpath expr="//field[@name='name']" position="after">
+                <group>
+                    <label for="bales_number"/>
+                    <div class="o_row">
+                     <field name="bales_number"/>
+                    </div>
+                </group>
+
             </xpath>
         </field>
     </record>
