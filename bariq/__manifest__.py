@@ -28,5 +28,6 @@
         # 'views/search_by_fields.xml',
         'views/bales_move_production.xml',
         'views/weight_in_production.xml',
+        'view/view_show_bales_number_in_lot.xml',
     ],
 }
