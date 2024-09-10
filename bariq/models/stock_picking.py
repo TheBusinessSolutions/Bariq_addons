@@ -114,11 +114,9 @@ class StockPicking(models.Model):
                     'product_uom': product_id.uom_id.id,
                     'company_id': self.env.company.id,
                     'bariq_lot_id': stock_lot_id.id if stock_lot_id else False
-                    # correct to get the lot
-                    'lot_id': stock_lot_id.id if stock_lot_id else False
                 })]
 
-            self.barcode = False
+                self.barcode = False
 
     def close_dawar_ticket(self):
         auth_link, close_link, user_token = '', '', ''
