@@ -95,9 +95,9 @@ class StockPicking(models.Model):
             else:
                 product_id = stock_lot_id.product_id
                # Check if the line with the same product_id and lot_id already exists
-                existing_line = self.move_ids_without_package.filtered(lambda line: 
+            existing_line = self.move_ids_without_package.filtered(lambda line: 
                                 line.product_id.id == product_id.id and 
-                                (line.lot_id.id == stock_lot_id.id if stock_lot_id else True))
+                                    (line.lot_id.id == stock_lot_id.id if stock_lot_id else True))
 
             
             if not existing_line:
