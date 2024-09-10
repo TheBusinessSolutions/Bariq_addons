@@ -94,10 +94,11 @@ class StockPicking(models.Model):
                     raise UserError("This Barcode Not Found In Products & Lots")
             else:
                 product_id = stock_lot_id.product_id
-                # Check if the line with the same product_id or lot_id already exists in move_line_ids
-            existing_line = self.move_line_ids.filtered(lambda line: 
-                                    line.product_id.id == product_id.id and 
-                                    (line.lot_id.id == stock_lot_id.id if stock_lot_id else True))
+               # Check if the line with the same product_id and lot_id already exists
+                existing_line = self.move_ids_without_package.filtered(lambda line: 
+                                line.product_id.id == product_id.id and 
+                                (line.lot_id.id == stock_lot_id.id if stock_lot_id else True))
+
             
             if not existing_line:
                 # If no existing line, create a new one
