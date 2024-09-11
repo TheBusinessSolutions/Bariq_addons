@@ -28,7 +28,7 @@ class StockPicking(models.Model):
     truck_number = fields.Char(string="Truck Number", compute='compute_ticket_details', store=True)
     trailer_number = fields.Char(string="Trailer Number", compute='compute_ticket_details', store=True)
     dawar_ticket = fields.Char(string="Dawar Ticket", compute='compute_ticket_details', store=True)
-
+    weight_ticket_number = fields.Char(string="Ticket Number", compute='compute_weight_ticket_number', store=True)
     available_weight_ids = fields.Many2many('stock.weight', string='Available Weight',
                                             compute='compute_available_weight')
     is_get_weight_1 = fields.Boolean(string='Is Get Weight 1')
