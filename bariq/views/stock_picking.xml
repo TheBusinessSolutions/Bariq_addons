@@ -47,7 +47,7 @@
                     <group attrs="{'invisible': [('is_dawar_picking', '=', False)]}">
                         <group>
                             <field name="weight_id" domain="[('id', 'in', available_weight_ids)]" attrs="{'readonly': ['|', ('state', 'in', ['done', 'cancel']), ('is_generate_lots', '=', True)]}" options="{'no_quick_create': True, 'no_create_edit' : True}"/>
-
+                            <field name="weight_ticket_number"/>
                             <label for="weight_1"/>
                             <div class="o_row">
                                 <field  name="weight_1" force_save="1" attrs="{'readonly': ['|', '|', ('is_manual', '=', False), ('state', 'in', ['done', 'cancel']), ('is_generate_lots', '=', True)]}"/>
