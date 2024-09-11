@@ -122,8 +122,8 @@ class StockPicking(models.Model):
                     'quantity_done': stock_lot_id.product_qty if stock_lot_id else 0.0,
                     'product_uom': product_id.uom_id.id,
                     'company_id': self.env.company.id,
-                    #'bariq_lot_id': stock_lot_id.id if stock_lot_id else False,
-                    'lot_ids': stock_lot_id.id if stock_lot_id else False  # Assign lot_id directly
+                    'bariq_lot_id': stock_lot_id.id if stock_lot_id else False,
+                    'lot_ids': [(6, 0, [stock_lot_id.id])] if stock_lot_id else False
                 })]
 
             self.barcode = False
