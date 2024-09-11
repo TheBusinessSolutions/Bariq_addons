@@ -125,12 +125,9 @@ class StockPicking(models.Model):
                     'bariq_lot_id': stock_lot_id.id if stock_lot_id else False,
                     
                     'move_line_ids': [(0, 0, {
-                        'product_id': product_id.id,
+                        
                         'lot_id': stock_lot_id.id if stock_lot_id else False,  # Assigning lot_id
-                        'qty_done': stock_lot_id.product_qty if stock_lot_id else 0.0,  # Ensure quantity is updated
-                        'location_id': self.location_id.id,
-                        'location_dest_id': self.location_dest_id.id,
-                        'company_id': self.env.company.id,
+                        
                     })]
                 })]
 
