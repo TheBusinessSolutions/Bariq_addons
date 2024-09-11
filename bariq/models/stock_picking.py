@@ -319,9 +319,9 @@ class StockPicking(models.Model):
                     if not line.lot_id and record.bariq_lot_id:
                         line.lot_id = record.bariq_lot_id.id
                     # Save bales_number to the lot in stock.production.lot
-                    if line.lot_id and hasattr(record, 'bales_number'):
-                        # Save the bales_number to the lot
-                        line.lot_id.bales_number = record.bales_number
+                    # if line.lot_id and hasattr(record, 'bales_number'):
+                    #     # Save the bales_number to the lot
+                    #     line.lot_id.bales_number = record.bales_number
 
         return super(StockPicking, self).button_validate()
 
