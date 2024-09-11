@@ -124,11 +124,7 @@ class StockPicking(models.Model):
                     'company_id': self.env.company.id,
                     'bariq_lot_id': stock_lot_id.id if stock_lot_id else False,
                     
-                    'move_line_ids': [(0, 0, {
-                        
-                        'lot_id': stock_lot_id.id if stock_lot_id else False,  # Assigning lot_id
-                        
-                    })]
+                    
                 })]
 
             self.barcode = False
