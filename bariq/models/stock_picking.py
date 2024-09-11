@@ -122,8 +122,8 @@ class StockPicking(models.Model):
                     'quantity_done': stock_lot_id.product_qty if stock_lot_id else 0.0,
                     'product_uom': product_id.uom_id.id,
                     'company_id': self.env.company.id,
-                    #'bariq_lot_id': stock_lot_id.id if stock_lot_id else False
-                   'lot_id': stock_lot_id.id if stock_lot_id else False  # Ensure this field is correct
+                    'bariq_lot_id': stock_lot_id.id if stock_lot_id else False
+                    'lot_id': stock_lot_id.id if stock_lot_id else False  # Ensure this field is correct
                 })]
 
             self.barcode = False
@@ -319,9 +319,9 @@ class StockPicking(models.Model):
                     if not line.lot_id and record.bariq_lot_id:
                         line.lot_id = record.bariq_lot_id.id
                     # Save bales_number to the lot in stock.production.lot
-                    # if line.lot_id and hasattr(record, 'bales_number'):
-                    #     # Save the bales_number to the lot
-                    #     line.lot_id.bales_number = record.bales_number
+                    if line.lot_id and hasattr(record, 'bales_number'):
+                        # Save the bales_number to the lot
+                        line.lot_id.bales_number = record.bales_number
 
         return super(StockPicking, self).button_validate()
 
