@@ -316,7 +316,7 @@ class StockPicking(models.Model):
             for record in self.move_ids_without_package:
                 for line in record.move_line_ids:
                     if not line.lot_id and record.bariq_lot_id:
-                        line.lot_id = record.bariq_lot_id.id
+                        line.lot_id = record.bariq_lot_id
                     # Save bales_number to the lot in stock.production.lot
                     if line.lot_id and hasattr(record, 'bales_number'):
                         # Save the bales_number to the lot
