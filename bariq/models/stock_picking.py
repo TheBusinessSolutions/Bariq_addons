@@ -231,7 +231,8 @@ class StockPicking(models.Model):
                 self.is_get_weight_1 = False
 
             for record in self.move_line_ids_without_package:
-                record.qty_done = abs(self.weight_1 - self.weight_2)
+                #record.qty_done = abs(self.weight_1 - self.weight_2)
+                record.qty_done = abs(self.weight_1 )
 
             client.close()
 
