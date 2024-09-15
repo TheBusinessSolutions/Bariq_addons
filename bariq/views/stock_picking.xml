@@ -51,7 +51,7 @@
                             <label for="weight_1"/>
                             <div class="o_row">
                                 <field  name="weight_1" force_save="1" attrs="{'readonly': ['|', '|', ('is_manual', '=', False), ('state', 'in', ['done', 'cancel']), ('is_generate_lots', '=', True)]}"/>
-                                <field  name="is_get_weight_1" invisible="1"/>
+                                <field  name="is_get_weight_1" invisible="0"/>
                                 <button name="get_weight_1"    type="object" icon="fa-gear"  attrs="{'invisible': ['|', '|', '|', ('is_get_weight_1', '=', True), ('is_manual', '=', True), ('state', 'in', ['done', 'cancel']), ('is_generate_lots', '=', True)]}"/>
                                 <button name="reset_weight_1"  type="object" icon="fa-trash" attrs="{'invisible': ['|', '|', '|', ('is_get_weight_1', '=', False), ('is_manual', '=', True), ('state', 'in', ['done', 'cancel']), ('is_generate_lots', '=', True)]}"/>
                             </div>
