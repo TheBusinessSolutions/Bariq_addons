@@ -225,8 +225,8 @@ class StockPicking(models.Model):
 
             try:
                 self.weight_1 = float(response)
-                #self.is_get_weight_1 = True
-                self.set_is_get_weight_1()
+                self.is_get_weight_1 = True
+                #self.set_is_get_weight_1()
                 self.onchange_weight()
             except:
                 self.weight_1 = 0.0
