@@ -212,42 +212,8 @@ class StockPicking(models.Model):
         for record in self.move_line_ids_without_package:
             record.qty_done = abs(self.weight_1 - self.weight_2)
 
-    # new code
-    # # def get_weight_1(self):
-    #     try:
-    #         client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    #         client.connect((self.weight_id.ip_addr, int(self.weight_id.port)))
-
-    #         response = client.recv(1024)
-    #         response = response.decode("utf-8")
-
-    #         if not response.isdigit():
-    #             raise UserError("Invaild Return Response %s" % response)
-
-    #         try:
-    #             self.weight_1 = float(response)
-    #             print(f"Weight received: {self.weight_1}")  # Debug statement
-    #             self.is_get_weight_1 = True
-    #             print(f"Weight received: {self.is_get_weight_1}")
-    #             #self.set_is_get_weight_1()
-    #             self.onchange_weight()
-    #         except:
-    #             self.weight_1 = 0.0
-    #             self.is_get_weight_1 = False
-
-    #         for record in self.move_line_ids_without_package:
-    #             record.qty_done = abs(self.weight_1 - (self.weight_2 or 0.0))
-    #            # record.write({'qty_done': qty_done_value})
-
-    #         client.close()
-
-    #     except Exception as e:
-    #         raise UserError("We Can't Process Request: (%s)" % e)
-
-
-
-# original code
     def get_weight_1(self):
+        print("get_weight_1 method started")  # Debug statement
         try:
             client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             client.connect((self.weight_id.ip_addr, int(self.weight_id.port)))
@@ -256,22 +222,31 @@ class StockPicking(models.Model):
             response = response.decode("utf-8")
 
             if not response.isdigit():
-                raise UserError("Invaild Return Response %s" %response)
+                raise UserError("Invaild Return Response %s" % response)
 
             try:
                 self.weight_1 = float(response)
+                print(f"Weight received: {self.weight_1}")  # Debug statement
                 self.is_get_weight_1 = True
+                print(f"Weight received: {self.is_get_weight_1}")
+                #self.set_is_get_weight_1()
+                self.onchange_weight()
             except:
                 self.weight_1 = 0.0
                 self.is_get_weight_1 = False
 
             for record in self.move_line_ids_without_package:
-                record.qty_done = abs(self.weight_1 - self.weight_2)
+                record.qty_done = abs(self.weight_1 - (self.weight_2 or 0.0))
+               # record.write({'qty_done': qty_done_value})
 
             client.close()
 
         except Exception as e:
-            raise UserError("We Can't Process Request: (%s)" %e)
+            raise UserError("We Can't Process Request: (%s)" % e)
+
+
+
+
     def get_weight_2(self):
         try:
             client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
