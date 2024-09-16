@@ -9,15 +9,8 @@
                 <button name="action_generate_bales" type="object" string="Generate Bales" class="btn-primary" attrs="{'invisible': [('bales_number', '=', 0)]}"/>
             </xpath>
             <!-- Add new page for Bales Ref -->
-            <!-- <page string="Bales Ref" name="bales_ref_page" attrs="{'invisible': [('bales_ids', '=', False)]}">
-                <field name="bales_ids">
-                    <tree editable="bottom">
-                        <field name="name" string="Bale Number"/>
-                    </tree>
-                </field>
-            </page> -->
 
-            <xpath expr="//notebook/page[@name='extra']" position="after">
+            <!-- <xpath expr="//notebook/page[@name='extra']" position="after">
                     <page string="Bales List">
                         <field name="bales_ids">
                             <tree editable="bottom">
@@ -25,7 +18,7 @@
                             </tree>
                         </field>
                     </page>
-            </xpath>
+            </xpath> -->
 
         </field>
     </record>
