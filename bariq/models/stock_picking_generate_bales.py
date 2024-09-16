@@ -10,10 +10,13 @@ class StockPicking(models.Model):
     bales_number = fields.Integer(string="Bales Number", compute='_compute_bales_number', store=True)
 
     def _compute_bales_number(self):
-        for picking in self:
-            # bales_total = sum(move.bales_number for move in picking.move_ids_without_package)
-            bales_total = sum(move.bales_number for move in picking.move_line_nosuggest_ids)
-            picking.bales_number = bales_total
+        # for picking in self:
+        #     # bales_total = sum(move.bales_number for move in picking.move_ids_without_package)
+        #     bales_total = sum(move.bales_number for move in picking.move_line_nosuggest_ids)
+        #     picking.bales_number = bales_total
+        for record in self.move_ids_without_package:
+            record.bales_number = record.purchase_line_id.bales_number
+
         # Button to generate the bales based on the bales_number field
     def action_generate_bales(self):
         self.ensure_one()
