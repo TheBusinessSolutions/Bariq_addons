@@ -10,6 +10,7 @@ from odoo.tools.float_utils import float_is_zero, float_compare
 from odoo.osv import expression
 from odoo.tools.safe_eval import safe_eval
 import logging
+from odoo.exceptions import UserError
 
 _logger = logging.getLogger(__name__)
 
@@ -78,8 +79,29 @@ class StockPicking(models.Model):
                     'picking_id': self.id,
                 }))
             self.bales_ids = bales_list
-        return True
-
+            
+            # Return a UserError to show a popup message
+            return {
+                'type': 'ir.actions.client',
+                'tag': 'display_notification',
+                'params': {
+                    'title': 'Bales Generated',
+                    'message': f'{len(bales_list)} bales have been successfully created.',
+                    'type': 'success',
+                    'sticky': False,
+                }
+            }
+        else:
+            return {
+                'type': 'ir.actions.client',
+                'tag': 'display_notification',
+                'params': {
+                    'title': 'No Bales Created',
+                    'message': 'The number of bales is zero or less, no bales created.',
+                    'type': 'warning',
+                    'sticky': False,
+                }
+            }
 
     def action_open_label_layout(self):
         view = self.env.ref('stock.product_label_layout_form_picking')
