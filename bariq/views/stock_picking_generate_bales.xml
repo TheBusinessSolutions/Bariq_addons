@@ -6,7 +6,7 @@
         <field name="arch" type="xml">
             <!-- Add Generate Bales Button -->
             <xpath expr="//header/button" position="before">
-                <button name="action_generate_bales" type="object" string="Generate Bales" class="btn-primary" attrs="{'invisible': [('bales_number', '=', 0)]}"/>
+                <button name="action_generate_bales" type="object" string="Generate Bales" class="btn-primary"/>
             </xpath>
             <!-- Add new page for Bales Ref -->
 
