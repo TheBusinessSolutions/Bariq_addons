@@ -23,18 +23,6 @@ class StockProductionLot(models.Model):
     bales_ids = fields.One2many('stock.picking.bale', 'picking_id', string="Bales Ref")
 
 
-    # Button to generate the bales based on the bales_number field
-    def action_generate_bales(self):
-        self.ensure_one()
-        if not self.bales_ids:  # Ensure we don't duplicate the bales
-            bales_list = []
-            for i in range(1, self.bales_number + 1):
-                bales_list.append((0, 0, {
-                    'name': 'BL' + str(i),
-                }))
-            self.bales_ids = bales_list
-        return True
-
 class Bale(models.Model):
     _name = 'stock.picking.bale'
     _description = 'Bale'
@@ -68,6 +56,21 @@ class StockPicking(models.Model):
 
     barcode = fields.Char(string='Barcode')
     #weight_ticket_number = fields.Char(readonly=True, string="Ticket Number")
+
+
+    # Button to generate the bales based on the bales_number field
+    def action_generate_bales(self):
+        self.ensure_one()
+        if not self.bales_ids:  # Ensure we don't duplicate the bales
+            bales_list = []
+            for i in range(1, self.bales_number + 1):
+                bales_list.append((0, 0, {
+                    'name': 'BL' + str(i),
+                }))
+            self.bales_ids = bales_list
+        return True
+
+
     def action_open_label_layout(self):
         view = self.env.ref('stock.product_label_layout_form_picking')
         bales = 0
