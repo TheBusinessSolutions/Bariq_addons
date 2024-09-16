@@ -36,7 +36,14 @@ class StockPicking(models.Model):
     # One2many relation to store bales
     #this is the bales list which will be generated in the picking
     bales_ids = fields.One2many('stock.picking.bale', 'picking_id', string="Bales Ref")
-    bales_number = fields.Integer(string="Bales Number")
+    
+    #get the bales number from the PO
+    bales_number = fields.Integer(string="Bales Number", compute='_compute_bales_number', store=True)
+
+    def _compute_bales_number(self):
+        for picking in self:
+            bales_total = sum(move.bales_number for move in picking.move_ids_without_package)
+            picking.bales_number = bales_total
 
 
 
