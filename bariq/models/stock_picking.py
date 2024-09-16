@@ -35,7 +35,10 @@ class StockPicking(models.Model):
     # One2many relation to store bales
     #this is the bales list which will be generated in the picking
     bales_ids = fields.One2many('stock.picking.bale', 'picking_id', string="Bales Ref")
+    bales_number = fields.Integer(string="Bales Number")
 
+
+    
     driver_name = fields.Char(string="Driver Name", compute='compute_ticket_details', store=True)
     driver_license = fields.Char(string="Driver License", compute='compute_ticket_details', store=True)
     truck_number = fields.Char(string="Truck Number", compute='compute_ticket_details', store=True)
