@@ -38,7 +38,7 @@ class StockPicking(models.Model):
     bales_number = fields.Integer(string="Bales Number")
 
 
-    
+
     driver_name = fields.Char(string="Driver Name", compute='compute_ticket_details', store=True)
     driver_license = fields.Char(string="Driver License", compute='compute_ticket_details', store=True)
     truck_number = fields.Char(string="Truck Number", compute='compute_ticket_details', store=True)
@@ -65,11 +65,17 @@ class StockPicking(models.Model):
     # Button to generate the bales based on the bales_number field
     def action_generate_bales(self):
         self.ensure_one()
-        if not self.bales_ids:  # Ensure we don't duplicate the bales
+        if self.bales_number > 0:
+            # Clear existing bales if necessary
+            self.bales_ids.unlink()
+            
+            # Create new bales
             bales_list = []
             for i in range(1, self.bales_number + 1):
+                bale_name = str(i)
                 bales_list.append((0, 0, {
-                    'name': 'BL' + str(i),
+                    'name': bale_name,
+                    'picking_id': self.id,
                 }))
             self.bales_ids = bales_list
         return True
