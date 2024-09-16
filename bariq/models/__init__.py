@@ -12,3 +12,4 @@ from . import product_template
 from . import purchase_order_line
 from . import bales_production
 from . import weight_in_production
+from . import stock_picking_generate_bales

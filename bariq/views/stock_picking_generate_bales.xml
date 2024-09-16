@@ -1,0 +1,20 @@
+<odoo>
+    <record id="view_picking_form_custom" model="ir.ui.view">
+        <field name="name">stock.picking.form.custom</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form"/>
+        <field name="arch" type="xml">
+            <!-- Add Generate Bales Button -->
+            <button name="action_generate_bales" type="object" string="Generate Bales" class="btn-primary" attrs="{'invisible': [('bales_number', '=', 0)]}"/>
+            
+            <!-- Add new page for Bales Ref -->
+            <page string="Bales Ref" name="bales_ref_page" attrs="{'invisible': [('bales_ids', '=', False)]}">
+                <field name="bales_ids">
+                    <tree editable="bottom">
+                        <field name="name" string="Bale Number"/>
+                    </tree>
+                </field>
+            </page>
+        </field>
+    </record>
+</odoo>

@@ -29,5 +29,6 @@
         #'views/bales_move_production.xml',
         'views/weight_in_production.xml',
         'views/view_show_bales_number_in_lot.xml',
+        'views/stock_picking_generate_bales.xml',
     ],
 }
