@@ -5,8 +5,9 @@
         <field name="inherit_id" ref="stock.view_picking_form"/>
         <field name="arch" type="xml">
             <!-- Add Generate Bales Button -->
-            <button name="action_generate_bales" type="object" string="Generate Bales" class="btn-primary" attrs="{'invisible': [('bales_number', '=', 0)]}"/>
-            
+            <xpath expr="//header/button" position="before">
+                <button name="action_generate_bales" type="object" string="Generate Bales" class="btn-primary" attrs="{'invisible': [('bales_number', '=', 0)]}"/>
+            </xpath>
             <!-- Add new page for Bales Ref -->
             <page string="Bales Ref" name="bales_ref_page" attrs="{'invisible': [('bales_ids', '=', False)]}">
                 <field name="bales_ids">
