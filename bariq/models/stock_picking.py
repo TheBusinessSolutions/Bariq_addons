@@ -18,9 +18,7 @@ class StockProductionLot(models.Model):
     _inherit = 'stock.production.lot'
 
     bales_number = fields.Integer(string='Bales Number')
-    # One2many relation to store bales
-    #this is the bales list which will be generated in the picking
-    bales_ids = fields.One2many('stock.picking.bale', 'picking_id', string="Bales Ref")
+    
 
 
 class Bale(models.Model):
@@ -34,6 +32,9 @@ class Bale(models.Model):
 
 class StockPicking(models.Model):
     _inherit = 'stock.picking'
+    # One2many relation to store bales
+    #this is the bales list which will be generated in the picking
+    bales_ids = fields.One2many('stock.picking.bale', 'picking_id', string="Bales Ref")
 
     driver_name = fields.Char(string="Driver Name", compute='compute_ticket_details', store=True)
     driver_license = fields.Char(string="Driver License", compute='compute_ticket_details', store=True)
