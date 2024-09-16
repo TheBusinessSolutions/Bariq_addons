@@ -42,7 +42,8 @@ class StockPicking(models.Model):
 
     def _compute_bales_number(self):
         for picking in self:
-            bales_total = sum(move.bales_number for move in picking.move_ids_without_package)
+            # bales_total = sum(move.bales_number for move in picking.move_ids_without_package)
+            bales_total = sum(move.bales_number for move in picking.move_line_nosuggest_ids)
             picking.bales_number = bales_total
 
 
