@@ -4,15 +4,9 @@ import json
 import socket
 import requests
 from datetime import datetime
+from odoo.exceptions import UserError
 from odoo import _, api, fields, models, tools
-from odoo.exceptions import UserError
-from odoo.tools.float_utils import float_is_zero, float_compare
-from odoo.osv import expression
-from odoo.tools.safe_eval import safe_eval
-import logging
-from odoo.exceptions import UserError
 
-_logger = logging.getLogger(__name__)
 
 # add the bales number to the product lot
 class StockProductionLot(models.Model):
@@ -42,8 +36,7 @@ class StockPicking(models.Model):
     trailer_number = fields.Char(string="Trailer Number", compute='compute_ticket_details', store=True)
     dawar_ticket = fields.Char(string="Dawar Ticket", compute='compute_ticket_details', store=True)
     weight_ticket_number = fields.Char(string="Ticket Number", compute='compute_weight_ticket_number', store=True)
-    available_weight_ids = fields.Many2many('stock.weight', string='Available Weight',
-                                            compute='compute_available_weight')
+    available_weight_ids = fields.Many2many('stock.weight', string='Available Weight', compute='compute_available_weight')
     is_get_weight_1 = fields.Boolean(string='Is Get Weight 1')
     is_get_weight_2 = fields.Boolean(string='Is Get Weight 2')
     weight_id = fields.Many2one('stock.weight', string='Weight')
@@ -158,8 +151,7 @@ class StockPicking(models.Model):
 
         try:
             headers = {'content-type': "application/x-www-form-urlencoded", 'cache-control': "no-cache"}
-            payload = {'grant_type': 'client_credentials', 'phone': self.env.company.username,
-                       'password': self.env.company.password}
+            payload = {'grant_type': 'client_credentials', 'phone': self.env.company.username, 'password': self.env.company.password}
             response = requests.request("POST", auth_link, headers=headers, data=payload)
             user_token = response.json().get('access_token')
         except Exception as e:
@@ -230,31 +222,28 @@ class StockPicking(models.Model):
             record.qty_done = abs(self.weight_1 - self.weight_2)
 
     def get_weight_1(self):
-        print("get_weight_1 method started")  # Debug statement
+        if not self.weight_id:
+            raise exceptions.UserError("Weight configuration is missing. Please ensure that a valid Weight ID is set.")
+        
         try:
             client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             client.connect((self.weight_id.ip_addr, int(self.weight_id.port)))
 
             response = client.recv(1024)
             response = response.decode("utf-8")
-
+            
             if not response.isdigit():
                 raise UserError("Invaild Return Response %s" % response)
 
             try:
                 self.weight_1 = float(response)
-                print(f"Weight received: {self.weight_1}")  # Debug statement
                 self.is_get_weight_1 = True
-                print(f"Weight received: {self.is_get_weight_1}")
-                #self.set_is_get_weight_1()
-                self.onchange_weight()
             except:
                 self.weight_1 = 0.0
                 self.is_get_weight_1 = False
 
             for record in self.move_line_ids_without_package:
                 record.qty_done = abs(self.weight_1 - (self.weight_2 or 0.0))
-               # record.write({'qty_done': qty_done_value})
 
             client.close()
 
@@ -265,6 +254,9 @@ class StockPicking(models.Model):
 
 
     def get_weight_2(self):
+        if not self.weight_id:
+            raise exceptions.UserError("Weight configuration is missing. Please ensure that a valid Weight ID is set.")
+
         try:
             client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             client.connect((self.weight_id.ip_addr, int(self.weight_id.port)))
@@ -290,11 +282,13 @@ class StockPicking(models.Model):
         except Exception as e:
             raise UserError("We Can't Process Request: (%s)" % e)
 
+
     @api.onchange('weight_1', 'weight_2')
     def onchange_weight(self):
         if self.weight_1 != 0.0 or self.weight_2 != 0.0:
             for record in self.move_line_ids_without_package:
                 record.qty_done = abs(self.weight_1 - self.weight_2)
+
 
     def action_generate_lots_name(self):
         day = str(fields.date.today().day)
