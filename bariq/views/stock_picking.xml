@@ -51,7 +51,7 @@
                             <label for="weight_1">Weight 1</label>
                             <div class="o_row">
                                 <field  name="weight_1" force_save="1" attrs="{'readonly': ['|', '|', ('is_manual', '=', False), ('state', 'in', ['done', 'cancel']), ('is_generate_lots', '=', True)]}"/>
-                                <field  name="is_get_weight_1" invisible="0"/>
+                                <field  name="is_get_weight_1" invisible="1"/>
                                 <button name="get_weight_1"    type="object" icon="fa-gear"  attrs="{'invisible': ['|', '|', '|', ('is_get_weight_1', '=', True), ('is_manual', '=', True), ('state', 'in', ['done', 'cancel']), ('is_generate_lots', '=', True)]}"/>
                                 <button name="reset_weight_1"  type="object" icon="fa-trash" attrs="{'invisible': ['|', '|', '|', ('is_get_weight_1', '=', False), ('is_manual', '=', True), ('state', 'in', ['done', 'cancel']), ('is_generate_lots', '=', True)]}"/>
                             </div>
@@ -69,43 +69,32 @@
                             <field name="rejected" attrs="{'readonly': [('state', 'in', ['done', 'cancel'])]}"/>
                         </group>
                     </group>
-                <!-- material transfer fields -->
+
                     <group attrs="{'invisible': [('is_dawar_picking', '=', True), ('material_transfer_r', '=', False)]}">
-                        <!-- Single group for all fields to align them vertically -->
                         <group>
                             <field name="material_transfer_r" invisible="1"/>
-                            <field name="barcode"
-                                attrs="{'invisible': [('picking_type_code', 'not in', ['outgoing', 'internal'])]}"/>
-                            <field name="weight_id" 
-                                attrs="{'invisible': [('material_transfer_r', '=', False)]}"/>
+                            <field name="barcode" attrs="{'invisible': [('picking_type_code', 'not in', ['outgoing', 'internal'])]}"/>
+                            <field name="weight_id" attrs="{'invisible': [('material_transfer_r', '=', False)]}"/>
                             <label for="weight_1"/>
                             <div class="o_row">
-                                <field name="weight_1" 
-                                    attrs="{'invisible': [('material_transfer_r', '=', False)]}"/>
-                                <button name="get_weight_1" type="object" icon="fa-gear"
-                                        attrs="{'invisible': [('material_transfer_r', '=', False)]}"/>
+                                <field name="weight_1" attrs="{'invisible': [('material_transfer_r', '=', False)]}"/>
+                                <button name="get_weight_1" type="object" icon="fa-gear" attrs="{'invisible': [('material_transfer_r', '=', False)]}"/>
                             </div>
                             <label for="weight_2"/>
                             <div class="o_row">
-                                <field name="weight_2" 
-                                    attrs="{'invisible': [('material_transfer_r', '=', False)]}"/>
-                                <button name="get_weight_2" type="object" icon="fa-gear"
-                                        attrs="{'invisible': [('material_transfer_r', '=', False)]}"/>
-
+                                <field name="weight_2" attrs="{'invisible': [('material_transfer_r', '=', False)]}"/>
+                                <button name="get_weight_2" type="object" icon="fa-gear" attrs="{'invisible': [('material_transfer_r', '=', False)]}"/>
                             </div>
                         </group>
                     </group>
-
-
-
                 </xpath>
-
 
 
                 <xpath expr="//notebook/page[@name='operations']/field[@name='move_ids_without_package']/tree/field[@name='quantity_done']" position="before">
                     <field name="bariq_lot_id" invisible="1"/>
                     <field name="bales_number"/>
                 </xpath>
+
 
                 <xpath expr="//notebook/page[@name='extra']" position="before">
                     <page string="Truck Details" attrs="{'invisible': [('is_dawar_picking', '=', False)]}">
