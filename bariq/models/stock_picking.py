@@ -5,30 +5,17 @@ import socket
 import requests
 from datetime import datetime
 from odoo.exceptions import UserError
-from odoo import _, api, fields, models, tools
+from odoo import api, fields, models, tools, _
 
 
-# add the bales number to the product lot
 class StockProductionLot(models.Model):
     _inherit = 'stock.production.lot'
 
     bales_number = fields.Integer(string='Bales Number')
-    
-
-
-class Bale(models.Model):
-    _name = 'stock.picking.bale'
-    _description = 'Bale'
-
-    name = fields.Char(string="Bale Number", required=True)
-    picking_id = fields.Many2one('stock.picking', string="Picking")
-
 
 
 class StockPicking(models.Model):
     _inherit = 'stock.picking'
-
-
 
     driver_name = fields.Char(string="Driver Name", compute='compute_ticket_details', store=True)
     driver_license = fields.Char(string="Driver License", compute='compute_ticket_details', store=True)
@@ -44,14 +31,41 @@ class StockPicking(models.Model):
     weight_1 = fields.Float(string="Weight 1")
     weight_2 = fields.Float(string="Weight 2")
     rejected = fields.Float(string="Rejected (%)")
+    bales_number = fields.Integer(string="Bales Number", compute='_compute_bales_number', store=True)
 
-    is_dawar_picking = fields.Boolean(compute='compute_is_dawar_picking', store=True)
-    is_generate_lots = fields.Boolean()
+    is_dawar_picking  = fields.Boolean(compute='compute_is_dawar_picking', store=True)
+    is_generate_lots  = fields.Boolean()
+    is_generate_bales = fields.Boolean()
 
     barcode = fields.Char(string='Barcode')
     #weight_ticket_number = fields.Char(readonly=True, string="Ticket Number")
 
+    stock_picking_bale_ids = fields.One2many('stock.picking.bale', 'picking_id', string="Bales")
 
+
+
+    def action_generate_bales(self):
+        stock_picking_bale_list = []
+        count = 1
+
+        self.stock_picking_bale_ids.unlink()
+        for record in self.move_ids_without_package:
+            for bale in range(record.bales_number):
+                stock_picking_bale_list.append((0, 0, {
+                    'sequence'  : self.weight_ticket_number + '-' + str(count) if self.weight_ticket_number else str(count),
+                    'product_id': record.product_id.id,
+                    'state'     : 'draft'
+                }))
+
+                count += 1
+
+        self.stock_picking_bale_ids = stock_picking_bale_list
+        self.is_generate_bales = True
+
+
+    def _compute_bales_number(self):
+        for record in self.move_ids_without_package:
+            record.bales_number = record.purchase_line_id.bales_number
 
 
     def action_open_label_layout(self):

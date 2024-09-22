@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <template id="report_picking_bale_barcode_template">
+            <t t-call="web.basic_layout">
+                <t t-foreach="docs" t-as="o">
+                    <div class="page">
+                        <div style="padding: 5px!important; margin: 5px!important">
+                            <center>
+                                <t t-if="o.sequence">
+                                    <img t-att-src="'/report/barcode/?type=Code128&amp;value=%s' % o.sequence" style="width: 200px!important; margin-top: -15px!important; margin-left: -15px!important"/>
+                                    <p style="font-size: 10px">Bale Barcode: <t t-esc="o.sequence"/></p>
+                                </t>
+                            </center>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </template>
+
+        
+        <record id="action_report_bale_barcode" model="ir.actions.report">
+            <field name="name">Barcode Report</field>
+            <field name="model">stock.picking.bale</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">bariq.report_picking_bale_barcode_template</field>
+            <field name="report_file">bariq.report_picking_bale_barcode_template</field>
+            <field name="print_report_name">'Barcode'</field>
+            <field name="paperformat_id" ref="product.paperformat_label_sheet_dymo"/>
+            <field name="binding_model_id" ref="model_stock_picking_bale"/>
+        </record>
+    </data>
+</odoo>

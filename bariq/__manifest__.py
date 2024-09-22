@@ -18,17 +18,18 @@
 
     'data': [
         'security/ir.model.access.csv',
+
+        'reports/report_picking_bale_barcode_template.xml',
+
         'views/product_template.xml',
         'views/purchase_order.xml',
+        'views/stock_location.xml',
         'views/stock_picking.xml',
-        #'views/stock_picking_type.xml',
         'views/stock_weight.xml',
         'views/shift_weight.xml',
         'views/res_company.xml',
-        # 'views/search_by_fields.xml',
-        #'views/bales_move_production.xml',
+        'views/stock_picking_bale.xml',
         'views/weight_in_production.xml',
         'views/view_show_bales_number_in_lot.xml',
-        'views/stock_picking_generate_bales.xml',
     ],
 }

@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-
-
-        <!-- Stock Picking View Inheritance -->
         <record id="view_stock_move_line_detailed_operation_tree_inherit_bales" model="ir.ui.view">
             <field name="name">view_stock_move_line_detailed_operation_tree_inherit_bales</field>
             <field name="model">stock.move.line</field>
@@ -33,6 +30,8 @@
                     <field  name="is_dawar_picking" invisible="1"/>
                     <field  name="is_manual" invisible="1"/>
                     <field  name="is_generate_lots" invisible="1"/>
+                    <field  name="is_generate_bales" invisible="1"/>
+                    <button name="action_generate_bales" type="object" string="Generate Bales" class="btn-primary" attrs="{'invisible': ['|', '|', ('state', 'in', ['done', 'cancel']), ('is_dawar_picking', '=', False), ('is_generate_bales', '=', True)]}"/>
                     <button name="action_generate_lots_name" string="Generate Lots" type="object" class="oe_highlight" attrs="{'invisible': ['|', '|', '|', '|', ('is_get_weight_1', '=', False), ('is_get_weight_2', '=', False), ('state', 'in', ['done', 'cancel']), ('is_dawar_picking', '=', False), ('is_generate_lots', '=', True)]}"/>
                     <button name="close_dawar_ticket" string="Close Ticket" type="object" class="oe_highlight" invisible="1"/>
                 </xpath>
@@ -41,9 +40,7 @@
                     <field name="picking_type_code" invisible="1"/>
                 </xpath>
 
-                <!-- Original code to show the Dawar picking weight -->
                 <xpath expr="//notebook" position="before">
-                <!-- Dawar ticket fields -->
                     <group attrs="{'invisible': [('is_dawar_picking', '=', False)]}">
                         <group>
                             <field name="weight_id" domain="[('id', 'in', available_weight_ids)]" attrs="{'readonly': ['|', ('state', 'in', ['done', 'cancel']), ('is_generate_lots', '=', True)]}" options="{'no_quick_create': True, 'no_create_edit' : True}"/>
@@ -109,6 +106,18 @@
                             </group>
                         </group>
                     </page>
+                    <page string="Bales">
+                        <field name="stock_picking_bale_ids">
+                            <tree string="Bales" create="0" edit="0" delete="0">
+                                <field name="sequence"/>
+                                <field name="product_id"/>
+                                <field name="location_id"/>
+                                <field name="state" widget="badge" decoration-info="state == 'draft'" decoration-success="state == 'confirm'" decoration-danger="state == 'cancel'"/>
+                                <button name="action_print_line_barcode" string="Print Barcode" type="object" class="btn-primary"/>
+                            </tree>
+                        </field>
+                    </page>
+
                 </xpath>
             </field>
         </record>

@@ -22,8 +22,3 @@ class MrpProduction(models.Model):
                             'production_bales_number': production.production_bales_number,
                         })
         return res
-
-class StockMove(models.Model):
-    _inherit = 'stock.move'
-
-    production_bales_number = fields.Integer(string="Production Bales Number")
