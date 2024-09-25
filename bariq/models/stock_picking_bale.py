@@ -9,6 +9,8 @@ class StockPickingBale(models.Model):
 
 
     sequence      = fields.Char(string='Sequence')
+    name          = fields.Char(string='Sequence')
+
     product_id    = fields.Many2one('product.product' , string="Product")
     location_id   = fields.Many2one('stock.location'  , string="Location")
     picking_id    = fields.Many2one('stock.picking'   , string="Picking")

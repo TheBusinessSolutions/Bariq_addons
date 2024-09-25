@@ -41,6 +41,7 @@ class StockPicking(models.Model):
     #weight_ticket_number = fields.Char(readonly=True, string="Ticket Number")
 
     stock_picking_bale_ids = fields.One2many('stock.picking.bale', 'picking_id', string="Bales")
+    bales_ids = fields.One2many('stock.picking.bale', 'picking_id', string="Bales")
 
 
 
