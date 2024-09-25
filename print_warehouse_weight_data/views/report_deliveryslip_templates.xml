@@ -45,12 +45,7 @@
                             </t>
                         </td>
                     </tr>
-                    <tr>
-                        <td class="text-right">الحاله:</td>
-                        <td>
-                            <span t-esc="o.state"/>
-                        </td>
-                    </tr>
+                    
 
                 </table>
             </div>
@@ -103,6 +98,7 @@
                     و في حال المخالفه يعد ذلك تعد علي ملكيه الشركه و يعرضك للمسائلة القانونيه ضد من تعدي علي ملكيتها
                   </div>
                 </p>
+                <span t-field="o.state"/>
             </div>
         </xpath>
     </template>
