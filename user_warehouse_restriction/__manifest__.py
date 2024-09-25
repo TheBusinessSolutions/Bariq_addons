@@ -37,7 +37,7 @@
         'security/user_warehouse_restriction_security.xml',
         'views/stock_location_views.xml',
         'views/res_config_settings_views.xml',
-        'views/stock_warehouse_views.xml',
+        #'views/stock_warehouse_views.xml',
         'views/res_users_views.xml',
     ],
     'images': ['static/description/banner.jpg'],
