@@ -293,7 +293,13 @@ class StockPicking(models.Model):
             for record in self.move_line_ids_without_package:
                 record.qty_done = abs(self.weight_1 - self.weight_2)
 
-
+#put the quantity done in the operation page
+#under the field of Quantity_done
+    @api.onchange('weight_1', 'weight_2')
+    def onchange_weight(self):
+        if self.weight_1 != 0.0 or self.weight_2 != 0.0:
+            for record in self.move_line_ids_without_package:
+                record.quantity_done = abs(self.weight_1 - self.weight_2)
     def action_generate_lots_name(self):
         day = str(fields.date.today().day)
         month = str(fields.date.today().month)
