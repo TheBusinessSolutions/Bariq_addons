@@ -133,23 +133,21 @@ class StockPicking(models.Model):
 
             existing_line = self.move_ids_without_package.filtered(lambda line: line.product_id.id == product_id.id)
 
-            #to use with the bale number scan
-            #add 1 to the bale number
+        # Logic for bale number scanning
             if existing_line:
-                # If the line already exists, update it
+                # If the line exists, check if it's a new bale
                 if stock_bale_id:
-                    # Check if this bale has already been scanned for this line
+                    # Check if this bale has already been scanned for this line and belongs to the same product
                     if stock_bale_id not in existing_line.scanned_bale_ids:
-                        # Increment bales_number if it's a new stock_picking_bale_id
+                        # Increment bales_number if it's a new bale for the same product
                         existing_line.bales_number += 1
-                        # Add the bale to the scanned bales
-                        existing_line.scanned_bale_ids = [(4, stock_bale_id.id, 0)]
+                        # Add the new bale to scanned_bale_ids
+                        existing_line.scanned_bale_ids = [(4, stock_bale_id.id)]
                     else:
-                        # Raise a warning if the bale has already been scanned
-                        raise UserError(f"Bale {stock_bale_id.sequence} has already been scanned for this product.")
-
+                        # Do nothing if the bale was already scanned
+                        return
             
-            if not existing_line:
+            else:# not existing_line:
                 self.move_ids_without_package = [(0, 0, {
                     'product_id': product_id.id,
                     'name': product_id.name,
@@ -160,7 +158,8 @@ class StockPicking(models.Model):
                     'product_uom': product_id.uom_id.id,
                     'company_id': self.env.company.id,
                     'bariq_lot_id': stock_lot_id.id if stock_lot_id else False,
-                    'bales_number': 1
+                    'bales_number': 1,
+                    'scanned_bale_ids': [(6, 0, [stock_bale_id.id])] if stock_bale_id else False  # Add the first scanned bale
                 })]
 
             self.barcode = False
