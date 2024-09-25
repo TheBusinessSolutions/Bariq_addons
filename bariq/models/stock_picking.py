@@ -136,17 +136,17 @@ class StockPicking(models.Model):
             #to use with the bale number scan
             #add 1 to the bale number
             if existing_line:
-                        # If the line already exists, update it
-                        if stock_bale_id:
-                            # Check if this bale has already been scanned for this line
-                            if stock_bale_id.id not in existing_line.scanned_bale_ids.ids:
-                                # Increment bales_number if it's a new stock_picking_bale_id
-                                existing_line.bales_number += 1
-                                # Add the bale ID to the scanned bales
-                                existing_line.scanned_bale_ids = [(4, stock_bale_id.id)]
-                            else:
-                                # Raise a warning if the bale has already been scanned
-                                raise UserError(f"Bale {stock_bale_id.sequence} has already been scanned for this product.")
+                # If the line already exists, update it
+                if stock_bale_id:
+                    # Check if this bale has already been scanned for this line
+                    if stock_bale_id not in existing_line.scanned_bale_ids:
+                        # Increment bales_number if it's a new stock_picking_bale_id
+                        existing_line.bales_number += 1
+                        # Add the bale to the scanned bales
+                        existing_line.scanned_bale_ids = [(4, stock_bale_id.id, 0)]
+                    else:
+                        # Raise a warning if the bale has already been scanned
+                        raise UserError(f"Bale {stock_bale_id.sequence} has already been scanned for this product.")
 
             
             if not existing_line:
