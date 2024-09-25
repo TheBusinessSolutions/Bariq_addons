@@ -12,7 +12,12 @@ class StockProductionLot(models.Model):
     _inherit = 'stock.production.lot'
 
     bales_number = fields.Integer(string='Bales Number')
+#this class to store the scanned bales so we can check if the user
+#already scanned the same bale or not
+class StockMove(models.Model):
+    _inherit = 'stock.move'
 
+    scanned_bale_ids = fields.Many2many('stock.picking.bale', string='Scanned Bales')
 
 class StockPicking(models.Model):
     _inherit = 'stock.picking'
@@ -128,13 +133,21 @@ class StockPicking(models.Model):
 
             existing_line = self.move_ids_without_package.filtered(lambda line: line.product_id.id == product_id.id)
 
-
-            #if the user scan a bale, then increase the number of bales by 1
+            #to use with the bale number scan
+            #add 1 to the bale number
             if existing_line:
-                # If the line already exists, update it
-                if stock_bale_id:
-                    # Increment bales_number if it's a stock_picking_bale_id
-                    existing_line.bales_number += 1
+                        # If the line already exists, update it
+                        if stock_bale_id:
+                            # Check if this bale has already been scanned for this line
+                            if stock_bale_id.id not in existing_line.scanned_bale_ids.ids:
+                                # Increment bales_number if it's a new stock_picking_bale_id
+                                existing_line.bales_number += 1
+                                # Add the bale ID to the scanned bales
+                                existing_line.scanned_bale_ids = [(4, stock_bale_id.id)]
+                            else:
+                                # Raise a warning if the bale has already been scanned
+                                raise UserError(f"Bale {stock_bale_id.sequence} has already been scanned for this product.")
+
             
             if not existing_line:
                 self.move_ids_without_package = [(0, 0, {
