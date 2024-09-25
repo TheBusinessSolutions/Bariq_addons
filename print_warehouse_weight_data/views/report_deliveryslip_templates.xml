@@ -37,7 +37,7 @@
                         <tr>
                             <td class="text-right">نسبه الخصم %</td>
                             <td class="text-right">
-                                <t t-if="o.rejected <= 0.00 and o.state == 'ready'">
+                                <t t-if="o.rejected <= 0.00 and o.state == 'assigned'">
                                     <span>تحت الفحص</span>
                                 </t>
                                 <t t-else="">
