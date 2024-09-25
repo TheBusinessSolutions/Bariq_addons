@@ -271,6 +271,10 @@ class StockPicking(models.Model):
             for record in self.move_line_ids_without_package:
                 record.qty_done = abs(self.weight_1 - (self.weight_2 or 0.0))
 
+            #move the stock in the Operarion
+            for record in self.move_ids_without_package:
+                record.quantity_done = abs(self.weight_1 - (self.weight_2 or 0.0))
+
             client.close()
 
         except Exception as e:
