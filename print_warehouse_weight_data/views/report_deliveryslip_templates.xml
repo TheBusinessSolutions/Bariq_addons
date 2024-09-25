@@ -38,12 +38,11 @@
                         <td class="text-right">نسبه الخصم %</td>
                         <td class="text-right">
                             <!-- Correctly escaping '<=' in the t-if condition -->
-                            <t t-if="o.state == 'ready'">
+                            <t t-if="o.rejected &lt;= 0.00 and o.state == 'assigned'">
                                 <span>تحت الفحص</span>
                             </t>
                             
                                 <span t-esc="o.rejected"/>
-                                <span t-esc="o.state"/>
                             
                         </td>
                     </tr>
