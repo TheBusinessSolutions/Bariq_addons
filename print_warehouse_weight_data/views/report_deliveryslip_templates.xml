@@ -42,6 +42,7 @@
                             </t>
                             <t t-else="">
                                 <span t-esc="o.rejected"/>
+                                <span t-esc="o.state"/>
                             </t>
                         </td>
                     </tr>
@@ -98,7 +99,6 @@
                     و في حال المخالفه يعد ذلك تعد علي ملكيه الشركه و يعرضك للمسائلة القانونيه ضد من تعدي علي ملكيتها
                   </div>
                 </p>
-                <span t-field="o.state"/>
             </div>
         </xpath>
     </template>
