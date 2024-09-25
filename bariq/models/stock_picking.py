@@ -107,36 +107,27 @@ class StockPicking(models.Model):
     @api.onchange('barcode')
     def create_new_picking_line(self):
         if self.barcode and self.picking_type_id.code in ['outgoing', 'internal']:
+            stock_lot_id  = self.env['stock.production.lot'].sudo().search([('name', '=', self.barcode)])
+            stock_bale_id = False
+            product_id    = False
 
-            stock_lot_id = self.env['stock.production.lot'].sudo().search([('name', '=', self.barcode)])
-            product_id = False
-
-            if not stock_lot_id:
+            if stock_lot_id:
+                product_id = stock_lot_id.product_id
+            else:
                 product_id = self.env['product.product'].sudo().search([('barcode', '=', self.barcode)])
 
-                if not product_id:
-                    raise UserError("This Barcode Not Found In Products & Lots")
-            else:
-                product_id = stock_lot_id.product_id
-               
-            # Check if 'lot_id' exists on the stock.move model
-            has_lot_id = 'lot_id' in self.env['stock.move']._fields
+            if not product_id:
+                stock_bale_id = self.env['stock.picking.bale'].sudo().search([('sequence', '=', self.barcode)])
 
-            # Check if the line with the same product_id and lot_id already exists
-            if has_lot_id:
-                existing_line = self.move_ids_without_package.filtered(lambda line:
-                    line.product_id.id == product_id.id and
-                    (line.lot_id.id == stock_lot_id.id if stock_lot_id else not line.lot_id)
-                )
+            if stock_bale_id:
+                product_id = stock_bale_id.product_id
+                stock_bale_id.write({'location_id': self.location_dest_id.id, 'picking_id': self._origin.id})
             else:
-                existing_line = self.move_ids_without_package.filtered(lambda line:
-                    line.product_id.id == product_id.id
-                )
-   
+                raise UserError("This Barcode Not Found In Products OR Lots OR Bales")
 
-            # original code to make the searh if the baroce alreay in the product
+            existing_line = self.move_ids_without_package.filtered(lambda line: line.product_id.id == product_id.id)
+
             if not existing_line:
-                # If no existing line, create a new one
                 self.move_ids_without_package = [(0, 0, {
                     'product_id': product_id.id,
                     'name': product_id.name,
@@ -147,11 +138,11 @@ class StockPicking(models.Model):
                     'product_uom': product_id.uom_id.id,
                     'company_id': self.env.company.id,
                     'bariq_lot_id': stock_lot_id.id if stock_lot_id else False,
-                    
-                    
+                    'bales_number': 1
                 })]
 
             self.barcode = False
+
 
     def close_dawar_ticket(self):
         auth_link, close_link, user_token = '', '', ''
@@ -265,8 +256,6 @@ class StockPicking(models.Model):
             raise UserError("We Can't Process Request: (%s)" % e)
 
 
-
-
     def get_weight_2(self):
         if not self.weight_id:
             raise exceptions.UserError("Weight configuration is missing. Please ensure that a valid Weight ID is set.")
@@ -336,8 +325,14 @@ class StockPicking(models.Model):
             if not self.is_generate_lots and self.is_dawar_picking:
                 raise UserError(_('You Must Generate Lots Name Before Validate.'))
 
+            if not self.is_generate_bales and self.is_dawar_picking:
+                raise UserError(_('You Must Generate Bales Before Validate.'))
+            
             if (not self.is_get_weight_1 or not self.is_get_weight_2) and self.is_dawar_picking:
                 raise UserError(_('You Must Get Track Weight First Before Validate.'))
+
+            for record in self.stock_picking_bale_ids:
+                record.write({'location_id': self.location_dest_id.id, 'state': 'confirm'})
 
             if self.rejected != 0.0:
                 for record in self.purchase_id.order_line:
@@ -348,18 +343,10 @@ class StockPicking(models.Model):
             if self.is_dawar_picking:
                 self.close_dawar_ticket()
 
-        # if self.picking_type_id.code in ['outgoing', 'internal']:
-        #     for record in self.move_ids_without_package:
-        #         for line in record.move_line_ids:
-        #             if not line.lot_id and record.bariq_lot_id:
-        #                 line.lot_id = record.bariq_lot_id.id
-        #             # Save bales_number to the lot in stock.production.lot
-        #             if line.lot_id and hasattr(record, 'bales_number'):
-        #                 # Save the bales_number to the lot
-        #                 line.lot_id.bales_number = record.bales_number
-
-        # original code
         if self.picking_type_id.code in ['outgoing', 'internal']:
+            for record in self.stock_picking_bale_ids:
+                record.write({'location_id': self.location_dest_id.id, 'state': 'confirm'})
+
             for record in self.move_ids_without_package:
                 for line in record.move_line_ids:
                     if not line.lot_id and record.bariq_lot_id:
