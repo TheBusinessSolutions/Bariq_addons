@@ -128,6 +128,14 @@ class StockPicking(models.Model):
 
             existing_line = self.move_ids_without_package.filtered(lambda line: line.product_id.id == product_id.id)
 
+
+            #if the user scan a bale, then increase the number of bales by 1
+            if existing_line:
+                # If the line already exists, update it
+                if stock_bale_id:
+                    # Increment bales_number if it's a stock_picking_bale_id
+                    existing_line.bales_number += 1
+            
             if not existing_line:
                 self.move_ids_without_package = [(0, 0, {
                     'product_id': product_id.id,
@@ -293,13 +301,7 @@ class StockPicking(models.Model):
             for record in self.move_line_ids_without_package:
                 record.qty_done = abs(self.weight_1 - self.weight_2)
 
-#put the quantity done in the operation page
-#under the field of Quantity_done
-    @api.onchange('weight_1', 'weight_2')
-    def onchange_weight(self):
-        if self.weight_1 != 0.0 or self.weight_2 != 0.0:
-            for record in self.move_line_ids_without_package:
-                record.quantity_done = abs(self.weight_1 - self.weight_2)
+
     def action_generate_lots_name(self):
         day = str(fields.date.today().day)
         month = str(fields.date.today().month)
