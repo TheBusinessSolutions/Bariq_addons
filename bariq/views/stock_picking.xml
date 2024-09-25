@@ -65,7 +65,7 @@
                             <field name="dawar_ticket" readonly="1" force_save="1"/>
                             <field name="rejected" 
                                                 attrs="{'readonly': [('state', 'in', ['done', 'cancel'])]}"
-                                                groups="quality.group_quality_control_manager"/>
+                                                groups="module_category_quality_control.group_quality_control_manager"/>
                         </group>
                     </group>
 
