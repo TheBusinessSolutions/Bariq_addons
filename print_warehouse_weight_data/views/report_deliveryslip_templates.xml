@@ -41,7 +41,7 @@
                             <t t-if="o.rejected &lt;= 0.00 and o.state == 'assigned'">
                                 <span>تحت الفحص</span>
                             </t>
-                            <t t-else>
+                            <t t-else="">
                                 <span t-esc="o.rejected"/>
                             </t>
                         </td>
