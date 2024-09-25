@@ -34,17 +34,17 @@
                         <td class="text-right">وزن 2</td>
                         <td class="text-right"><span t-esc="o.weight_2"/></td>
                     </tr>
-                        <tr>
-                            <td class="text-right">نسبه الخصم %</td>
-                            <td class="text-right">
-                                <t t-if="o.rejected <= 0.00 and o.state == 'assigned'">
-                                    <span>تحت الفحص</span>
-                                </t>
-                                <t t-else="">
-                                    <span t-esc="o.rejected"/>
-                                </t>
-                            </td>
-                        </tr>
+                    <tr>
+                        <td class="text-right">نسبه الخصم %</td>
+                        <td class="text-right">
+                            <t t-if="o.rejected <= 0.00">
+                                <span>تحت الفحص</span>
+                            </t>
+                            <t t-else="">
+                                <span t-esc="o.rejected"/>
+                            </t>
+                        </td>
+                    </tr>
 
                 </table>
             </div>
