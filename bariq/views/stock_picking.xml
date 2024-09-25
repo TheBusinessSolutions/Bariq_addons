@@ -63,7 +63,9 @@
                         </group>
                         <group>
                             <field name="dawar_ticket" readonly="1" force_save="1"/>
-                            <field name="rejected" attrs="{'readonly': [('state', 'in', ['done', 'cancel'])]}"/>
+                            <field name="rejected" 
+                                                attrs="{'readonly': [('state', 'in', ['done', 'cancel'])]}"
+                                                groups="sel_groups_75_76"/>
                         </group>
                     </group>
 
