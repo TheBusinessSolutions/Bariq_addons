@@ -36,8 +36,8 @@
                     </tr>
                     <tr>
                         <td class="text-right">نسبه الخصم %</td>
+                        <td class="text-right"><span t-esc="o.state"/></td>
                         <td class="text-right">
-                            <span o.state/>
                             <t t-if="o.state == 'assigned'">
                                 <span>تحت الفحص</span>
                             </t>
