@@ -42,6 +42,7 @@
                             </t>
                             <t t-else="">
                                 <span t-esc="o.rejected"/>
+                                <span>++</span>
                                 <span t-esc="o.state"/>
                             </t>
                         </td>
