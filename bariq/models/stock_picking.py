@@ -202,6 +202,9 @@ class StockPicking(models.Model):
     def action_calculate_done_qty(self):
         for record in self.move_line_ids_without_package:
             record.qty_done = abs(self.weight_1 - self.weight_2)
+        #put the weight in the Operation page
+        for record in self.move_ids_without_package:
+            record.quantity_done = abs(self.weight_1 - self.weight_2)
 
     @api.onchange('weight_1')
     def set_is_get_weight_1(self):
