@@ -4,8 +4,10 @@ class ResUsers(models.Model):
     _inherit = 'res.users'
 
     allowed_warehouse_ids = fields.Many2many(
-        comodel_name='stock.warehouse', string='Allowed Warehouses',
-        help='Allowed Warehouses for user.')
+        'stock.warehouse', 
+        string="Allowed Warehouses",
+        help="Warehouses that the user is allowed to access."
+    )
     restrict_location = fields.Boolean(string="Restrict Location",
                                        help='Restrict location for the user.')
     location_ids = fields.Many2many(
