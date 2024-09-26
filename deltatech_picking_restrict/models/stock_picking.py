@@ -1,17 +1,17 @@
-#Original Code
 # ©  20023-Now Deltatech
 # See README.rst file on addons root folder for license details
-
-
 from odoo import _, fields, models
 from odoo.exceptions import UserError
 from odoo.tools import float_compare
 
-
 class StockPickingType(models.Model):
     _inherit = "stock.picking.type"
 
-    validate_group_id = fields.Many2one("res.groups", string="Group for validation")
+    validate_group_ids = fields.Many2many(
+        "res.groups", 
+        string="Groups for validation",
+        help="Groups allowed to validate this type of transfer"
+    )
     restrict_quantities = fields.Boolean(
         string="Restrict done quantities to reserved",
         default=False,
@@ -23,17 +23,16 @@ class StockPickingType(models.Model):
         help="If set, no picking with extra products and done quantity can be validated",
     )
 
-
 class StockPicking(models.Model):
     _inherit = "stock.picking"
 
     def button_validate(self):
         for picking in self:
-            if picking.picking_type_id.validate_group_id:
-                group_id = picking.picking_type_id.validate_group_id
-                if self.env.user not in group_id.users:
-                    raise UserError(_("Your user cannot validate this type of transfer"))
-
+            if picking.picking_type_id.validate_group_ids:
+                user_groups = self.env.user.groups_id
+                if not any(group in user_groups for group in picking.picking_type_id.validate_group_ids):
+                    raise UserError(_("Your user is not in any of the groups allowed to validate this type of transfer"))
+            
             # new product or wrong quantities check
             if picking.picking_type_id.restrict_quantities or picking.picking_type_id.restrict_new_products:
                 precision = self.env["decimal.precision"].precision_get("Product Unit of Measure")
@@ -61,20 +60,21 @@ class StockPicking(models.Model):
                         )
         return super().button_validate()
 
+
+# Original Code
 # # ©  20023-Now Deltatech
 # # See README.rst file on addons root folder for license details
+
+
 # from odoo import _, fields, models
 # from odoo.exceptions import UserError
 # from odoo.tools import float_compare
 
+
 # class StockPickingType(models.Model):
 #     _inherit = "stock.picking.type"
 
-#     validate_group_ids = fields.Many2many(
-#         "res.groups", 
-#         string="Groups for validation",
-#         help="Groups allowed to validate this type of transfer"
-#     )
+#     validate_group_id = fields.Many2one("res.groups", string="Group for validation")
 #     restrict_quantities = fields.Boolean(
 #         string="Restrict done quantities to reserved",
 #         default=False,
@@ -86,16 +86,17 @@ class StockPicking(models.Model):
 #         help="If set, no picking with extra products and done quantity can be validated",
 #     )
 
+
 # class StockPicking(models.Model):
 #     _inherit = "stock.picking"
 
 #     def button_validate(self):
 #         for picking in self:
-#             if picking.picking_type_id.validate_group_ids:
-#                 user_groups = self.env.user.groups_id
-#                 if not any(group in user_groups for group in picking.picking_type_id.validate_group_ids):
-#                     raise UserError(_("Your user is not in any of the groups allowed to validate this type of transfer"))
-            
+#             if picking.picking_type_id.validate_group_id:
+#                 group_id = picking.picking_type_id.validate_group_id
+#                 if self.env.user not in group_id.users:
+#                     raise UserError(_("Your user cannot validate this type of transfer"))
+
 #             # new product or wrong quantities check
 #             if picking.picking_type_id.restrict_quantities or picking.picking_type_id.restrict_new_products:
 #                 precision = self.env["decimal.precision"].precision_get("Product Unit of Measure")
@@ -122,5 +123,3 @@ class StockPicking(models.Model):
 #                             )
 #                         )
 #         return super().button_validate()
-
-
