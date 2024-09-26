@@ -22,10 +22,9 @@ class StockMove(models.Model):
 #to use as a role in the user form
 class ResUsers(models.Model):
     _inherit = 'res.users'
-
     set_rejection_rate = fields.Boolean(string="Set Rejection Rate", default=False)
 
-    
+
 class StockPicking(models.Model):
     _inherit = 'stock.picking'
 
