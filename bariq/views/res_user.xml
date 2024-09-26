@@ -1,13 +1,12 @@
 <odoo>
     <data>
-        <!-- Inherit the res.users form view -->
-        <record id="view_users_form" model="ir.ui.view">
-            <field name="name">res.users.form</field>
+        <record id="view_users_form_inherit" model="ir.ui.view">
+            <field name="name">res.users.form.inherit</field>
             <field name="model">res.users</field>
             <field name="inherit_id" ref="base.view_users_form"/>
             <field name="arch" type="xml">
-                <!-- Add the checkbox for "Set Rejection Rate" -->
-                <xpath expr="//group[@name='group_user_rights']" position="inside">
+                <!-- Add the checkbox under the Access Rights page -->
+                <xpath expr="//page[@name='access_rights']/group" position="inside">
                     <field name="set_rejection_rate"/>
                 </xpath>
             </field>
