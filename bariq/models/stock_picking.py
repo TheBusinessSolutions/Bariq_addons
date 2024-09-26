@@ -19,10 +19,10 @@ class StockMove(models.Model):
 
     scanned_bale_ids = fields.Many2many('stock.picking.bale', string='Scanned Bales')
 
-#to use as a role in the user form
-class ResUsers(models.Model):
-    _inherit = 'res.users'
-    set_rejection_rate = fields.Boolean(string="Set Rejection Rate", default=False)
+# #to use as a role in the user form
+# class ResUsers(models.Model):
+#     _inherit = 'res.users'
+#     set_rejection_rate = fields.Boolean(string="Set Rejection Rate", default=False)
 
 
 class StockPicking(models.Model):
