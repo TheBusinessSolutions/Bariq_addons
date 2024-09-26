@@ -1,6 +1,6 @@
-from odoo import models, fields
+# from odoo import models, fields
 
-class ResUsers(models.Model):
-    _inherit = 'res.users'
+# class ResUsers(models.Model):
+#     _inherit = 'res.users'
 
-    set_rejection_rate = fields.Boolean(string="Set Rejection Rate", default=False)
+#     set_rejection_rate = fields.Boolean(string="Set Rejection Rate", default=False)
