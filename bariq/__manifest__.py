@@ -31,6 +31,6 @@
         'views/stock_picking_bale.xml',
         'views/weight_in_production.xml',
         'views/view_show_bales_number_in_lot.xml',
-        #'views/res_user.xml',
+        
     ],
 }
