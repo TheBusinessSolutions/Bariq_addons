@@ -36,8 +36,20 @@
                     </tr>
                     <tr>
                         <td class="text-right">نسبه الخصم %</td>
-                        <td class="text-right"><span t-esc="o.rejected"/></td>
+                        <td class="text-right">
+                            <!-- Correctly escaping '<=' in the t-if condition -->
+                            <t t-if="o.rejected &lt;= 0.00 and o.state == 'assigned'">
+                                <span>تحت الفحص</span>
+                            </t>
+                            <t t-else="">
+                                <span t-esc="o.rejected"/>
+                            </t>
+                        </td>
                     </tr>
+
+
+                    
+
                 </table>
             </div>
         </xpath>

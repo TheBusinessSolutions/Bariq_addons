@@ -14,6 +14,12 @@ class StockProductionLot(models.Model):
     bales_number = fields.Integer(string='Bales Number')
 
 
+class StockMove(models.Model):
+    _inherit = 'stock.move'
+
+    scanned_bale_ids = fields.Many2many('stock.picking.bale', string='Scanned Bales')
+
+
 class StockPicking(models.Model):
     _inherit = 'stock.picking'
 
@@ -127,6 +133,7 @@ class StockPicking(models.Model):
 
             existing_line = self.move_line_ids_without_package.filtered(lambda line: line.product_id.id == product_id.id)
 
+
             if not existing_line:
                 self.move_line_ids_without_package = [(0, 0, {
                     'product_id': product_id.id,
@@ -138,7 +145,8 @@ class StockPicking(models.Model):
                     'product_uom_id': product_id.uom_id.id,
                     'company_id': self.env.company.id,
                     'bariq_lot_id': stock_lot_id.id if stock_lot_id else False,
-                    'bales_number': 1
+                    'bales_number': 1,
+                    'scanned_bale_ids': [(6, 0, [stock_bale_id.id])] if stock_bale_id else False  # Add the first scanned bale
                 })]
 
             self.barcode = False
@@ -181,6 +189,9 @@ class StockPicking(models.Model):
     def action_calculate_done_qty(self):
         for record in self.move_line_ids_without_package:
             record.qty_done = abs(self.weight_1 - self.weight_2)
+        #put the weight in the Operation page
+        for record in self.move_ids_without_package:
+            record.quantity_done = abs(self.weight_1 - self.weight_2)
 
     @api.onchange('weight_1')
     def set_is_get_weight_1(self):
@@ -249,6 +260,10 @@ class StockPicking(models.Model):
 
             for record in self.move_line_ids_without_package:
                 record.qty_done = abs(self.weight_1 - (self.weight_2 or 0.0))
+
+            #move the stock in the Operarion
+            for record in self.move_ids_without_package:
+                record.quantity_done = abs(self.weight_1 - (self.weight_2 or 0.0))
 
             client.close()
 
