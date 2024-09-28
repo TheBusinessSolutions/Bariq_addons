@@ -11,9 +11,20 @@ class StockMove(models.Model):
     bariq_lot_id = fields.Char(string="Bariq Lot ID")
     production_bales_number = fields.Integer(string="Production Bales Number")
 
+
+    @api.depends('picking_id.stock_picking_bale_ids')
     def compute_bales_number(self):
         for record in self:
-            if record.purchase_line_id and record.purchase_line_id.order_id.diff_ship and record.purchase_line_id.order_id.imported_order and int(record.purchase_line_id.order_id.cntrs_number) > 0:
-                record.bales_number = record.purchase_line_id.bales_number / int(record.purchase_line_id.order_id.cntrs_number)
+            if record.picking_id.picking_type_code in ['incoming']:
+
+                if record.purchase_line_id and record.purchase_line_id.order_id.diff_ship and record.purchase_line_id.order_id.imported_order and int(record.purchase_line_id.order_id.cntrs_number) > 0:
+                    record.bales_number = record.purchase_line_id.bales_number / int(record.purchase_line_id.order_id.cntrs_number)
+                else:
+                    record.bales_number = record.purchase_line_id.bales_number
+
+            elif record.picking_id.picking_type_code in ['outgoing', 'internal']:
+                record.bales_number = len(record.picking_id.stock_picking_bale_ids.filtered(lambda bale: bale.product_id.id == record.product_id.id).ids)
+
             else:
-                record.bales_number = record.purchase_line_id.bales_number
+                record.bales_number = 0
+            

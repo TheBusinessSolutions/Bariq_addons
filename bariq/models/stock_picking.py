@@ -41,8 +41,6 @@ class StockPicking(models.Model):
     #weight_ticket_number = fields.Char(readonly=True, string="Ticket Number")
 
     stock_picking_bale_ids = fields.One2many('stock.picking.bale', 'picking_id', string="Bales")
-    bales_ids = fields.One2many('stock.picking.bale', 'picking_id', string="Bales")
-
 
 
     def action_generate_bales(self):
@@ -50,7 +48,7 @@ class StockPicking(models.Model):
         count = 1
 
         self.stock_picking_bale_ids.unlink()
-        for record in self.move_ids_without_package:
+        for record in self.move_line_ids_without_package:
             for bale in range(record.bales_number):
                 stock_picking_bale_list.append((0, 0, {
                     'sequence'  : self.weight_ticket_number + '-' + str(count) if self.weight_ticket_number else str(count),
@@ -120,23 +118,24 @@ class StockPicking(models.Model):
             if not product_id:
                 stock_bale_id = self.env['stock.picking.bale'].sudo().search([('sequence', '=', self.barcode)])
 
-            if stock_bale_id:
+            if stock_bale_id and not product_id:
                 product_id = stock_bale_id.product_id
                 stock_bale_id.write({'location_id': self.location_dest_id.id, 'picking_id': self._origin.id})
-            else:
+
+            if not stock_lot_id and not stock_bale_id and not product_id:
                 raise UserError("This Barcode Not Found In Products OR Lots OR Bales")
 
-            existing_line = self.move_ids_without_package.filtered(lambda line: line.product_id.id == product_id.id)
+            existing_line = self.move_line_ids_without_package.filtered(lambda line: line.product_id.id == product_id.id)
 
             if not existing_line:
-                self.move_ids_without_package = [(0, 0, {
+                self.move_line_ids_without_package = [(0, 0, {
                     'product_id': product_id.id,
-                    'name': product_id.name,
+                    # 'name': product_id.name,
                     'date': datetime.now(),
                     'location_id': self.location_id.id,
                     'location_dest_id': self.location_dest_id.id,
-                    'quantity_done': stock_lot_id.product_qty if stock_lot_id else 0.0,
-                    'product_uom': product_id.uom_id.id,
+                    'qty_done': stock_lot_id.product_qty if stock_lot_id else 0.0,
+                    'product_uom_id': product_id.uom_id.id,
                     'company_id': self.env.company.id,
                     'bariq_lot_id': stock_lot_id.id if stock_lot_id else False,
                     'bales_number': 1
@@ -348,7 +347,7 @@ class StockPicking(models.Model):
             for record in self.stock_picking_bale_ids:
                 record.write({'location_id': self.location_dest_id.id, 'state': 'confirm'})
 
-            for record in self.move_ids_without_package:
+            for record in self.move_line_ids_without_package:
                 for line in record.move_line_ids:
                     if not line.lot_id and record.bariq_lot_id:
                         line.lot_id = record.bariq_lot_id.id
