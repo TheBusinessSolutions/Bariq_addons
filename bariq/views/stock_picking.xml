@@ -34,6 +34,7 @@
                     <button name="action_generate_bales" type="object" string="Generate Bales" class="btn-primary" attrs="{'invisible': ['|', '|', '|', ('state', 'in', ['done', 'cancel']), ('is_dawar_picking', '=', False), ('is_generate_bales', '=', True), ('is_generate_lots', '=', False)]}"/>
                     <button name="action_generate_lots_name" string="Generate Lots" type="object" class="oe_highlight" attrs="{'invisible': ['|', '|', '|', '|', ('is_get_weight_1', '=', False), ('is_get_weight_2', '=', False), ('state', 'in', ['done', 'cancel']), ('is_dawar_picking', '=', False), ('is_generate_lots', '=', True)]}"/>
                     <button name="close_dawar_ticket" string="Close Ticket" type="object" class="oe_highlight" invisible="1"/>
+                    <button name="action_print_bales_in_range" string="Print Bale Barcode" type="object" class="btn-primary" attrs="{'invisible': ['|', '|', '|', ('state', 'in', ['done', 'cancel']), ('is_dawar_picking', '=', False), ('is_generate_bales', '=', True), ('is_generate_lots', '=', False)]}"/>
                 </xpath>
 
                 <xpath expr="//field[@name='origin']" position="after">
