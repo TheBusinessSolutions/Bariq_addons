@@ -147,8 +147,11 @@ class StockPicking(models.Model):
                     'date': datetime.now(),
                     'location_id': self.location_id.id,
                     'location_dest_id': self.location_dest_id.id,
-                    'qty_done': stock_lot_id.product_qty if stock_lot_id else 0.0,
-                    'product_uom_id': product_id.uom_id.id,
+                    #'qty_done': stock_lot_id.product_qty if stock_lot_id else 0.0,
+                    #update the field in the Operation page
+                    'quantity_done': stock_lot_id.product_qty if stock_lot_id else 0.0,
+                    #'product_uom_id': product_id.uom_id.id,
+                    'product_uom': product_id.uom_id.id,
                     'company_id': self.env.company.id,
                     'bariq_lot_id': stock_lot_id.id if stock_lot_id else False,
                     'bales_number': 1,
