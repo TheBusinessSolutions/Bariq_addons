@@ -18,7 +18,7 @@ class StockMove(models.Model):
     _inherit = 'stock.move'
 
     scanned_bale_ids = fields.Many2many('stock.picking.bale', string='Scanned Bales')
-
+    
 # add the scanned bale to the stock move line
 class StockMove(models.Model):
     _inherit = 'stock.move.line'
@@ -140,18 +140,14 @@ class StockPicking(models.Model):
 
 
             if not existing_line:
-                #self.move_line_ids_without_package = [(0, 0, {
-                self.move_ids_without_package = [(0, 0, {
+                self.move_line_ids_without_package = [(0, 0, {
                     'product_id': product_id.id,
                     # 'name': product_id.name,
                     'date': datetime.now(),
                     'location_id': self.location_id.id,
                     'location_dest_id': self.location_dest_id.id,
-                    #'qty_done': stock_lot_id.product_qty if stock_lot_id else 0.0,
-                    #update the field in the Operation page
-                    'quantity_done': stock_lot_id.product_qty if stock_lot_id else 0.0,
-                    #'product_uom_id': product_id.uom_id.id,
-                    'product_uom': product_id.uom_id.id,
+                    'qty_done': stock_lot_id.product_qty if stock_lot_id else 0.0,
+                    'product_uom_id': product_id.uom_id.id,
                     'company_id': self.env.company.id,
                     'bariq_lot_id': stock_lot_id.id if stock_lot_id else False,
                     'bales_number': 1,
