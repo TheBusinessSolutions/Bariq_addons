@@ -20,15 +20,14 @@ class StockPickingBale(models.Model):
     
 
     def action_print_bales_in_range(self):
-        # """ New method to print barcodes for all bales within the start and end sequence range found in stock.move.line. """
+        """ New method to print barcodes for all bales within the start and end sequence range found in stock.move.line. """
 
-        # Get the current picking from the context (assuming this is called from a stock.picking)
-        picking_id = self.env.context.get('picking_id')
-        if not picking_id:
-            raise UserError(_("No picking found in context."))
+        # Get the picking from the current bale record (self.picking_id)
+        picking = self.picking_id
+        if not picking:
+            raise UserError(_("No picking found for this bale record."))
 
         # Get stock.move.line records for this picking
-        picking = self.env['stock.picking'].browse(picking_id)
         move_lines = picking.move_line_ids
 
         # Get the start and end sequence numbers from stock.move.line
