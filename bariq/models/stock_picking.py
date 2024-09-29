@@ -18,7 +18,12 @@ class StockMove(models.Model):
     _inherit = 'stock.move'
 
     scanned_bale_ids = fields.Many2many('stock.picking.bale', string='Scanned Bales')
+    
+# add the scanned bale to the stock move line
+class StockMove(models.Model):
+    _inherit = 'stock.move.line'
 
+    scanned_bale_ids = fields.Many2many('stock.picking.bale', string='Scanned Bales')
 
 class StockPicking(models.Model):
     _inherit = 'stock.picking'
