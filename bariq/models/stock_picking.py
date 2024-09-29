@@ -156,12 +156,7 @@ class StockPicking(models.Model):
 
             self.barcode = False
 
-            # Return a dictionary to update the view
-            return {
-                'domain': {
-                    'move_line_ids_without_package': [('id', 'in', self.move_line_ids_without_package.ids)]
-                }
-            }
+
 
 
     def close_dawar_ticket(self):
