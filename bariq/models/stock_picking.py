@@ -367,7 +367,8 @@ class StockPicking(models.Model):
             for record in self.stock_picking_bale_ids:
                 record.write({'location_id': self.location_dest_id.id, 'state': 'confirm'})
 
-            for record in self.move_line_ids_without_package:
+            #for record in self.move_line_ids_without_package:
+            for record in self.move_ids_without_package:
                 for line in record.move_line_ids:
                     if not line.lot_id and record.bariq_lot_id:
                         line.lot_id = record.bariq_lot_id.id
