@@ -116,6 +116,8 @@
                                 <field name="location_id"/>
                                 <field name="state" widget="badge" decoration-info="state == 'draft'" decoration-success="state == 'confirm'" decoration-danger="state == 'cancel'"/>
                                 <button name="action_print_line_barcode" string="Print Barcode" type="object" class="btn-primary"/>
+                                <button name="action_print_bales_in_range" string="Print Barcode" type="object" class="btn-primary"/>
+
                             </tree>
                         </field>
                     </page>
