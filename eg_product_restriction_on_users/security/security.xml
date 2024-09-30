@@ -1,0 +1,12 @@
+<odoo>
+    <record id="group_product_restrict_manager" model="res.groups">
+        <field name="name">Product Restriction</field>
+    </record>
+
+    <record id="restrict_product_rule" model="ir.rule">
+        <field name="name">Restricted Product</field>
+        <field ref="model_product_template" name="model_id"/>
+        <field name="domain_force">[('id','not in', user.product_template_ids.ids)]</field>
+        <field name="groups" eval="[(4, ref('eg_product_restriction_on_users.group_product_restrict_manager'))]"/>
+    </record>
+</odoo>
