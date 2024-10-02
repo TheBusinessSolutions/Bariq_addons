@@ -38,6 +38,31 @@
             </form>
         </field>
     </record>
+
+    <!-- Override the stock.picking.type kanban view -->
+    <record id="view_picking_type_kanban_inherited" model="ir.ui.view">
+        <field name="name">stock.picking.type.kanban.inherited</field>
+        <field name="model">stock.picking.type</field>
+        <field name="inherit_id" ref="stock.stock_picking_type_kanban"/>
+        <field name="arch" type="xml">
+            <kanban position="attributes">
+                <attribute name="domain">[('warehouse_id', 'in', user.warehouse_ids.ids)]</attribute>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- Override the stock.picking.type action -->
+    <record id="stock.stock_picking_type_action" model="ir.actions.act_window">
+        <field name="name">Operation Types</field>
+        <field name="res_model">stock.picking.type</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="view_mode">kanban,form</field>
+        <field name="view_id" ref="stock.stock_picking_type_kanban"/>
+        <field name="domain">[('warehouse_id', 'in', user.warehouse_ids.ids)]</field>
+        <field name="context">{'create': False}</field>
+    </record>
+
+
 </odoo>
 
 
