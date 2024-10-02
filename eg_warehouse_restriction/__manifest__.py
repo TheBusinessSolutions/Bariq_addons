@@ -16,6 +16,7 @@
     "data": [
         "views/res_users_view.xml",
         "security/security.xml",
+        "views/stock_warehouse_views.xml",
     ],
 
     'images': ['static/description/banner.png'],
