@@ -11,7 +11,7 @@
     
     'website': "https://www.INKERP.com",
 
-    "depends": ['stock'],
+    "depends": ['base', 'stock'],
     
     "data": [
         "views/res_users_view.xml",
