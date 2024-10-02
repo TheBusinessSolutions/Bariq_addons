@@ -1,16 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <!-- Override the warehouse kanban view -->
-    <!-- <record id="view_warehouse_kanban" model="ir.ui.view">
-        <field name="name">stock.warehouse.kanban</field>
-        <field name="model">stock.warehouse</field>
-        <field name="inherit_id" ref="stock.stock_warehouse_kanban"/>
-        <field name="arch" type="xml">
-            <kanban position="attributes">
-                <attribute name="create">0</attribute>
-            </kanban>
+    <!-- Override the warehouse action -->
+    <record id="stock.action_warehouse_form" model="ir.actions.act_window">
+        <field name="name">Warehouses</field>
+        <field name="res_model">stock.warehouse</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="stock.view_warehouse_tree"/>
+        <field name="context">{'create': False}</field>
+        <field name="help" type="html">
+          <p class="o_view_nocontent_smiling_face">
+            No warehouse found
+          </p>
         </field>
-    </record> -->
+    </record>
 
     <!-- Override the warehouse tree view -->
     <record id="view_warehouse_tree" model="ir.ui.view">
