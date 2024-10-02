@@ -46,7 +46,7 @@
         <field name="inherit_id" ref="stock.stock_picking_type_kanban"/>
         <field name="arch" type="xml">
             <kanban position="attributes">
-                <attribute name="domain">[('warehouse_id', 'in', user.warehouse_ids.ids)]</attribute>
+                <attribute name="domain">[('warehouse_id', 'in', user.env.user.warehouse_ids.ids)]</attribute>
             </kanban>
         </field>
     </record>
@@ -58,7 +58,7 @@
         <field name="type">ir.actions.act_window</field>
         <field name="view_mode">kanban,form</field>
         <field name="view_id" ref="stock.stock_picking_type_kanban"/>
-        <field name="domain">[('warehouse_id', 'in', user.warehouse_ids.ids)]</field>
+        <field name="domain">[('warehouse_id', 'in', user.env.user.warehouse_ids.ids)]</field>
         <field name="context">{'create': False}</field>
     </record>
 
