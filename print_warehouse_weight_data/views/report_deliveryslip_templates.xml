@@ -112,7 +112,7 @@
             <div style="border-top: 1px solid black; margin-top: 20px; margin-bottom: 20px;"></div>
             
             <!-- Repeat the report content -->
-            <!-- <t t-call="stock.report_delivery_document"/> -->
+            <t t-call="stock.report_delivery_document"/>
         </xpath>
     </template>
 </odoo>
