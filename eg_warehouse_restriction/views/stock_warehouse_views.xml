@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <!-- Override the warehouse kanban view -->
-    <record id="view_warehouse_kanban" model="ir.ui.view">
+    <!-- <record id="view_warehouse_kanban" model="ir.ui.view">
         <field name="name">stock.warehouse.kanban</field>
         <field name="model">stock.warehouse</field>
         <field name="inherit_id" ref="stock.stock_warehouse_kanban"/>
@@ -10,7 +10,7 @@
                 <attribute name="create">0</attribute>
             </kanban>
         </field>
-    </record>
+    </record> -->
 
     <!-- Override the warehouse tree view -->
     <record id="view_warehouse_tree" model="ir.ui.view">
