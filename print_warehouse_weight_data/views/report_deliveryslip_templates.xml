@@ -104,16 +104,4 @@
             </div>
         </xpath>
     </template>
-
-
-    <!-- Repeat the entire report after a horizontal line -->
-    <template id="report_deliveryslip_document_repeat_custom" inherit_id="stock.report_delivery_document">
-        <xpath expr="//div[@name='signature']" position="after">
-            <!-- Add horizontal line -->
-            <div style="border-top: 1px solid black; margin-top: 20px; margin-bottom: 20px;"></div>
-            
-            <!-- Repeat the report content -->
-            <t t-call="stock.report_delivery_document"/>
-        </xpath>
-    </template>
 </odoo>
