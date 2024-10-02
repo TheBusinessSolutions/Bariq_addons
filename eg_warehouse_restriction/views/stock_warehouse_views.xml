@@ -81,7 +81,7 @@
         </field>
     </record>
 
-    <!-- Override the warehouse action -->
+    
     <record id="stock.action_warehouse_form" model="ir.actions.act_window">
         <field name="name">Warehouses</field>
         <field name="res_model">stock.warehouse</field>
