@@ -14,3 +14,5 @@ from . import stock_picking_bale
 from . import stock_picking_type
 from . import purchase_order_line
 from . import weight_in_production
+from . import stock_production_lot
+
