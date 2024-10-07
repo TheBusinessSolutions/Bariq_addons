@@ -18,15 +18,3 @@ class StockPickingBale(models.Model):
     def action_print_line_barcode(self):
         return self.env.ref('bariq.action_report_bale_barcode').report_action(self)
     
-
-
-    def action_print_bales_in_range(self):
-        picking = self.picking_id  # Assuming the method is called from stock.move.line
-        bales = self.env['stock.picking.bale'].search([('picking_id', '=', picking.id)])
-        return self.env.ref('bariq.action_report_bale_barcode').report_action(bales)
-    
-    # def action_print_all_bales_barcode(self):
-    #     bales = self.env['stock.picking.bale'].search([('picking_id', '=', self.id)])
-    #     if not bales:
-    #         raise UserError(_("No bales found for this picking."))
-    #     return self.env.ref('bariq.action_report_bale_barcode').report_action(bales)

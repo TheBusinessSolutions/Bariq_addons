@@ -367,6 +367,7 @@ class StockPicking(models.Model):
                         line.lot_id = record.bariq_lot_id.id
 
         return super(StockPicking, self).button_validate()
+    #this code to print all the picking bales barcode
     def action_print_all_bales_barcode(self):
         bales = self.env['stock.picking.bale'].search([('picking_id', '=', self.id)])
         if not bales:
