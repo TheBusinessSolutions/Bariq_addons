@@ -4,7 +4,7 @@
         <template id="report_picking_bale_barcode_template">
             <t t-call="web.basic_layout">
                 <t t-foreach="docs" t-as="o">
-                    <div class="page">
+                    <div class="page" dir="ltr" style="text-align: center">
                         <div style="padding: 5px!important; margin: 5px!important">
                             <center>
                                 <t t-if="o.sequence">
