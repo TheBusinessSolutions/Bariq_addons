@@ -31,8 +31,8 @@ class StockPickingBale(models.Model):
         move_lines = picking.move_line_ids
 
         # Get the start and end sequence numbers from stock.move.line
-        start_sequence = min(move_lines.mapped('bale_sequence'))
-        end_sequence = max(move_lines.mapped('bale_sequence'))
+        start_sequence = min(move_lines.mapped('sequence'))
+        end_sequence = max(move_lines.mapped('sequence'))
 
         if not start_sequence or not end_sequence:
             raise UserError(_("No bale sequence found in stock.move.line for this picking."))
