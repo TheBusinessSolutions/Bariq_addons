@@ -26,7 +26,7 @@
         <!-- New menu item for Bales under Inventory -> Products -->
         <menuitem id="menu_inventory_bales"
                   name="Bales"
-                  parent="221"
+                  parent="stock.menu_product_variant_config_stock"
                   action="stock_picking_bale_action"
                   sequence="20"/>
     </data>
