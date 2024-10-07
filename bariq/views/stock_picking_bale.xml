@@ -22,5 +22,12 @@
             <field name="res_model">stock.picking.bale</field>
             <field name="view_mode">tree</field>
         </record>
+
+        <!-- New menu item for Bales under Inventory -> Products -->
+        <menuitem id="menu_inventory_bales"
+            name="Bales"
+            parent="stock.menu_stock_inventory_control_products" 
+            action="stock_picking_bale_action"
+            sequence="20"/>
     </data>
 </odoo>
