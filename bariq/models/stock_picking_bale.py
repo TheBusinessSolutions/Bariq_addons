@@ -25,8 +25,8 @@ class StockPickingBale(models.Model):
         bales = self.env['stock.picking.bale'].search([('picking_id', '=', picking.id)])
         return self.env.ref('bariq.action_report_bale_barcode').report_action(bales)
     
-    def action_print_all_bales_barcode(self):
-        bales = self.env['stock.picking.bale'].search([('picking_id', '=', self.id)])
-        if not bales:
-            raise UserError(_("No bales found for this picking."))
-        return self.env.ref('bariq.action_report_bale_barcode').report_action(bales)
+    # def action_print_all_bales_barcode(self):
+    #     bales = self.env['stock.picking.bale'].search([('picking_id', '=', self.id)])
+    #     if not bales:
+    #         raise UserError(_("No bales found for this picking."))
+    #     return self.env.ref('bariq.action_report_bale_barcode').report_action(bales)

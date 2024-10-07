@@ -367,3 +367,8 @@ class StockPicking(models.Model):
                         line.lot_id = record.bariq_lot_id.id
 
         return super(StockPicking, self).button_validate()
+    def action_print_all_bales_barcode(self):
+        bales = self.env['stock.picking.bale'].search([('picking_id', '=', self.id)])
+        if not bales:
+            raise UserError(_("No bales found for this picking."))
+        return self.env.ref('bariq.action_report_bale_barcode').report_action(bales)
