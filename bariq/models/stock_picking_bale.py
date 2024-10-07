@@ -21,31 +21,5 @@ class StockPickingBale(models.Model):
 
     def action_print_bales_in_range(self):
         """ New method to print barcodes for all bales within the start and end sequence range found in stock.move.line. """
-
-        # Get the picking from the current bale record (self.picking_id)
-        picking = self.picking_id
-        if not picking:
-            raise UserError(_("No picking found for this bale record."))
-
-        # Get stock.move.line records for this picking
-        move_lines = picking.move_line_ids
-
-        # Get the start and end sequence numbers from stock.move.line
-        start_sequence = min(move_lines.mapped('sequence'))
-        end_sequence = max(move_lines.mapped('sequence'))
-
-        if not start_sequence or not end_sequence:
-            raise UserError(_("No bale sequence found in stock.move.line for this picking."))
-
-        # Ensure the start sequence is less than or equal to the end sequence
-        if start_sequence > end_sequence:
-            raise UserError(_("Start sequence must be less than or equal to end sequence."))
-
-        # Find all bales within the sequence range
-        bales_in_range = self.search([('sequence', '>=', start_sequence), ('sequence', '<=', end_sequence)])
-
-        if not bales_in_range:
-            raise UserError(_("No bales found in the specified range."))
-
-        # Return the report action for printing all the bales in the range
-        return self.env.ref('bariq.action_report_bale_barcode').report_action(bales_in_range)
+        bales = self.env['stock.picking.bale'].search([('picking_id', '=', self.id)])
+        return self.env.ref('bariq.action_report_bale_barcode').report_action(self)
