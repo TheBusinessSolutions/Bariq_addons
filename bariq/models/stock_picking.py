@@ -54,7 +54,7 @@ class StockPicking(models.Model):
         for record in self.move_line_ids_without_package:
             for bale in range(record.bales_number):
                 stock_picking_bale_list.append((0, 0, {
-                    'sequence'  : self.weight_ticket_number + '-' + str(count) if self.weight_ticket_number else str(count),
+                    'sequence'  : str(record.product_id.material_code) + self.weight_ticket_number + '-' + str(count) if self.weight_ticket_number else str(count),
                     'product_id': record.product_id.id,
                     'state'     : 'draft'
                 }))
